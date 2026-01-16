@@ -1,229 +1,543 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <title>HVAC Master Class · Slides 11–20</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <style>
-body{
-  margin:0;
-  font-family:system-ui,Segoe UI,sans-serif;
-  background:radial-gradient(circle at top left,#351b6d,#050014 45%);
-  background-size:200% 200%;
-  animation:bgMove 18s ease infinite;
-  color:#f8fbff;
-  overflow:hidden;
-}
-@keyframes bgMove{0%,100%{background-position:0% 0%}50%{background-position:100% 100%}}
+  :root{
+    --cyan:#16f2ff;
+    --pink:#ff4dd8;
+    --yellow:#ffe45e;
+    --txt:#f8fbff;
+    --muted:#9fb3ff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:system-ui,-apple-system,Segoe UI,sans-serif;
+    color:var(--txt);
+    height:100vh;
+    overflow:hidden;
+    background:radial-gradient(circle at top left,#351b6d,#050014 45%);
+    background-size:200% 200%;
+    animation:bgMove 18s ease infinite;
+  }
+  @keyframes bgMove{0%,100%{background-position:0% 0%}50%{background-position:100% 100%}}
 
-#app{height:100vh;display:flex;justify-content:center;align-items:center;padding:14px}
-.deck{max-width:1100px;width:100%;height:100%;max-height:760px;display:flex;flex-direction:column;gap:10px}
+  #app{height:100vh;display:flex;justify-content:center;align-items:stretch;padding:14px}
+  .deck{max-width:1100px;width:100%;height:100%;display:flex;flex-direction:column;gap:12px}
 
-.slide{
-  background:rgba(0,0,0,.55);
-  backdrop-filter:blur(16px);
-  border-radius:24px;
-  padding:24px;
-  box-shadow:0 0 40px rgba(22,242,255,.4);
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-  animation:fade .35s ease;
-  flex:1;
-}
-@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1}}
+  .slideWrap{
+    flex:1;
+    min-height:0;
+  }
 
-.header{display:flex;justify-content:space-between;align-items:flex-start}
-.section{font-size:.8rem;letter-spacing:.15em;color:#16f2ff;text-transform:uppercase}
-.title{font-size:2rem;font-weight:900}
-.icon{font-size:3rem}
+  .slide{
+    height:100%;
+    background:rgba(0,0,0,.55);
+    backdrop-filter:blur(16px);
+    border-radius:24px;
+    padding:22px;
+    box-shadow:0 0 40px rgba(22,242,255,.35);
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    animation:fade .35s ease;
+    touch-action:pan-y; /* we will handle horizontal swipes */
+  }
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-.content{display:grid;grid-template-columns:60% 40%;gap:16px;flex:1}
-@media(max-width:800px){.content{grid-template-columns:1fr;overflow-y:auto}}
+  .header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .section{font-size:.8rem;letter-spacing:.15em;color:var(--cyan);text-transform:uppercase}
+  .title{font-size:2rem;font-weight:900;line-height:1.1}
+  .icon{font-size:3rem;filter:drop-shadow(0 0 8px rgba(255,255,255,.65))}
 
-ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
-li{padding-left:18px;position:relative}
-li::before{content:"▹";position:absolute;left:0;color:#ff4dd8}
+  .content{
+    display:grid;
+    grid-template-columns:58% 42%;
+    gap:16px;
+    flex:1;
+    min-height:0;
+  }
+  @media(max-width:800px){
+    .title{font-size:1.6rem}
+    .content{grid-template-columns:1fr;overflow:auto}
+  }
 
-.visual{
-  border:1px solid rgba(255,255,255,.2);
-  border-radius:16px;
-  padding:12px;
-  background:rgba(255,255,255,.05);
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
+  .bullets{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .bullets li{padding-left:18px;position:relative;line-height:1.35;font-size:1rem}
+  .bullets li::before{content:"▹";position:absolute;left:0;color:var(--pink)}
 
-.drop{
-  border:1px dashed rgba(255,255,255,.4);
-  border-radius:10px;
-  padding:10px;
-  display:flex;
-  gap:8px;
-  align-items:center;
-  background:rgba(0,0,0,.3);
-}
-.drop.drag{border-color:#16f2ff;box-shadow:0 0 12px #16f2ff}
-.drop img{max-width:100%;max-height:190px;border-radius:8px}
+  .visual{
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:16px;
+    padding:12px;
+    background:rgba(255,255,255,.05);
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .visualMain{
+    font-size:.95rem;
+    color:var(--txt);
+    font-weight:700;
+  }
+  .visualHint{
+    font-size:.85rem;
+    color:var(--muted);
+  }
 
-video{width:100%;border-radius:8px;background:#000}
-.vcontrols{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.vbtn{padding:4px 10px;border-radius:999px;border:none;background:linear-gradient(135deg,#16f2ff,#ff4dd8);color:#fff;font-size:.7rem}
-.vbtn.alt{background:transparent;border:1px solid rgba(255,255,255,.6)}
-.vvol{margin-left:auto;display:flex;align-items:center;gap:6px}
-.vvol input{width:90px}
+  .media{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
 
-.footer{display:flex;justify-content:space-between;align-items:center}
-button{padding:8px 14px;border-radius:999px;border:none;background:linear-gradient(135deg,#16f2ff,#ff4dd8);color:#fff}
-button.alt{background:transparent;border:1px solid rgba(255,255,255,.6)}
-button:disabled{opacity:.3}
+  /* Primary image = larger */
+  .imgPrimary{
+    width:100%;
+    border-radius:12px;
+    background:#000;
+    border:1px solid rgba(255,255,255,.18);
+    overflow:hidden;
+    cursor:zoom-in;
+  }
+  .imgPrimary img{
+    width:100%;
+    height:auto;
+    max-height:340px;
+    object-fit:contain;
+    display:block;
+    background:#000;
+  }
+
+  /* Secondary row for smaller media */
+  .secondaryRow{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+
+  .imgSmall{
+    flex:1 1 180px;
+    max-width:260px;
+    border-radius:10px;
+    background:#000;
+    border:1px solid rgba(255,255,255,.18);
+    overflow:hidden;
+    cursor:zoom-in;
+  }
+  .imgSmall img{
+    width:100%;
+    height:auto;
+    max-height:140px;
+    object-fit:contain;
+    display:block;
+    background:#000;
+  }
+
+  .videoBox{
+    flex:1 1 220px;
+    min-width:220px;
+    max-width:420px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(0,0,0,.25);
+    padding:8px;
+  }
+  video{width:100%;border-radius:8px;background:#000;max-height:160px}
+
+  .vcontrols{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;align-items:center}
+  .vbtn{
+    padding:5px 10px;
+    border-radius:999px;
+    border:none;
+    background:linear-gradient(135deg,var(--cyan),var(--pink));
+    color:#fff;
+    font-size:.72rem;
+    cursor:pointer;
+  }
+  .vbtn.alt{background:transparent;border:1px solid rgba(255,255,255,.6)}
+  .vvol{margin-left:auto;display:flex;align-items:center;gap:6px}
+  .vvol input{width:95px}
+
+  /* Footer nav fixed position */
+  .footer{
+    position:sticky;
+    bottom:0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 6px;
+  }
+  .navBtns{display:flex;gap:10px;align-items:center}
+  .btn{
+    padding:10px 16px;
+    border-radius:999px;
+    border:none;
+    background:linear-gradient(135deg,var(--cyan),var(--pink));
+    color:#fff;
+    font-size:.9rem;
+    cursor:pointer;
+  }
+  .btn.alt{background:transparent;border:1px solid rgba(255,255,255,.6)}
+  .btn:disabled{opacity:.35;cursor:default}
+  .count{color:var(--muted);font-variant-numeric:tabular-nums;font-size:.9rem}
+
+  /* Lightbox */
+  .lightbox{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.85);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+    padding:16px;
+  }
+  .lightbox.open{display:flex}
+  .lightboxInner{
+    max-width:min(1100px, 96vw);
+    max-height:92vh;
+    width:100%;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.2);
+    background:rgba(0,0,0,.35);
+    backdrop-filter:blur(10px);
+    padding:10px;
+    position:relative;
+  }
+  .lightboxImg{
+    width:100%;
+    height:auto;
+    max-height:86vh;
+    object-fit:contain;
+    display:block;
+    border-radius:12px;
+    background:#000;
+  }
+  .lightboxClose{
+    position:absolute;
+    top:10px;
+    right:10px;
+    border:none;
+    border-radius:999px;
+    padding:8px 12px;
+    cursor:pointer;
+    background:linear-gradient(135deg,var(--cyan),var(--pink));
+    color:#fff;
+    font-size:.85rem;
+  }
 </style>
 </head>
 
 <body>
-<div id="app">
-<div class="deck">
-<div id="slide"></div>
+  <div id="app">
+    <div class="deck">
+      <div class="slideWrap" id="slide"></div>
 
-<div class="footer">
-<div>
-<button id="prev" class="alt">◀ Prev</button>
-<button id="next">Next ▶</button>
-</div>
-<div id="count"></div>
-</div>
-</div>
-</div>
+      <div class="footer">
+        <div class="navBtns">
+          <button id="prev" class="btn alt">◀ Prev</button>
+          <button id="next" class="btn">Next ▶</button>
+        </div>
+        <div id="count" class="count"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <div class="lightboxInner">
+      <button id="lightboxClose" class="lightboxClose">Close ✕</button>
+      <img id="lightboxImg" class="lightboxImg" alt="Enlarged image" />
+    </div>
+  </div>
 
 <script>
-const slides=[
-{
-s:"Section 3 · Measurement",
-t:"11. Measuring Tools",
-i:"📏",
-b:["Thermometers, gauges, manometers, clamp meters","Measurements beat guessing","Always start with temp + airflow"],
-img:"imagessection2-11.png",
-vid:""
-},
-{
-s:"Section 3 · Measurement",
-t:"12. Systematic Troubleshooting",
-i:"🧠",
-b:["Verify complaint","Test one thing at a time","Confirm fix before leaving"],
-img:"imagessection2-12.png",
-vid:""
-},
-{
-s:"Section 3 · Measurement",
-t:"13. Temperature Measurement",
-i:"🌡️",
-b:["Return, supply, line temps","Temp split tells a story","Use probes, not hands"],
-img:"imagessection2-13.png",
-vid:""
-},
-{
-s:"Section 3 · Measurement",
-t:"14. Meters & Gauges",
-i:"📟",
-b:["Volts, amps, ohms","Clamp meters under load","Micron gauge for evacuations"],
-img:"imagessection2-14.png",
-vid:""
-},
-{
-s:"Section 3 · Measurement",
-t:"15. Manifolds & Probes",
-i:"🧪",
-b:["Pressure + temperature together","Digital probes reduce mistakes","Know saturation temps"],
-img:"imagessection2-15.png",
-vid:""
-},
-{
-s:"Section 4 · Electricity",
-t:"16. Ohm’s Law",
-i:"⚡",
-b:["V = I × R","Foundation of electrical diagnosis","Explains component behavior"],
-img:"imagessection2-16.png",
-vid:""
-},
-{
-s:"Section 4 · Electricity",
-t:"17. Series vs Parallel",
-i:"🔁",
-b:["Series: one failure stops all","Parallel: branches independent","Controls use both"],
-img:"imagessection2-17.png",
-vid:""
-},
-{
-s:"Section 4 · Electricity",
-t:"18. Single vs Three Phase",
-i:"⚙️",
-b:["Residential = single phase","Commercial = three phase","Three phase runs smoother"],
-img:"imagessection2-18.png",
-vid:""
-},
-{
-s:"Section 4 · Electricity",
-t:"19. Motors",
-i:"🛞",
-b:["PSC, ECM, three-phase","Motor type affects efficiency","Controls differ by motor"],
-img:"imagessection2-19.png",
-vid:""
-},
-{
-s:"Section 4 · Electricity",
-t:"20. Capacitors & Relays",
-i:"🧲",
-b:["Capacitors assist starting","Relays switch high voltage","Wrong rating = failures"],
-img:"imagessection2-20.png",
-vid:""
-}
-];
+  /* ===== CONFIG ===== */
+  const PREV_DECK_URL = "https://summitair9.github.io/HVACTraining/";          // slides 1–10
+  const PREV_DECK_TARGET_SLIDE = 10;                                          // request slide 10
+  const NEXT_DECK_URL = "https://summitair9.github.io/HVACTraining/index21-30.html"; // next set (when you make it)
 
-let idx=0;
-const el=document.getElementById("slide");
-const count=document.getElementById("count");
-const prev=document.getElementById("prev");
-const next=document.getElementById("next");
+  /* ===== SLIDE DATA (11–20) =====
+     Primary image: imagessection2-11.png
+     Optional 2nd image: imagessection2-11b.png
+     Optional video: videossection2-11.mp4
+  */
+  const slides = [
+    { n:11, s:"Section 3 · Measurement", t:"11. Measuring Tools", i:"📏",
+      b:["Thermometers, gauges, manometers, clamp meters","Measurements beat guessing","Start with temp + airflow + power"],
+      visualMain:"Numbers first.",
+      visualHint:"If you can’t measure it, you can’t prove it.",
+      img1:"imagessection2-11.png", img2:"imagessection2-11b.png", vid:""
+    },
+    { n:12, s:"Section 3 · Measurement", t:"12. Systematic Troubleshooting", i:"🧠",
+      b:["Verify the complaint","Test one thing at a time","Confirm the fix before leaving"],
+      visualMain:"Confirm → Test → Prove.",
+      visualHint:"Stop guessing. Follow a repeatable path.",
+      img1:"imagessection2-12.png", img2:"imagessection2-12b.png", vid:""
+    },
+    { n:13, s:"Section 3 · Measurement", t:"13. Temperature Measurement", i:"🌡️",
+      b:["Measure return, supply, line temps, ambient","Temp split tells a story","Use probes, not hands"],
+      visualMain:"Temps = fast clues.",
+      visualHint:"Return & supply temps are your first checkpoint.",
+      img1:"imagessection2-13.png", img2:"imagessection2-13b.png", vid:""
+    },
+    { n:14, s:"Section 3 · Measurement", t:"14. Meters & Gauges", i:"📟",
+      b:["Volts, amps, ohms","Clamp meter under load","Micron gauge for real evacuations"],
+      visualMain:"Tools = eyes.",
+      visualHint:"Don’t diagnose blind.",
+      img1:"imagessection2-14.png", img2:"imagessection2-14b.png", vid:""
+    },
+    { n:15, s:"Section 3 · Measurement", t:"15. Manifolds & Probes", i:"🧪",
+      b:["Pressure + temperature together","Digital probes reduce mistakes","Understand saturation temps"],
+      visualMain:"Pressures need temps.",
+      visualHint:"Pressure alone isn’t the full story.",
+      img1:"imagessection2-15.png", img2:"imagessection2-15b.png", vid:""
+    },
+    { n:16, s:"Section 4 · Electricity", t:"16. Ohm’s Law", i:"⚡",
+      b:["V = I × R","Foundation of electrical diagnosis","Explains component behavior"],
+      visualMain:"Electricity has rules.",
+      visualHint:"Learn the triangle once, use it forever.",
+      img1:"imagessection2-16.png", img2:"imagessection2-16b.png", vid:""
+    },
+    { n:17, s:"Section 4 · Electricity", t:"17. Series vs Parallel", i:"🔁",
+      b:["Series: one failure stops all","Parallel: branches independent","HVAC controls use both"],
+      visualMain:"Circuit type matters.",
+      visualHint:"Wiring style changes failure symptoms.",
+      img1:"imagessection2-17.png", img2:"imagessection2-17b.png", vid:""
+    },
+    { n:18, s:"Section 4 · Electricity", t:"18. Single vs Three Phase", i:"⚙️",
+      b:["Residential = single phase","Commercial = three phase","Three phase runs smoother"],
+      visualMain:"Power type changes everything.",
+      visualHint:"Know what you’re working on before testing.",
+      img1:"imagessection2-18.png", img2:"imagessection2-18b.png", vid:""
+    },
+    { n:19, s:"Section 4 · Electricity", t:"19. Motors", i:"🛞",
+      b:["PSC, ECM, three-phase","Motor type affects efficiency","Controls differ by motor"],
+      visualMain:"Motors drive airflow.",
+      visualHint:"Know the motor type to diagnose correctly.",
+      img1:"imagessection2-19.png", img2:"imagessection2-19b.png", vid:""
+    },
+    { n:20, s:"Section 4 · Electricity", t:"20. Capacitors & Relays", i:"🧲",
+      b:["Capacitors assist starting","Relays switch high voltage","Wrong rating causes failures"],
+      visualMain:"High-fail parts.",
+      visualHint:"These are common quick tests in the field.",
+      img1:"imagessection2-20.png", img2:"imagessection2-20b.png", vid:""
+    }
+  ];
 
-function draw(){
-const s=slides[idx];
-el.innerHTML=`
-<div class="slide">
-<div class="header">
-<div>
-<div class="section">${s.s}</div>
-<div class="title">${s.t}</div>
-</div>
-<div class="icon">${s.i}</div>
-</div>
+  let idx = 0;
 
-<div class="content">
-<ul>${s.b.map(x=>`<li>${x}</li>`).join("")}</ul>
-<div class="visual">
-<div class="drop" data-i="${idx}">
-${s.img?`<img src="${s.img}">`:`Drop image here`}
-</div>
-${s.vid?`<video src="${s.vid}"></video>`:""}
-</div>
-</div>
-</div>
-`;
-count.textContent=`Slide ${idx+1} of ${slides.length}`;
-prev.disabled=idx===0;
-next.disabled=idx===slides.length-1;
-}
+  const slideEl = document.getElementById("slide");
+  const countEl = document.getElementById("count");
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
 
-prev.onclick=()=>{if(idx>0){idx--;draw()}};
-next.onclick=()=>{if(idx<slides.length-1){idx++;draw()}};
+  // Lightbox
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxClose = document.getElementById("lightboxClose");
 
-document.addEventListener("keydown",e=>{
-if(e.key==="ArrowRight")next.click();
-if(e.key==="ArrowLeft")prev.click();
-});
+  function fileProbablyMissing(url){
+    // If you didn't upload img2 or a video yet, it will 404.
+    // We just hide it if it errors when loading.
+    return !url || url.trim() === "";
+  }
 
-draw();
+  function render(){
+    const s = slides[idx];
+
+    slideEl.innerHTML = `
+      <div class="slide" id="slideInner">
+        <div class="header">
+          <div>
+            <div class="section">${s.s}</div>
+            <div class="title">${s.n}. ${s.t}</div>
+          </div>
+          <div class="icon">${s.i}</div>
+        </div>
+
+        <div class="content">
+          <ul class="bullets">
+            ${s.b.map(x=>`<li>${x}</li>`).join("")}
+          </ul>
+
+          <div class="visual">
+            <div class="visualMain">${s.visualMain}</div>
+            <div class="visualHint">${s.visualHint}</div>
+
+            <div class="media">
+              <div class="imgPrimary" data-zoom="${s.img1}">
+                <img src="${s.img1}" alt="Slide image ${s.n}" onerror="this.closest('.imgPrimary').style.display='none';" />
+              </div>
+
+              <div class="secondaryRow" id="secondaryRow">
+                ${fileProbablyMissing(s.img2) ? "" : `
+                  <div class="imgSmall" data-zoom="${s.img2}">
+                    <img src="${s.img2}" alt="Extra image ${s.n}" onerror="this.closest('.imgSmall').style.display='none';" />
+                  </div>
+                `}
+
+                ${fileProbablyMissing(s.vid) ? "" : `
+                  <div class="videoBox">
+                    <video id="vid" src="${s.vid}"></video>
+                    <div class="vcontrols">
+                      <button class="vbtn" data-a="play">Play</button>
+                      <button class="vbtn alt" data-a="pause">Pause</button>
+                      <button class="vbtn alt" data-a="ff">+10s</button>
+                      <button class="vbtn alt" data-a="stop">Stop</button>
+
+                      <div class="vvol">
+                        <button class="vbtn alt" data-a="mute">Mute</button>
+                        <input type="range" min="0" max="1" step="0.05" value="1" data-role="vol">
+                      </div>
+                    </div>
+                  </div>
+                `}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    countEl.textContent = `Slide ${s.n} (Deck ${idx+1} of ${slides.length})`;
+
+    // Buttons enabled/disabled (we allow prev at idx 0 to jump back)
+    prevBtn.disabled = false;
+    nextBtn.disabled = false;
+
+    wireImageZoom();
+    wireVideoControls();
+  }
+
+  function goPrev(){
+    if(idx > 0){
+      idx--;
+      render();
+    } else {
+      // Jump back to previous deck (request slide 10)
+      window.location.href = PREV_DECK_URL + "#slide=" + PREV_DECK_TARGET_SLIDE;
+    }
+  }
+
+  function goNext(){
+    if(idx < slides.length - 1){
+      idx++;
+      render();
+    } else {
+      // Jump forward to next deck file (when it exists)
+      window.location.href = NEXT_DECK_URL;
+    }
+  }
+
+  prevBtn.addEventListener("click", goPrev);
+  nextBtn.addEventListener("click", goNext);
+
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "ArrowLeft") goPrev();
+    if(e.key === "ArrowRight") goNext();
+    if(e.key === "Escape" && lightbox.classList.contains("open")) closeLightbox();
+  });
+
+  // Swipe (anywhere)
+  let startX = null;
+  let startY = null;
+
+  document.addEventListener("touchstart", (e)=>{
+    if(e.touches.length !== 1) return;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, {passive:true});
+
+  document.addEventListener("touchmove", (e)=>{
+    if(startX === null || startY === null) return;
+    const dx = e.touches[0].clientX - startX;
+    const dy = e.touches[0].clientY - startY;
+    // if mostly horizontal, prevent default
+    if(Math.abs(dx) > Math.abs(dy)) e.preventDefault();
+  }, {passive:false});
+
+  document.addEventListener("touchend", (e)=>{
+    if(startX === null || startY === null) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    const threshold = 60;
+
+    if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > threshold){
+      if(dx > 0) goPrev();   // swipe right = previous
+      else goNext();         // swipe left = next
+    }
+    startX = null; startY = null;
+  }, {passive:false});
+
+  // Lightbox handlers
+  function openLightbox(url){
+    lightboxImg.src = url;
+    lightbox.classList.add("open");
+    lightbox.setAttribute("aria-hidden","false");
+  }
+  function closeLightbox(){
+    lightbox.classList.remove("open");
+    lightbox.setAttribute("aria-hidden","true");
+    lightboxImg.src = "";
+  }
+  lightboxClose.addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", (e)=>{
+    if(e.target === lightbox) closeLightbox();
+  });
+
+  function wireImageZoom(){
+    const zoomables = document.querySelectorAll("[data-zoom]");
+    zoomables.forEach(el=>{
+      el.addEventListener("click", ()=>{
+        const url = el.getAttribute("data-zoom");
+        if(url) openLightbox(url);
+      });
+    });
+  }
+
+  function wireVideoControls(){
+    const v = document.getElementById("vid");
+    if(!v) return;
+
+    const btns = document.querySelectorAll(".vbtn");
+    const vol = document.querySelector("[data-role='vol']");
+    let muteBtn = null;
+
+    btns.forEach(b=>{
+      b.addEventListener("click", ()=>{
+        const a = b.getAttribute("data-a");
+        if(a === "play") v.play();
+        if(a === "pause") v.pause();
+        if(a === "stop"){ v.pause(); v.currentTime = 0; }
+        if(a === "ff"){ v.currentTime = Math.min(v.currentTime + 10, v.duration || v.currentTime + 10); }
+        if(a === "mute"){
+          v.muted = !v.muted;
+          b.textContent = v.muted ? "Unmute" : "Mute";
+          muteBtn = b;
+        }
+      });
+    });
+
+    if(vol){
+      vol.addEventListener("input", ()=>{
+        v.volume = parseFloat(vol.value);
+        if(v.volume > 0 && v.muted){
+          v.muted = false;
+          // If we grabbed the mute button earlier, fix label
+          const mb = muteBtn || document.querySelector(".vbtn[data-a='mute']");
+          if(mb) mb.textContent = "Mute";
+        }
+      });
+    }
+  }
+
+  render();
 </script>
 </body>
 </html>
