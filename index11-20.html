@@ -28,10 +28,7 @@
   #app{height:100vh;display:flex;justify-content:center;align-items:stretch;padding:14px}
   .deck{max-width:1100px;width:100%;height:100%;display:flex;flex-direction:column;gap:12px}
 
-  .slideWrap{
-    flex:1;
-    min-height:0;
-  }
+  .slideWrap{flex:1;min-height:0}
 
   .slide{
     height:100%;
@@ -44,7 +41,7 @@
     flex-direction:column;
     gap:14px;
     animation:fade .35s ease;
-    touch-action:pan-y; /* we will handle horizontal swipes */
+    touch-action:pan-y;
   }
   @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
@@ -78,23 +75,11 @@
     flex-direction:column;
     gap:10px;
   }
-  .visualMain{
-    font-size:.95rem;
-    color:var(--txt);
-    font-weight:700;
-  }
-  .visualHint{
-    font-size:.85rem;
-    color:var(--muted);
-  }
+  .visualMain{font-size:.95rem;color:var(--txt);font-weight:700}
+  .visualHint{font-size:.85rem;color:var(--muted)}
 
-  .media{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-  }
+  .media{display:flex;flex-direction:column;gap:10px}
 
-  /* Primary image = larger */
   .imgPrimary{
     width:100%;
     border-radius:12px;
@@ -112,7 +97,6 @@
     background:#000;
   }
 
-  /* Secondary row for smaller media */
   .secondaryRow{
     display:flex;
     gap:10px;
@@ -151,19 +135,15 @@
 
   .vcontrols{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;align-items:center}
   .vbtn{
-    padding:5px 10px;
-    border-radius:999px;
-    border:none;
+    padding:5px 10px;border-radius:999px;border:none;
     background:linear-gradient(135deg,var(--cyan),var(--pink));
-    color:#fff;
-    font-size:.72rem;
-    cursor:pointer;
+    color:#fff;font-size:.72rem;cursor:pointer;
   }
   .vbtn.alt{background:transparent;border:1px solid rgba(255,255,255,.6)}
   .vvol{margin-left:auto;display:flex;align-items:center;gap:6px}
   .vvol input{width:95px}
 
-  /* Footer nav fixed position */
+  /* footer fixed bottom, consistent placement */
   .footer{
     position:sticky;
     bottom:0;
@@ -174,13 +154,9 @@
   }
   .navBtns{display:flex;gap:10px;align-items:center}
   .btn{
-    padding:10px 16px;
-    border-radius:999px;
-    border:none;
+    padding:10px 16px;border-radius:999px;border:none;
     background:linear-gradient(135deg,var(--cyan),var(--pink));
-    color:#fff;
-    font-size:.9rem;
-    cursor:pointer;
+    color:#fff;font-size:.9rem;cursor:pointer;
   }
   .btn.alt{background:transparent;border:1px solid rgba(255,255,255,.6)}
   .btn:disabled{opacity:.35;cursor:default}
@@ -188,47 +164,26 @@
 
   /* Lightbox */
   .lightbox{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.85);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:9999;
-    padding:16px;
+    position:fixed;inset:0;background:rgba(0,0,0,.85);
+    display:none;align-items:center;justify-content:center;
+    z-index:9999;padding:16px;
   }
   .lightbox.open{display:flex}
   .lightboxInner{
-    max-width:min(1100px, 96vw);
-    max-height:92vh;
-    width:100%;
-    border-radius:16px;
-    border:1px solid rgba(255,255,255,.2);
-    background:rgba(0,0,0,.35);
-    backdrop-filter:blur(10px);
-    padding:10px;
-    position:relative;
+    max-width:min(1100px,96vw);max-height:92vh;width:100%;
+    border-radius:16px;border:1px solid rgba(255,255,255,.2);
+    background:rgba(0,0,0,.35);backdrop-filter:blur(10px);
+    padding:10px;position:relative;
   }
   .lightboxImg{
-    width:100%;
-    height:auto;
-    max-height:86vh;
-    object-fit:contain;
-    display:block;
-    border-radius:12px;
-    background:#000;
+    width:100%;height:auto;max-height:86vh;object-fit:contain;
+    display:block;border-radius:12px;background:#000;
   }
   .lightboxClose{
-    position:absolute;
-    top:10px;
-    right:10px;
-    border:none;
-    border-radius:999px;
-    padding:8px 12px;
-    cursor:pointer;
+    position:absolute;top:10px;right:10px;border:none;border-radius:999px;
+    padding:8px 12px;cursor:pointer;
     background:linear-gradient(135deg,var(--cyan),var(--pink));
-    color:#fff;
-    font-size:.85rem;
+    color:#fff;font-size:.85rem;
   }
 </style>
 </head>
@@ -258,9 +213,8 @@
 
 <script>
   /* ===== CONFIG ===== */
-  const PREV_DECK_URL = "https://summitair9.github.io/HVACTraining/";          // slides 1–10
-  const PREV_DECK_TARGET_SLIDE = 10;                                          // request slide 10
-  const NEXT_DECK_URL = "https://summitair9.github.io/HVACTraining/index21-30.html"; // next set (when you make it)
+  const FALLBACK_PREV_DECK_URL = "https://summitair9.github.io/HVACTraining/"; // if user opens 11–20 directly
+  const NEXT_DECK_URL = "https://summitair9.github.io/HVACTraining/index21-30.html"; // next set (when you create it)
 
   /* ===== SLIDE DATA (11–20) =====
      Primary image: imagessection2-11.png
@@ -268,61 +222,61 @@
      Optional video: videossection2-11.mp4
   */
   const slides = [
-    { n:11, s:"Section 3 · Measurement", t:"11. Measuring Tools", i:"📏",
+    { n:11, s:"Section 3 · Measurement", t:"Measuring Tools", i:"📏",
       b:["Thermometers, gauges, manometers, clamp meters","Measurements beat guessing","Start with temp + airflow + power"],
       visualMain:"Numbers first.",
       visualHint:"If you can’t measure it, you can’t prove it.",
       img1:"imagessection2-11.png", img2:"imagessection2-11b.png", vid:""
     },
-    { n:12, s:"Section 3 · Measurement", t:"12. Systematic Troubleshooting", i:"🧠",
+    { n:12, s:"Section 3 · Measurement", t:"Systematic Troubleshooting", i:"🧠",
       b:["Verify the complaint","Test one thing at a time","Confirm the fix before leaving"],
       visualMain:"Confirm → Test → Prove.",
       visualHint:"Stop guessing. Follow a repeatable path.",
       img1:"imagessection2-12.png", img2:"imagessection2-12b.png", vid:""
     },
-    { n:13, s:"Section 3 · Measurement", t:"13. Temperature Measurement", i:"🌡️",
+    { n:13, s:"Section 3 · Measurement", t:"Temperature Measurement", i:"🌡️",
       b:["Measure return, supply, line temps, ambient","Temp split tells a story","Use probes, not hands"],
       visualMain:"Temps = fast clues.",
       visualHint:"Return & supply temps are your first checkpoint.",
       img1:"imagessection2-13.png", img2:"imagessection2-13b.png", vid:""
     },
-    { n:14, s:"Section 3 · Measurement", t:"14. Meters & Gauges", i:"📟",
+    { n:14, s:"Section 3 · Measurement", t:"Meters & Gauges", i:"📟",
       b:["Volts, amps, ohms","Clamp meter under load","Micron gauge for real evacuations"],
       visualMain:"Tools = eyes.",
       visualHint:"Don’t diagnose blind.",
       img1:"imagessection2-14.png", img2:"imagessection2-14b.png", vid:""
     },
-    { n:15, s:"Section 3 · Measurement", t:"15. Manifolds & Probes", i:"🧪",
+    { n:15, s:"Section 3 · Measurement", t:"Manifolds & Probes", i:"🧪",
       b:["Pressure + temperature together","Digital probes reduce mistakes","Understand saturation temps"],
       visualMain:"Pressures need temps.",
       visualHint:"Pressure alone isn’t the full story.",
       img1:"imagessection2-15.png", img2:"imagessection2-15b.png", vid:""
     },
-    { n:16, s:"Section 4 · Electricity", t:"16. Ohm’s Law", i:"⚡",
+    { n:16, s:"Section 4 · Electricity", t:"Ohm’s Law", i:"⚡",
       b:["V = I × R","Foundation of electrical diagnosis","Explains component behavior"],
       visualMain:"Electricity has rules.",
       visualHint:"Learn the triangle once, use it forever.",
       img1:"imagessection2-16.png", img2:"imagessection2-16b.png", vid:""
     },
-    { n:17, s:"Section 4 · Electricity", t:"17. Series vs Parallel", i:"🔁",
+    { n:17, s:"Section 4 · Electricity", t:"Series vs Parallel", i:"🔁",
       b:["Series: one failure stops all","Parallel: branches independent","HVAC controls use both"],
       visualMain:"Circuit type matters.",
       visualHint:"Wiring style changes failure symptoms.",
       img1:"imagessection2-17.png", img2:"imagessection2-17b.png", vid:""
     },
-    { n:18, s:"Section 4 · Electricity", t:"18. Single vs Three Phase", i:"⚙️",
+    { n:18, s:"Section 4 · Electricity", t:"Single vs Three Phase", i:"⚙️",
       b:["Residential = single phase","Commercial = three phase","Three phase runs smoother"],
       visualMain:"Power type changes everything.",
       visualHint:"Know what you’re working on before testing.",
       img1:"imagessection2-18.png", img2:"imagessection2-18b.png", vid:""
     },
-    { n:19, s:"Section 4 · Electricity", t:"19. Motors", i:"🛞",
+    { n:19, s:"Section 4 · Electricity", t:"Motors", i:"🛞",
       b:["PSC, ECM, three-phase","Motor type affects efficiency","Controls differ by motor"],
       visualMain:"Motors drive airflow.",
       visualHint:"Know the motor type to diagnose correctly.",
       img1:"imagessection2-19.png", img2:"imagessection2-19b.png", vid:""
     },
-    { n:20, s:"Section 4 · Electricity", t:"20. Capacitors & Relays", i:"🧲",
+    { n:20, s:"Section 4 · Electricity", t:"Capacitors & Relays", i:"🧲",
       b:["Capacitors assist starting","Relays switch high voltage","Wrong rating causes failures"],
       visualMain:"High-fail parts.",
       visualHint:"These are common quick tests in the field.",
@@ -342,11 +296,7 @@
   const lightboxImg = document.getElementById("lightboxImg");
   const lightboxClose = document.getElementById("lightboxClose");
 
-  function fileProbablyMissing(url){
-    // If you didn't upload img2 or a video yet, it will 404.
-    // We just hide it if it errors when loading.
-    return !url || url.trim() === "";
-  }
+  function isEmpty(url){ return !url || url.trim() === ""; }
 
   function render(){
     const s = slides[idx];
@@ -372,17 +322,19 @@
 
             <div class="media">
               <div class="imgPrimary" data-zoom="${s.img1}">
-                <img src="${s.img1}" alt="Slide image ${s.n}" onerror="this.closest('.imgPrimary').style.display='none';" />
+                <img src="${s.img1}" alt="Slide image ${s.n}"
+                  onerror="this.closest('.imgPrimary').style.display='none';" />
               </div>
 
-              <div class="secondaryRow" id="secondaryRow">
-                ${fileProbablyMissing(s.img2) ? "" : `
+              <div class="secondaryRow">
+                ${isEmpty(s.img2) ? "" : `
                   <div class="imgSmall" data-zoom="${s.img2}">
-                    <img src="${s.img2}" alt="Extra image ${s.n}" onerror="this.closest('.imgSmall').style.display='none';" />
+                    <img src="${s.img2}" alt="Extra image ${s.n}"
+                      onerror="this.closest('.imgSmall').style.display='none';" />
                   </div>
                 `}
 
-                ${fileProbablyMissing(s.vid) ? "" : `
+                ${isEmpty(s.vid) ? "" : `
                   <div class="videoBox">
                     <video id="vid" src="${s.vid}"></video>
                     <div class="vcontrols">
@@ -390,7 +342,6 @@
                       <button class="vbtn alt" data-a="pause">Pause</button>
                       <button class="vbtn alt" data-a="ff">+10s</button>
                       <button class="vbtn alt" data-a="stop">Stop</button>
-
                       <div class="vvol">
                         <button class="vbtn alt" data-a="mute">Mute</button>
                         <input type="range" min="0" max="1" step="0.05" value="1" data-role="vol">
@@ -405,11 +356,7 @@
       </div>
     `;
 
-    countEl.textContent = `Slide ${s.n} (Deck ${idx+1} of ${slides.length})`;
-
-    // Buttons enabled/disabled (we allow prev at idx 0 to jump back)
-    prevBtn.disabled = false;
-    nextBtn.disabled = false;
+    countEl.textContent = `Slide ${s.n} · (Deck ${idx+1} of ${slides.length})`;
 
     wireImageZoom();
     wireVideoControls();
@@ -419,9 +366,16 @@
     if(idx > 0){
       idx--;
       render();
+      return;
+    }
+
+    // idx === 0 (Slide 11): go back to Slide 10
+    // Best method: use browser history so it returns to the exact slide 10 state.
+    if (window.history.length > 1) {
+      window.history.back();
     } else {
-      // Jump back to previous deck (request slide 10)
-      window.location.href = PREV_DECK_URL + "#slide=" + PREV_DECK_TARGET_SLIDE;
+      // fallback if they opened this page directly
+      window.location.href = FALLBACK_PREV_DECK_URL;
     }
   }
 
@@ -430,7 +384,6 @@
       idx++;
       render();
     } else {
-      // Jump forward to next deck file (when it exists)
       window.location.href = NEXT_DECK_URL;
     }
   }
@@ -458,7 +411,6 @@
     if(startX === null || startY === null) return;
     const dx = e.touches[0].clientX - startX;
     const dy = e.touches[0].clientY - startY;
-    // if mostly horizontal, prevent default
     if(Math.abs(dx) > Math.abs(dy)) e.preventDefault();
   }, {passive:false});
 
@@ -475,7 +427,7 @@
     startX = null; startY = null;
   }, {passive:false});
 
-  // Lightbox handlers
+  // Lightbox
   function openLightbox(url){
     lightboxImg.src = url;
     lightbox.classList.add("open");
@@ -487,16 +439,13 @@
     lightboxImg.src = "";
   }
   lightboxClose.addEventListener("click", closeLightbox);
-  lightbox.addEventListener("click", (e)=>{
-    if(e.target === lightbox) closeLightbox();
-  });
+  lightbox.addEventListener("click", (e)=>{ if(e.target === lightbox) closeLightbox(); });
 
   function wireImageZoom(){
-    const zoomables = document.querySelectorAll("[data-zoom]");
-    zoomables.forEach(el=>{
+    document.querySelectorAll("[data-zoom]").forEach(el=>{
       el.addEventListener("click", ()=>{
         const url = el.getAttribute("data-zoom");
-        if(url) openLightbox(url);
+        if(url && !isEmpty(url)) openLightbox(url);
       });
     });
   }
@@ -529,7 +478,6 @@
         v.volume = parseFloat(vol.value);
         if(v.volume > 0 && v.muted){
           v.muted = false;
-          // If we grabbed the mute button earlier, fix label
           const mb = muteBtn || document.querySelector(".vbtn[data-a='mute']");
           if(mb) mb.textContent = "Mute";
         }
