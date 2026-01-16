@@ -6,25 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!--
-    EXPECTED IMAGE FILENAMES (upload these into /images):
+    Expected filenames (put in repo root):
 
-    images/section1-1.png
-    images/section1-2.png
-    images/section1-3.png
-    images/section1-4.png
-    images/section1-5.png
-    images/section1-6.png
-    images/section1-7.png
-    images/section1-8.png
-    images/section1-9.png
-    images/section1-10.png
+    imagessection1-1.png
+    imagessection1-2.png
+    imagessection1-3.png
+    imagessection1-4.png
+    imagessection1-5.png
+    imagessection1-6.png
+    imagessection1-7.png
+    imagessection1-8.png
+    imagessection1-9.png
+    imagessection1-10.png
 
-    OPTIONAL VIDEO FILENAMES (upload into /videos and set videoUrl in JS):
-
-    videos/section1-1.mp4
-    videos/section1-2.mp4
+    Optional videos:
+    videossection1-1.mp4
     ...
-    videos/section1-10.mp4
+    videossection1-10.mp4
   -->
 
   <style>
@@ -39,858 +37,256 @@
       --text-muted: #9fb3ff;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
+      font-family: system-ui, -apple-system, Segoe UI, sans-serif;
       color: var(--text-main);
       overflow: hidden;
       height: 100vh;
-      background: radial-gradient(circle at 0% 0%, #351b6d, #050014 40%) fixed;
+      background: radial-gradient(circle at 0% 0%, #351b6d, #050014 40%);
       background-size: 200% 200%;
       animation: bgShift 18s ease-in-out infinite;
     }
-
     @keyframes bgShift {
-      0% {
-        background-position: 0% 0%;
-      }
-      50% {
-        background-position: 100% 100%;
-      }
-      100% {
-        background-position: 0% 0%;
-      }
+      0%,100% { background-position:0% 0%; }
+      50% { background-position:100% 100%; }
     }
 
-    .orb {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(25px);
-      opacity: 0.6;
-      pointer-events: none;
-      mix-blend-mode: screen;
-      animation: orbFloat 22s linear infinite alternate;
-    }
+    /* orbs */
+    .orb { position:fixed; border-radius:50%; filter:blur(25px); opacity:.6;
+      pointer-events:none; mix-blend-mode:screen; animation:orbFloat 22s linear infinite alternate;}
+    .orb-1 {width:220px;height:220px;background:radial-gradient(circle,#16f2ff,transparent);top:5%;left:10%;}
+    .orb-2 {width:280px;height:280px;background:radial-gradient(circle,#ff4dd8,transparent);bottom:2%;right:5%;}
+    .orb-3 {width:180px;height:180px;background:radial-gradient(circle,#ffe45e,transparent);bottom:12%;left:50%;}
+    @keyframes orbFloat {0%{transform:translate(0,0);}50%{transform:translate(-40px,40px);}100%{transform:translate(40px,-30px);} }
 
-    .orb.orb-1 {
-      width: 220px;
-      height: 220px;
-      background: radial-gradient(circle, rgba(22, 242, 255, 0.9), transparent);
-      top: 5%;
-      left: 10%;
-      animation-delay: -5s;
-    }
-
-    .orb.orb-2 {
-      width: 280px;
-      height: 280px;
-      background: radial-gradient(circle, rgba(255, 77, 216, 0.9), transparent);
-      bottom: 0%;
-      right: 0%;
-      animation-delay: -11s;
-    }
-
-    .orb.orb-3 {
-      width: 180px;
-      height: 180px;
-      background: radial-gradient(circle, rgba(255, 228, 94, 0.9), transparent);
-      bottom: 10%;
-      left: 50%;
-      animation-delay: -2s;
-    }
-
-    @keyframes orbFloat {
-      0% {
-        transform: translate3d(0, 0, 0) scale(1);
-      }
-      50% {
-        transform: translate3d(-40px, 40px, 0) scale(1.1);
-      }
-      100% {
-        transform: translate3d(40px, -30px, 0) scale(1.05);
-      }
-    }
-
-    #app {
-      position: relative;
-      height: 100vh;
-      display: flex;
-      align-items: stretch;
-      justify-content: center;
-      padding: 16px;
-      z-index: 1;
-    }
-
-    .slide-shell {
-      margin: auto;
-      max-width: 1100px;
-      width: 100%;
-      height: 100%;
-      max-height: 720px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-    }
+    #app { height:100vh; display:flex; justify-content:center; align-items:center; padding:16px; }
+    .slide-shell { max-width:1100px; width:100%; height:100%; max-height:720px;
+      display:flex; flex-direction:column; justify-content:space-between; }
 
     .slide {
-      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.85));
-      border-radius: 26px;
-      padding: 28px 32px 22px;
-      box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.05),
-        0 18px 50px rgba(0, 0, 0, 0.9),
-        0 0 40px rgba(22, 242, 255, 0.4);
-      backdrop-filter: blur(16px);
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      animation: slideIn 0.45s ease-out;
+      background:rgba(0,0,0,.55);
+      backdrop-filter:blur(14px);
+      border-radius:24px;
+      padding:26px 32px;
+      box-shadow:0 0 40px rgba(22,242,255,.4);
+      animation:slideIn .4s ease;
+      display:flex; flex-direction:column; gap:16px;
     }
+    @keyframes slideIn {from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
 
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(16px) scale(0.98);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
+    .slide-header {display:flex;justify-content:space-between;align-items:flex-start;}
+    .section-label {font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent-cyan);}
+    .slide-title {font-size:2rem;font-weight:800;}
+    .slide-icon {font-size:3rem;filter:drop-shadow(0 0 6px #fff);animation:iconPulse 2s infinite;}
+    @keyframes iconPulse {50%{transform:scale(1.08);} }
 
-    .slide-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 18px;
-    }
+    .slide-body {display:grid;grid-template-columns:60% 40%;gap:18px;}
+    @media(max-width:800px){.slide-body{grid-template-columns:1fr;overflow-y:auto;}}
 
-    .section-label {
-      font-size: 0.8rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent-cyan);
-      opacity: 0.9;
-    }
+    .bullets{list-style:none;display:flex;flex-direction:column;gap:6px;}
+    .bullets li{padding-left:20px;position:relative;}
+    .bullets li:before{content:"▹";position:absolute;left:0;color:var(--accent-pink);}
 
-    .slide-title {
-      font-size: clamp(1.7rem, 2.2vw, 2.2rem);
-      font-weight: 800;
-      letter-spacing: 0.02em;
-      text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
-    }
+    .visual-card{border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:12px;background:rgba(255,255,255,.05);}
+    .visual-main{margin:4px 0;color:#fff;font-size:1rem;}
+    .visual-hint{font-size:.85rem;color:var(--text-muted);margin-bottom:8px;}
 
-    .slide-icon {
-      font-size: 3.2rem;
-      flex-shrink: 0;
-      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
-      animation: iconPulse 2s ease-in-out infinite;
-    }
+    .visual-media{display:flex;flex-direction:column;gap:8px;}
 
-    @keyframes iconPulse {
-      0% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.08) translateY(-2px);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
+    .visual-image-placeholder{border:1px dashed rgba(255,255,255,.4);border-radius:10px;padding:10px;
+      display:flex;gap:8px;align-items:center;background:rgba(0,0,0,.3);}
+    .visual-image-placeholder.drag-over{border-color:var(--accent-cyan);box-shadow:0 0 12px var(--accent-cyan);}
+    .visual-img{max-width:100%;max-height:180px;border-radius:10px;background:#000;}
 
-    .slide-body {
-      display: grid;
-      grid-template-columns: minmax(0, 2.7fr) minmax(0, 2fr);
-      gap: 18px;
-      margin-top: 4px;
-      align-items: start;
-    }
+    .video-wrapper{background:#0002;border:1px solid #fff3;border-radius:10px;padding:8px;}
+    video{width:100%;max-height:230px;background:#000;border-radius:6px;}
+    .video-controls{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
+    .video-btn{padding:4px 10px;border:none;border-radius:999px;font-size:.75rem;
+      background:linear-gradient(135deg,var(--accent-cyan),var(--accent-pink));cursor:pointer;color:#fff;}
+    .secondary{background:transparent;border:1px solid #fff8;}
+    .video-volume{display:flex;align-items:center;gap:4px;margin-left:auto;}
+    .video-volume input{width:90px;}
 
-    @media (max-width: 800px) {
-      .slide-body {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .slide-shell {
-        max-height: none;
-      }
-      .slide {
-        height: auto;
-      }
-    }
-
-    .bullets {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      font-size: 1rem;
-    }
-
-    .bullets li {
-      position: relative;
-      padding-left: 22px;
-      line-height: 1.4;
-      color: var(--text-main);
-    }
-
-    .bullets li::before {
-      content: "▹";
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: var(--accent-pink);
-      text-shadow: 0 0 8px rgba(255, 77, 216, 0.8);
-    }
-
-    .visual-card {
-      border-radius: 18px;
-      padding: 14px 16px;
-      background: linear-gradient(135deg, rgba(22, 242, 255, 0.1), rgba(255, 77, 216, 0.1));
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      box-shadow:
-        0 0 20px rgba(22, 242, 255, 0.25),
-        0 0 30px rgba(255, 77, 216, 0.12);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .visual-card::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.14), transparent 55%);
-      opacity: 0;
-      animation: sweep 5.5s ease-in-out infinite;
-    }
-
-    @keyframes sweep {
-      0% {
-        transform: translateX(-40%);
-        opacity: 0;
-      }
-      30% {
-        transform: translateX(60%);
-        opacity: 0.8;
-      }
-      60% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 0;
-        transform: translateX(100%);
-      }
-    }
-
-    .visual-title {
-      font-size: 0.78rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent-cyan);
-      margin-bottom: 4px;
-    }
-
-    .visual-main {
-      font-size: 0.95rem;
-      color: var(--text-main);
-      margin-bottom: 6px;
-    }
-
-    .visual-hint {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .visual-media {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .visual-image-placeholder {
-      margin-top: 2px;
-      border-radius: 12px;
-      border: 1px dashed rgba(255, 255, 255, 0.3);
-      padding: 10px 12px;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(0, 0, 0, 0.25);
-      transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .visual-image-placeholder.drag-over {
-      border-color: var(--accent-cyan);
-      background: rgba(0, 0, 0, 0.5);
-      box-shadow: 0 0 16px rgba(22, 242, 255, 0.7);
-    }
-
-    .visual-image-placeholder span.box {
-      width: 32px;
-      height: 24px;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      flex-shrink: 0;
-    }
-
-    .visual-img {
-      display: block;
-      max-width: 100%;
-      max-height: 180px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      box-shadow: 0 0 14px rgba(0, 0, 0, 0.7);
-    }
-
-    .visual-image-text {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .video-wrapper {
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      padding: 8px 10px;
-      background: rgba(0, 0, 0, 0.35);
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .video-wrapper video {
-      width: 100%;
-      max-height: 220px;
-      border-radius: 8px;
-      background: #000;
-    }
-
-    .video-controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      align-items: center;
-      font-size: 0.78rem;
-    }
-
-    .video-btn {
-      border: none;
-      border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      cursor: pointer;
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
-      color: var(--text-main);
-      box-shadow:
-        0 0 10px rgba(22, 242, 255, 0.7),
-        0 0 16px rgba(255, 77, 216, 0.65);
-    }
-
-    .video-btn.secondary {
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      box-shadow: none;
-    }
-
-    .video-volume {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      margin-left: auto;
-    }
-
-    .video-volume input[type="range"] {
-      width: 90px;
-    }
-
-    .slide-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 6px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .controls {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(0, 0, 0, 0.65);
-      padding: 6px 10px;
-      border-radius: 999px;
-      box-shadow: 0 0 16px rgba(0, 0, 0, 0.8);
-    }
-
-    .btn {
-      border: none;
-      outline: none;
-      cursor: pointer;
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-main);
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
-      box-shadow:
-        0 0 18px rgba(22, 242, 255, 0.7),
-        0 0 26px rgba(255, 77, 216, 0.65);
-      transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
-      white-space: nowrap;
-    }
-
-    .btn.secondary {
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: none;
-      opacity: 0.8;
-    }
-
-    .btn:disabled {
-      opacity: 0.35;
-      cursor: default;
-      box-shadow: none;
-    }
-
-    .btn:not(:disabled):hover {
-      transform: translateY(-1px) scale(1.03);
-      box-shadow:
-        0 0 22px rgba(22, 242, 255, 0.85),
-        0 0 32px rgba(255, 77, 216, 0.8);
-    }
-
-    .btn.secondary:not(:disabled):hover {
-      box-shadow: 0 0 18px rgba(22, 242, 255, 0.6);
-    }
-
-    .slide-counter {
-      font-variant-numeric: tabular-nums;
-    }
-
-    .hint {
-      opacity: 0.7;
-    }
-
-    .hint span {
-      color: var(--accent-yellow);
-      font-weight: 600;
-    }
+    .slide-footer{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;}
+    .controls{display:flex;gap:8px;}
+    .btn{padding:6px 14px;border-radius:999px;border:none;font-size:.8rem;cursor:pointer;
+      background:linear-gradient(135deg,var(--accent-cyan),var(--accent-pink));color:#fff;}
+    .btn.secondary{background:transparent;border:1px solid #fff7;}
+    .btn:disabled{opacity:.3;}
   </style>
 </head>
 
 <body>
-  <!-- Flashy background orbs -->
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
+  <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
 
   <div id="app">
     <div class="slide-shell">
-      <div id="slide" class="slide" aria-live="polite"></div>
-
+      <div id="slide"></div>
       <div class="slide-footer">
         <div class="controls">
-          <button id="prevBtn" class="btn secondary" type="button">◀ Prev</button>
-          <button id="nextBtn" class="btn" type="button">Next ▶</button>
+          <button id="prevBtn" class="btn secondary">◀ Prev</button>
+          <button id="nextBtn" class="btn">Next ▶</button>
         </div>
-        <div class="slide-counter" id="counter"></div>
-        <div class="hint">
-          Use <span>←</span> / <span>→</span> keys · Drop images onto the IMG box
-        </div>
+        <div id="counter"></div>
+        <div class="hint">← / → keys · Drop images on box</div>
       </div>
     </div>
   </div>
 
-  <script>
-    // SLIDES 1–10 ONLY
-    const slides = [
-      {
-        section: "Section 1 · Foundation",
-        title: "1. What HVAC Means",
-        icon: "🔥❄️",
-        bullets: [
-          "HVAC = Heating, Ventilation, Air Conditioning.",
-          "Purpose: comfort, air quality, and safety in buildings.",
-          "Used in residential, commercial, and industrial spaces."
-        ],
-        visualMain: "Think of HVAC as the building's 'life support system'.",
-        visualHint: "A house split into 4 seasons showing HVAC keeping comfort steady inside.",
-        imageUrl: "images/section1-1.png",
-        videoUrl: "" // e.g. "videos/section1-1.mp4"
-      },
-      {
-        section: "Section 1 · Foundation",
-        title: "2. Heat Transfer Basics",
-        icon: "♨️",
-        bullets: [
-          "Heat always moves from hotter to colder areas.",
-          "Three methods: conduction, convection, and radiation.",
-          "All HVAC equipment manipulates heat movement, not 'cold'."
-        ],
-        visualMain: "HVAC is basically controlled heat transfer.",
-        visualHint: "Arrows showing heat moving from warm room to cold outside.",
-        imageUrl: "images/section1-2.png",
-        videoUrl: ""
-      },
-      {
-        section: "Section 1 · Foundation",
-        title: "3. Pressure & Temperature Relationship",
-        icon: "📈",
-        bullets: [
-          "When you increase pressure on a gas, its temperature goes up.",
-          "When pressure drops, temperature falls.",
-          "This relationship is the core of compressors and metering devices."
-        ],
-        visualMain: "Compress → hot. Expand → cold.",
-        visualHint: "Piston compressing gas with thermometer rising; expansion valve dropping.",
-        imageUrl: "images/section1-3.png",
-        videoUrl: ""
-      },
-      {
-        section: "Section 1 · Foundation",
-        title: "4. States of Matter",
-        icon: "💧💨",
-        bullets: [
-          "Solid, liquid, and vapor — refrigerant moves between liquid and vapor only.",
-          "Boiling absorbs heat (cooling effect); condensing releases heat.",
-          "Phase change happens in coils without open flames."
-        ],
-        visualMain: "Refrigerant is a heat sponge when it boils and a heat dumper when it condenses.",
-        visualHint: "Evaporator labeled 'boiling' and condenser labeled 'condensing'.",
-        imageUrl: "images/section1-4.png",
-        videoUrl: ""
-      },
-      {
-        section: "Section 1 · Foundation",
-        title: "5. Energy & Work",
-        icon: "⚡",
-        bullets: [
-          "BTU is a unit of heat; 1 ton of cooling = 12,000 BTU/hr.",
-          "Watts measure electrical power; more watts = more work done.",
-          "Equipment sizing is based on how many BTUs it can move per hour."
-        ],
-        visualMain: "BTUs = heat moved. Watts = electrical energy used to move it.",
-        visualHint: "Scale balancing BTUs on one side and watts/money on the other.",
-        imageUrl: "images/section1-5.png",
-        videoUrl: ""
-      },
-      {
-        section: "Section 2 · Air & Comfort",
-        title: "6. Indoor Air Quality (IAQ)",
-        icon: "😮‍💨",
-        bullets: [
-          "Good IAQ means low dust, low pollutants, and proper fresh air.",
-          "Filters, ventilation, and humidity control all work together.",
-          "Ideal indoor humidity is typically around 40–60%."
-        ],
-        visualMain: "Comfort is not just temperature; it’s clean, properly humidified air.",
-        visualHint: "Filter catching dust, fresh air arrow, humidity gauge in green zone.",
-        imageUrl: "images/section1-6.png",
-        videoUrl: ""
-      },
-      {
-        section: "Section 2 · Air & Comfort",
-        title: "7. Psychrometrics",
-        icon: "📊",
-        bullets: [
-          "Dry bulb = regular temperature; wet bulb = temperature plus moisture effect.",
-          "Relative Humidity tells how full the air is with moisture.",
-          "High humidity makes rooms feel hotter; low humidity feels dry."
-        ],
-        visualMain: "Psychrometrics = how air + water vapor behave together.",
-        visualHint: "Simple psychrometric chart with comfort zone highlighted.",
-        imageUrl: "images/section1-7.png",
-        videoUrl: ""
-      },
-      {
-        section: "Section 2 · Air & Comfort",
-        title: "8. Ductwork Basics",
-        icon: "🌀",
-        bullets: [
-          "Supply ducts push conditioned air to rooms.",
-          "Return ducts pull air back to the equipment.",
-          "Leaky or undersized ducts waste energy and kill comfort."
-        ],
-        visualMain: "Ducts are the 'arteries and veins' of the HVAC system.",
-        visualHint: "House cutaway showing blue supply and gray return duct paths.",
-        imageUrl: "images/section1-8.png",
-        videoUrl: ""
-      },
-      {
-        section: "Section 2 · Air & Comfort",
-        title: "9. Fan Laws & Static Pressure",
-        icon: "🌬️",
-        bullets: [
-          "Blowers must overcome static pressure in ducts and components.",
-          "High static pressure = low airflow and noisy systems.",
-          "Dirty filters and restrictive grills commonly cause high static."
-        ],
-        visualMain: "Static pressure is like 'air friction' the fan has to fight.",
-        visualHint: "Fan pushing against a narrow duct vs a wide duct, with resistance arrows.",
-        imageUrl: "images/section1-9.png",
-        videoUrl: ""
-      },
-      {
-        section: "Section 2 · Air & Comfort",
-        title: "10. CFM Calculations",
-        icon: "📐",
-        bullets: [
-          "CFM = Cubic Feet per Minute, the volume of air moving through the system.",
-          "Typical rule of thumb: ~400 CFM per ton of cooling.",
-          "You verify airflow with tools, not guesses."
-        ],
-        visualMain: "Right CFM = proper temperature, humidity, and performance.",
-        visualHint: "Calculator overlay on duct with '1200 CFM' for a 3-ton unit.",
-        imageUrl: "images/section1-10.png",
-        videoUrl: ""
-      }
-    ];
+<script>
+const slides = [
+{section:"Section 1 · Foundation",title:"1. What HVAC Means",icon:"🔥❄️",
+ bullets:["HVAC = Heating, Ventilation, Air Conditioning.","Purpose: comfort, air quality, safety.","Used in homes, commercial & industrial."],
+ visualMain:"HVAC = building life support.",visualHint:"House kept comfy in all seasons.",
+ imageUrl:"imagessection1-1.png",videoUrl:""},
+{section:"Section 1 · Foundation",title:"2. Heat Transfer Basics",icon:"♨️",
+ bullets:["Heat always flows hot → cold.","Conduction, convection, radiation.","HVAC moves heat, not cold."],
+ visualMain:"Control heat transfer.",visualHint:"Arrows moving heat out of a house.",
+ imageUrl:"imagessection1-2.png",videoUrl:""},
+{section:"Section 1 · Foundation",title:"3. Pressure & Temperature",icon:"📈",
+ bullets:["Pressure ↑ = Temperature ↑.","Pressure ↓ = Temperature ↓.","Core of compressor/expansion."],
+ visualMain:"Compress hot → expand cold.",visualHint:"Compressor heats, TXV cools.",
+ imageUrl:"imagessection1-3.png",videoUrl:""},
+{section:"Section 1 · Foundation",title:"4. States of Matter",icon:"💧💨",
+ bullets:["Solid, liquid, vapor.","Boiling absorbs heat.","Condensing releases heat."],
+ visualMain:"Refrigerant changes state.",visualHint:"Evaporator = boil, Condenser = condense.",
+ imageUrl:"imagessection1-4.png",videoUrl:""},
+{section:"Section 1 · Foundation",title:"5. Energy & Work",icon:"⚡",
+ bullets:["BTU = heat unit.","1 ton = 12,000 BTU/hr.","Watts measure electrical power."],
+ visualMain:"BTUs vs watts.",visualHint:"Sizing based on work required.",
+ imageUrl:"imagessection1-5.png",videoUrl:""},
+{section:"Section 2 · Air & Comfort",title:"6. Indoor Air Quality",icon:"😮‍💨",
+ bullets:["Filters + ventilation + humidity.","Cleaner air = healthier people.","Ideal humidity 40–60%."],
+ visualMain:"Comfort includes air quality.",visualHint:"Dust + fresh air + moisture balance.",
+ imageUrl:"imagessection1-6.png",videoUrl:""},
+{section:"Section 2 · Air & Comfort",title:"7. Psychrometrics",icon:"📊",
+ bullets:["Dry bulb vs wet bulb.","Relative humidity matters.","Humidity impacts comfort."],
+ visualMain:"Air + water vapor together.",visualHint:"Simple psych chart comfort zone.",
+ imageUrl:"imagessection1-7.png",videoUrl:""},
+{section:"Section 2 · Air & Comfort",title:"8. Ductwork Basics",icon:"🌀",
+ bullets:["Supply sends air.","Return pulls air.","Leaks = wasted energy."],
+ visualMain:"Air highways of the home.",visualHint:"Blue supply, gray return.",
+ imageUrl:"imagessection1-8.png",videoUrl:""},
+{section:"Section 2 · Air & Comfort",title:"9. Static Pressure",icon:"🌬️",
+ bullets:["Fan must overcome friction.","High static = low airflow.","Dirty filters cause issues."],
+ visualMain:"Airflow fights restriction.",visualHint:"Fan vs narrow duct.",
+ imageUrl:"imagessection1-9.png",videoUrl:""},
+{section:"Section 2 · Air & Comfort",title:"10. CFM Calculations",icon:"📐",
+ bullets:["CFM = airflow amount.","~400 CFM per ton.","Measure airflow, don't guess."],
+ visualMain:"Air volume = system performance.",visualHint:"1200 CFM on 3-ton unit.",
+ imageUrl:"imagessection1-10.png",videoUrl:""}
+];
 
-    let currentIndex = 0;
+let currentIndex=0;
+let slideImages={};
+const STORAGE="hvacSlideImgs_1_10V2";
 
-    // Persistent image overrides stored per slide index in localStorage
-    let slideImages = {};
-    const STORAGE_KEY = "hvacSlideImages_1_10";
+try{slideImages=JSON.parse(localStorage.getItem(STORAGE))||{};}catch(e){}
 
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        slideImages = JSON.parse(stored);
-      }
-    } catch (e) {
-      slideImages = {};
-    }
+const slideEl=document.getElementById("slide"),counterEl=document.getElementById("counter");
+const prevBtn=document.getElementById("prevBtn"),nextBtn=document.getElementById("nextBtn");
 
-    const slideEl = document.getElementById("slide");
-    const counterEl = document.getElementById("counter");
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
+function saveImgs(){localStorage.setItem(STORAGE,JSON.stringify(slideImages));}
 
-    function saveImages() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(slideImages));
-      } catch (e) {
-        // ignore storage errors
-      }
-    }
+function renderSlide(i){
+ const s=slides[i];
+ const override=slideImages[i];
+ const imgSrc=override||s.imageUrl;
+ slideEl.innerHTML=`
+ <div class="slide-header">
+   <div><div class="section-label">${s.section}</div><div class="slide-title">${s.title}</div></div>
+   <div class="slide-icon">${s.icon}</div>
+ </div>
+ <div class="slide-body">
+   <ul class="bullets">${s.bullets.map(b=>`<li>${b}</li>`).join("")}</ul>
 
-    function renderSlide(index) {
-      const slide = slides[index];
-      if (!slide) return;
+   <div class="visual-card">
+     <div class="visual-main">${s.visualMain}</div>
+     <div class="visual-hint">${s.visualHint}</div>
 
-      const overrideImg = slideImages[index];
-      const imgSrc = overrideImg || slide.imageUrl || "";
-      const hasImage = !!imgSrc;
-      const hasVideo = !!slide.videoUrl;
+     <div class="visual-media">
 
-      slideEl.innerHTML = `
-        <div class="slide-header">
-          <div>
-            <div class="section-label">${slide.section}</div>
-            <div class="slide-title">${slide.title}</div>
-          </div>
-          <div class="slide-icon" aria-hidden="true">${slide.icon || ""}</div>
-        </div>
+       <div class="visual-image-placeholder" data-index="${i}">
+         ${
+          imgSrc
+           ? `<img src="${imgSrc}" class="visual-img"/>`
+           : `<span class="box">IMG</span><div>Drop an image here</div>`
+         }
+       </div>
 
-        <div class="slide-body">
-          <ul class="bullets">
-            ${slide.bullets.map((b) => `<li>${b}</li>`).join("")}
-          </ul>
-
-          <div class="visual-card">
-            <div class="visual-title">Visual Idea</div>
-            <div class="visual-main">${slide.visualMain || ""}</div>
-            <div class="visual-hint">${slide.visualHint || ""}</div>
-
-            <div class="visual-media">
-              <div class="visual-image-placeholder" data-slide-index="${index}">
-                ${
-                  hasImage
-                    ? `<img src="${imgSrc}" alt="Slide image" class="visual-img" />`
-                    : `
-                  <span class="box">IMG</span>
-                  <div class="visual-image-text">
-                    <div><strong>Drop an image file here</strong> to attach it to this slide.</div>
-                    <div>Tip: Drag a photo/diagram from your computer and drop it on this box.</div>
-                  </div>
-                `
-                }
-              </div>
-
-              ${
-                hasVideo
-                  ? `
-              <div class="video-wrapper">
-                <video id="slideVideo" src="${slide.videoUrl}"></video>
-                <div class="video-controls">
-                  <button class="video-btn" data-action="play">Play</button>
-                  <button class="video-btn secondary" data-action="pause">Pause</button>
-                  <button class="video-btn secondary" data-action="ff">+10s</button>
-                  <button class="video-btn secondary" data-action="stop">Stop</button>
-                  <div class="video-volume">
-                    <button class="video-btn secondary" data-action="mute">Mute</button>
-                    <input type="range" min="0" max="1" step="0.05" value="1" data-role="volume">
-                  </div>
+       ${
+         s.videoUrl
+         ? `<div class="video-wrapper">
+              <video id="vid" src="${s.videoUrl}"></video>
+              <div class="video-controls">
+                <button class="video-btn" data-a="play">Play</button>
+                <button class="video-btn secondary" data-a="pause">Pause</button>
+                <button class="video-btn secondary" data-a="ff">+10s</button>
+                <button class="video-btn secondary" data-a="stop">Stop</button>
+                <div class="video-volume">
+                  <button class="video-btn secondary" data-a="mute">Mute</button>
+                  <input type="range" min="0" max="1" step="0.05" value="1" data-role="vol">
                 </div>
               </div>
-              `
-                  : ""
-              }
-            </div>
-          </div>
-        </div>
-      `;
+            </div>`
+         :""
+       }
 
-      counterEl.textContent = `Slide ${index + 1} of ${slides.length}`;
-      prevBtn.disabled = index === 0;
-      nextBtn.disabled = index === slides.length - 1;
+     </div>
+   </div>
+ </div>`;
+ counterEl.textContent=`Slide ${i+1} of ${slides.length}`;
+ prevBtn.disabled=i===0;
+ nextBtn.disabled=i===slides.length-1;
+ setupDrop();
+ setupVideo();
+}
 
-      attachDropHandlers();
-      setupVideoControls();
-    }
+function setupDrop(){
+ const dz=slideEl.querySelector(".visual-image-placeholder");
+ if(!dz)return;
+ dz.addEventListener("dragover",e=>{e.preventDefault();dz.classList.add("drag-over");});
+ dz.addEventListener("dragleave",()=>dz.classList.remove("drag-over"));
+ dz.addEventListener("drop",e=>{
+   e.preventDefault();
+   dz.classList.remove("drag-over");
+   const f=e.dataTransfer.files[0];
+   if(!f||!f.type.startsWith("image/"))return;
+   const r=new FileReader();
+   const idx=dz.getAttribute("data-index");
+   r.onload=ev=>{
+     slideImages[idx]=ev.target.result;
+     saveImgs();
+     renderSlide(idx);
+   };
+   r.readAsDataURL(f);
+ });
+}
 
-    function attachDropHandlers() {
-      const dropZone = slideEl.querySelector(".visual-image-placeholder");
-      if (!dropZone) return;
+function setupVideo(){
+ const v=slideEl.querySelector("#vid");
+ if(!v)return;
+ const btns=slideEl.querySelectorAll(".video-btn");
+ const vol=slideEl.querySelector("[data-role='vol']");
+ btns.forEach(b=>b.onclick=()=>{
+   const a=b.dataset.a;
+   if(a==="play")v.play();
+   if(a==="pause")v.pause();
+   if(a==="stop"){v.pause();v.currentTime=0;}
+   if(a==="ff")v.currentTime=Math.min(v.currentTime+10,v.duration||v.currentTime+10);
+   if(a==="mute"){v.muted=!v.muted;b.textContent=v.muted?"Unmute":"Mute";}
+ });
+ vol&&vol.addEventListener("input",()=>{v.volume=vol.value;v.muted=false;});
+}
 
-      function handleDragEnter(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        dropZone.classList.add("drag-over");
-      }
+function go(i){if(i<0||i>=slides.length)return;currentIndex=i;renderSlide(i);}
+prevBtn.onclick=()=>go(currentIndex-1);
+nextBtn.onclick=()=>go(currentIndex+1);
+document.onkeydown=e=>{if(e.key==="ArrowRight")go(currentIndex+1);if(e.key==="ArrowLeft")go(currentIndex-1);};
 
-      function handleDragOver(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        dropZone.classList.add("drag-over");
-      }
-
-      function handleDragLeave(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        dropZone.classList.remove("drag-over");
-      }
-
-      function handleDrop(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        dropZone.classList.remove("drag-over");
-
-        const dt = e.dataTransfer;
-        if (!dt || !dt.files || dt.files.length === 0) {
-          return;
-        }
-
-        const file = dt.files[0];
-        if (!file.type.startsWith("image/")) {
-          alert("Please drop an image file (jpg, png, etc.).");
-          return;
-        }
-
-        const reader = new FileReader();
-        const slideIndex = parseInt(dropZone.getAttribute("data-slide-index"), 10);
-
-        reader.onload = function (event) {
-          const dataUrl = event.target.result;
-          slideImages[slideIndex] = dataUrl;
-          saveImages();
-          renderSlide(slideIndex);
-        };
-
-        reader.readAsDataURL(file);
-      }
-
-      dropZone.addEventListener("dragenter", handleDragEnter);
-      dropZone.addEventListener("dragover", handleDragOver);
-      dropZone.addEventListener("dragleave", handleDragLeave);
-      dropZone.addEventListener("drop", handleDrop);
-    }
-
-    function setupVideoControls() {
-      const video = slideEl.querySelector("#slideVideo");
-      if (!video) return;
-
-      const buttons = slideEl.querySelectorAll(".video-btn");
-      const volumeSlider = slideEl.querySelector('input[data-role="volume"]');
-
-      buttons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const action = btn.getAttribute("data-action");
-          if (!action) return;
-
-          switch (action) {
-            case "play":
-              video.play();
-              break;
-            case "pause":
-              video.pause();
-              break;
-            case "ff":
-              video.currentTime = Math.min(
-                video.currentTime + 10,
-                video.duration || video.currentTime + 10
-              );
-              break;
-            case "stop":
-              video.pause();
-              video.currentTime = 0;
-              break;
-            case "mute":
-              video.muted = !video.muted;
-              btn.textContent = video.muted ? "Unmute" : "Mute";
-              break;
-          }
-        });
-      });
-
-      if (volumeSlider) {
-        volumeSlider.addEventListener("input", () => {
-          const vol = parseFloat(volumeSlider.value);
-          video.volume = vol;
-          if (vol > 0 && video.muted) {
-            video.muted = false;
-            const muteBtn = slideEl.querySelector('.video-btn[data-action="mute"]');
-            if (muteBtn) muteBtn.textContent = "Mute";
-          }
-        });
-      }
-    }
-
-    function goToSlide(newIndex) {
-      if (newIndex < 0 || newIndex >= slides.length) return;
-      currentIndex = newIndex;
-      renderSlide(currentIndex);
-    }
-
-    prevBtn.addEventListener("click", () => goToSlide(currentIndex - 1));
-    nextBtn.addEventListener("click", () => goToSlide(currentIndex + 1));
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowRight") {
-        goToSlide(currentIndex + 1);
-      } else if (e.key === "ArrowLeft") {
-        goToSlide(currentIndex - 1);
-      }
-    });
-
-    renderSlide(currentIndex);
-  </script>
+renderSlide(currentIndex);
+</script>
 </body>
 </html>
