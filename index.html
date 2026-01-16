@@ -5,6 +5,28 @@
   <title>HVAC Master Class · Section 1 (Slides 1–10)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!--
+    EXPECTED IMAGE FILENAMES (upload these into /images):
+
+    images/section1-1.png
+    images/section1-2.png
+    images/section1-3.png
+    images/section1-4.png
+    images/section1-5.png
+    images/section1-6.png
+    images/section1-7.png
+    images/section1-8.png
+    images/section1-9.png
+    images/section1-10.png
+
+    OPTIONAL VIDEO FILENAMES (upload into /videos and set videoUrl in JS):
+
+    videos/section1-1.mp4
+    videos/section1-2.mp4
+    ...
+    videos/section1-10.mp4
+  -->
+
   <style>
     :root {
       --bg1: #050014;
@@ -284,10 +306,17 @@
     .visual-hint {
       font-size: 0.85rem;
       color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .visual-media {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
     .visual-image-placeholder {
-      margin-top: 10px;
+      margin-top: 2px;
       border-radius: 12px;
       border: 1px dashed rgba(255, 255, 255, 0.3);
       padding: 10px 12px;
@@ -330,6 +359,63 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
+    }
+
+    .video-wrapper {
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 8px 10px;
+      background: rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      max-height: 220px;
+      border-radius: 8px;
+      background: #000;
+    }
+
+    .video-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      font-size: 0.78rem;
+    }
+
+    .video-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      color: var(--text-main);
+      box-shadow:
+        0 0 10px rgba(22, 242, 255, 0.7),
+        0 0 16px rgba(255, 77, 216, 0.65);
+    }
+
+    .video-btn.secondary {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: none;
+    }
+
+    .video-volume {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: auto;
+    }
+
+    .video-volume input[type="range"] {
+      width: 90px;
     }
 
     .slide-footer {
@@ -425,13 +511,15 @@
           <button id="nextBtn" class="btn" type="button">Next ▶</button>
         </div>
         <div class="slide-counter" id="counter"></div>
-        <div class="hint">Use <span>←</span> / <span>→</span> keys · Drop images onto the IMG box</div>
+        <div class="hint">
+          Use <span>←</span> / <span>→</span> keys · Drop images onto the IMG box
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    // Slides 1–10 only
+    // SLIDES 1–10 ONLY
     const slides = [
       {
         section: "Section 1 · Foundation",
@@ -443,7 +531,9 @@
           "Used in residential, commercial, and industrial spaces."
         ],
         visualMain: "Think of HVAC as the building's 'life support system'.",
-        visualHint: "Image idea: A house split into 4 seasons showing HVAC keeping comfort steady inside."
+        visualHint: "A house split into 4 seasons showing HVAC keeping comfort steady inside.",
+        imageUrl: "images/section1-1.png",
+        videoUrl: "" // e.g. "videos/section1-1.mp4"
       },
       {
         section: "Section 1 · Foundation",
@@ -455,7 +545,9 @@
           "All HVAC equipment manipulates heat movement, not 'cold'."
         ],
         visualMain: "HVAC is basically controlled heat transfer.",
-        visualHint: "Image idea: Arrows showing heat moving from warm room to cold outside through walls, air, and radiation."
+        visualHint: "Arrows showing heat moving from warm room to cold outside.",
+        imageUrl: "images/section1-2.png",
+        videoUrl: ""
       },
       {
         section: "Section 1 · Foundation",
@@ -464,10 +556,12 @@
         bullets: [
           "When you increase pressure on a gas, its temperature goes up.",
           "When pressure drops, temperature falls.",
-          "This relationship is the core of how compressors and metering devices work."
+          "This relationship is the core of compressors and metering devices."
         ],
         visualMain: "Compress → hot. Expand → cold.",
-        visualHint: "Image idea: Piston compressing gas with thermometer rising; expansion valve with thermometer dropping."
+        visualHint: "Piston compressing gas with thermometer rising; expansion valve dropping.",
+        imageUrl: "images/section1-3.png",
+        videoUrl: ""
       },
       {
         section: "Section 1 · Foundation",
@@ -479,7 +573,9 @@
           "Phase change happens in coils without open flames."
         ],
         visualMain: "Refrigerant is a heat sponge when it boils and a heat dumper when it condenses.",
-        visualHint: "Image idea: Evaporator coil labeled 'boiling' and condenser coil labeled 'condensing'."
+        visualHint: "Evaporator labeled 'boiling' and condenser labeled 'condensing'.",
+        imageUrl: "images/section1-4.png",
+        videoUrl: ""
       },
       {
         section: "Section 1 · Foundation",
@@ -491,7 +587,9 @@
           "Equipment sizing is based on how many BTUs it can move per hour."
         ],
         visualMain: "BTUs = heat moved. Watts = electrical energy used to move it.",
-        visualHint: "Image idea: Scale balancing BTUs on one side and watts/money on the other."
+        visualHint: "Scale balancing BTUs on one side and watts/money on the other.",
+        imageUrl: "images/section1-5.png",
+        videoUrl: ""
       },
       {
         section: "Section 2 · Air & Comfort",
@@ -503,7 +601,9 @@
           "Ideal indoor humidity is typically around 40–60%."
         ],
         visualMain: "Comfort is not just temperature; it’s clean, properly humidified air.",
-        visualHint: "Image idea: Filter catching dust, fresh air arrow, and humidity gauge in green zone."
+        visualHint: "Filter catching dust, fresh air arrow, humidity gauge in green zone.",
+        imageUrl: "images/section1-6.png",
+        videoUrl: ""
       },
       {
         section: "Section 2 · Air & Comfort",
@@ -511,11 +611,13 @@
         icon: "📊",
         bullets: [
           "Dry bulb = regular temperature; wet bulb = temperature plus moisture effect.",
-          "Relative Humidity (RH) tells how full the air is with moisture.",
+          "Relative Humidity tells how full the air is with moisture.",
           "High humidity makes rooms feel hotter; low humidity feels dry."
         ],
         visualMain: "Psychrometrics = how air + water vapor behave together.",
-        visualHint: "Image idea: Simple psychrometric chart with comfort zone highlighted."
+        visualHint: "Simple psychrometric chart with comfort zone highlighted.",
+        imageUrl: "images/section1-7.png",
+        videoUrl: ""
       },
       {
         section: "Section 2 · Air & Comfort",
@@ -527,7 +629,9 @@
           "Leaky or undersized ducts waste energy and kill comfort."
         ],
         visualMain: "Ducts are the 'arteries and veins' of the HVAC system.",
-        visualHint: "Image idea: House cutaway showing blue supply and gray return duct paths."
+        visualHint: "House cutaway showing blue supply and gray return duct paths.",
+        imageUrl: "images/section1-8.png",
+        videoUrl: ""
       },
       {
         section: "Section 2 · Air & Comfort",
@@ -536,10 +640,12 @@
         bullets: [
           "Blowers must overcome static pressure in ducts and components.",
           "High static pressure = low airflow and noisy systems.",
-          "Dirty filters and restrictive grills are common causes of high static."
+          "Dirty filters and restrictive grills commonly cause high static."
         ],
         visualMain: "Static pressure is like 'air friction' the fan has to fight.",
-        visualHint: "Image idea: Fan pushing against a narrow duct vs wide duct, with resistance arrows."
+        visualHint: "Fan pushing against a narrow duct vs a wide duct, with resistance arrows.",
+        imageUrl: "images/section1-9.png",
+        videoUrl: ""
       },
       {
         section: "Section 2 · Air & Comfort",
@@ -550,14 +656,16 @@
           "Typical rule of thumb: ~400 CFM per ton of cooling.",
           "You verify airflow with tools, not guesses."
         ],
-        visualMain: "Right CFM = proper temperature, humidity, and equipment performance.",
-        visualHint: "Image idea: Calculator overlay on duct with '1200 CFM' for a 3-ton unit."
+        visualMain: "Right CFM = proper temperature, humidity, and performance.",
+        visualHint: "Calculator overlay on duct with '1200 CFM' for a 3-ton unit.",
+        imageUrl: "images/section1-10.png",
+        videoUrl: ""
       }
     ];
 
     let currentIndex = 0;
 
-    // Persistent images stored per slide index in localStorage
+    // Persistent image overrides stored per slide index in localStorage
     let slideImages = {};
     const STORAGE_KEY = "hvacSlideImages_1_10";
 
@@ -587,7 +695,10 @@
       const slide = slides[index];
       if (!slide) return;
 
-      const hasImage = slideImages[index];
+      const overrideImg = slideImages[index];
+      const imgSrc = overrideImg || slide.imageUrl || "";
+      const hasImage = !!imgSrc;
+      const hasVideo = !!slide.videoUrl;
 
       slideEl.innerHTML = `
         <div class="slide-header">
@@ -607,17 +718,40 @@
             <div class="visual-title">Visual Idea</div>
             <div class="visual-main">${slide.visualMain || ""}</div>
             <div class="visual-hint">${slide.visualHint || ""}</div>
-            <div class="visual-image-placeholder" data-slide-index="${index}">
+
+            <div class="visual-media">
+              <div class="visual-image-placeholder" data-slide-index="${index}">
+                ${
+                  hasImage
+                    ? `<img src="${imgSrc}" alt="Slide image" class="visual-img" />`
+                    : `
+                  <span class="box">IMG</span>
+                  <div class="visual-image-text">
+                    <div><strong>Drop an image file here</strong> to attach it to this slide.</div>
+                    <div>Tip: Drag a photo/diagram from your computer and drop it on this box.</div>
+                  </div>
+                `
+                }
+              </div>
+
               ${
-                hasImage
-                  ? `<img src="${slideImages[index]}" alt="Slide image" class="visual-img" />`
-                  : `
-                <span class="box">IMG</span>
-                <div class="visual-image-text">
-                  <div><strong>Drop an image file here</strong> to attach it to this slide.</div>
-                  <div>Tip: Drag a photo/diagram from your computer and drop it on this box.</div>
+                hasVideo
+                  ? `
+              <div class="video-wrapper">
+                <video id="slideVideo" src="${slide.videoUrl}"></video>
+                <div class="video-controls">
+                  <button class="video-btn" data-action="play">Play</button>
+                  <button class="video-btn secondary" data-action="pause">Pause</button>
+                  <button class="video-btn secondary" data-action="ff">+10s</button>
+                  <button class="video-btn secondary" data-action="stop">Stop</button>
+                  <div class="video-volume">
+                    <button class="video-btn secondary" data-action="mute">Mute</button>
+                    <input type="range" min="0" max="1" step="0.05" value="1" data-role="volume">
+                  </div>
                 </div>
+              </div>
               `
+                  : ""
               }
             </div>
           </div>
@@ -629,6 +763,7 @@
       nextBtn.disabled = index === slides.length - 1;
 
       attachDropHandlers();
+      setupVideoControls();
     }
 
     function attachDropHandlers() {
@@ -686,6 +821,56 @@
       dropZone.addEventListener("dragover", handleDragOver);
       dropZone.addEventListener("dragleave", handleDragLeave);
       dropZone.addEventListener("drop", handleDrop);
+    }
+
+    function setupVideoControls() {
+      const video = slideEl.querySelector("#slideVideo");
+      if (!video) return;
+
+      const buttons = slideEl.querySelectorAll(".video-btn");
+      const volumeSlider = slideEl.querySelector('input[data-role="volume"]');
+
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const action = btn.getAttribute("data-action");
+          if (!action) return;
+
+          switch (action) {
+            case "play":
+              video.play();
+              break;
+            case "pause":
+              video.pause();
+              break;
+            case "ff":
+              video.currentTime = Math.min(
+                video.currentTime + 10,
+                video.duration || video.currentTime + 10
+              );
+              break;
+            case "stop":
+              video.pause();
+              video.currentTime = 0;
+              break;
+            case "mute":
+              video.muted = !video.muted;
+              btn.textContent = video.muted ? "Unmute" : "Mute";
+              break;
+          }
+        });
+      });
+
+      if (volumeSlider) {
+        volumeSlider.addEventListener("input", () => {
+          const vol = parseFloat(volumeSlider.value);
+          video.volume = vol;
+          if (vol > 0 && video.muted) {
+            video.muted = false;
+            const muteBtn = slideEl.querySelector('.video-btn[data-action="mute"]');
+            if (muteBtn) muteBtn.textContent = "Mute";
+          }
+        });
+      }
     }
 
     function goToSlide(newIndex) {
