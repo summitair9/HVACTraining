@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>HVAC Master Class Slides</title>
+  <title>HVAC Master Class · Section 1 (Slides 1–10)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -46,7 +46,6 @@
       }
     }
 
-    /* Floating neon orbs in the background */
     .orb {
       position: fixed;
       border-radius: 50%;
@@ -229,11 +228,6 @@
       text-shadow: 0 0 8px rgba(255, 77, 216, 0.8);
     }
 
-    .bullets li span.keyword {
-      color: var(--accent-yellow);
-      font-weight: 600;
-    }
-
     .visual-card {
       border-radius: 18px;
       padding: 14px 16px;
@@ -302,6 +296,13 @@
       align-items: center;
       gap: 8px;
       background: rgba(0, 0, 0, 0.25);
+      transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .visual-image-placeholder.drag-over {
+      border-color: var(--accent-cyan);
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 16px rgba(22, 242, 255, 0.7);
     }
 
     .visual-image-placeholder span.box {
@@ -313,6 +314,22 @@
       align-items: center;
       justify-content: center;
       font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .visual-img {
+      display: block;
+      max-width: 100%;
+      max-height: 180px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 0 14px rgba(0, 0, 0, 0.7);
+    }
+
+    .visual-image-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .slide-footer {
@@ -408,14 +425,14 @@
           <button id="nextBtn" class="btn" type="button">Next ▶</button>
         </div>
         <div class="slide-counter" id="counter"></div>
-        <div class="hint">Use <span>←</span> / <span>→</span> keys to navigate</div>
+        <div class="hint">Use <span>←</span> / <span>→</span> keys · Drop images onto the IMG box</div>
       </div>
     </div>
   </div>
 
   <script>
+    // Slides 1–10 only
     const slides = [
-      // SECTION 1 — FOUNDATION
       {
         section: "Section 1 · Foundation",
         title: "1. What HVAC Means",
@@ -476,8 +493,6 @@
         visualMain: "BTUs = heat moved. Watts = electrical energy used to move it.",
         visualHint: "Image idea: Scale balancing BTUs on one side and watts/money on the other."
       },
-
-      // SECTION 2 — AIR & COMFORT BASICS
       {
         section: "Section 2 · Air & Comfort",
         title: "6. Indoor Air Quality (IAQ)",
@@ -537,716 +552,42 @@
         ],
         visualMain: "Right CFM = proper temperature, humidity, and equipment performance.",
         visualHint: "Image idea: Calculator overlay on duct with '1200 CFM' for a 3-ton unit."
-      },
-
-      // SECTION 3 — TOOLS & SAFETY (minus 11, 12, 13)
-      {
-        section: "Section 3 · Tools & Measurement",
-        title: "14. Meters & Gauges",
-        icon: "📟",
-        bullets: [
-          "Multimeter checks volts, ohms, and continuity on electrical parts.",
-          "Clamp meter measures current (amps) on live wires.",
-          "Manometers and micron gauges measure pressure and vacuum precisely."
-        ],
-        visualMain: "Meters are your 'eyes' into what the system is really doing.",
-        visualHint: "Image idea: Tech holding a multimeter and clamp meter at a condenser."
-      },
-      {
-        section: "Section 3 · Tools & Measurement",
-        title: "15. Manifolds & Smart Tools",
-        icon: "🧪",
-        bullets: [
-          "Analog and digital manifolds read refrigerant pressures and temps.",
-          "Wireless probes can keep you out of the line of fire and save time.",
-          "Recovery machines and tanks are required to handle refrigerant legally."
-        ],
-        visualMain: "Smart tools speed up diagnosis and make readings more accurate.",
-        visualHint: "Image idea: Digital manifold set connected to an outdoor unit."
-      },
-
-      // SECTION 4 — ELECTRICITY
-      {
-        section: "Section 4 · Electricity",
-        title: "16. Ohm’s Law",
-        icon: "🔌",
-        bullets: [
-          "Ohm’s Law: V = I × R (volts = amps × resistance).",
-          "If two values are known, the third can be calculated.",
-          "Great for checking if a component is drawing the right current."
-        ],
-        visualMain: "Ohm’s Law is the basic language of every HVAC circuit.",
-        visualHint: "Image idea: Simple circuit diagram labeled V, I, and R with arrows."
-      },
-      {
-        section: "Section 4 · Electricity",
-        title: "17. Series vs Parallel Circuits",
-        icon: "🔁",
-        bullets: [
-          "Series: components are daisy-chained; one opens, everything stops.",
-          "Parallel: each component has its own path to power.",
-          "HVAC control circuits often combine both to achieve safety and control."
-        ],
-        visualMain: "How components are wired affects how failures show up.",
-        visualHint: "Image idea: Side-by-side sketch of series vs parallel lamps."
-      },
-      {
-        section: "Section 4 · Electricity",
-        title: "18. Single-Phase vs Three-Phase Power",
-        icon: "⚙️",
-        bullets: [
-          "Single-phase is common in homes; three-phase is common in commercial.",
-          "Three-phase motors start easier and run smoother.",
-          "Knowing what power is available determines equipment choice."
-        ],
-        visualMain: "Power type matters for motor selection and wiring.",
-        visualHint: "Image idea: Panel with single-phase meter vs three-phase meter icons."
-      },
-      {
-        section: "Section 4 · Electricity",
-        title: "19. Motors",
-        icon: "🛞",
-        bullets: [
-          "PSC motors: simple, one or two fixed speeds.",
-          "ECM motors: variable speed, efficient, controlled by electronics.",
-          "Three-phase motors: rugged, common in larger commercial units."
-        ],
-        visualMain: "Motor type affects comfort, efficiency, and troubleshooting steps.",
-        visualHint: "Image idea: Three different fan motor types shown side by side."
-      },
-      {
-        section: "Section 4 · Electricity",
-        title: "20. Capacitors & Relays",
-        icon: "🧲",
-        bullets: [
-          "Capacitors store electrical energy to help motors start and run smoothly.",
-          "Relays/contactors act like switches controlled by low voltage.",
-          "Wrong capacitor rating can cause overheating and early motor failure."
-        ],
-        visualMain: "Capacitors and relays are the 'assistants' that help motors work.",
-        visualHint: "Image idea: Close-up of dual run capacitor and contactor in a condenser panel."
-      },
-      {
-        section: "Section 4 · Electricity",
-        title: "21. Electrical Troubleshooting",
-        icon: "🕵️‍♂️",
-        bullets: [
-          "Always start by verifying power in and power out.",
-          "Check voltage, amp draw, and continuity against nameplate data.",
-          "Use a step-by-step method instead of guessing and swapping parts."
-        ],
-        visualMain: "Good troubleshooting is a repeatable process, not a guessing game.",
-        visualHint: "Image idea: Tech with meter following a simple decision tree diagram."
-      },
-
-      // SECTION 5 — REFRIGERATION THEORY
-      {
-        section: "Section 5 · Refrigeration",
-        title: "22. The Refrigeration Cycle",
-        icon: "🔄",
-        bullets: [
-          "Evaporator absorbs heat indoors as refrigerant boils.",
-          "Compressor raises pressure and temperature of the vapor.",
-          "Condenser rejects heat outside as refrigerant condenses back to liquid.",
-          "Metering device drops pressure so the cycle can repeat."
-        ],
-        visualMain: "It’s a heat conveyor belt moving heat from inside to outside.",
-        visualHint: "Image idea: Loop diagram with each component and arrows showing flow."
-      },
-      {
-        section: "Section 5 · Refrigeration",
-        title: "23. Superheat & Subcooling",
-        icon: "🌡️",
-        bullets: [
-          "Superheat: temperature of vapor above its boiling point at that pressure.",
-          "Subcooling: temperature of liquid below its condensing point at that pressure.",
-          "Both are key readings for proper charging and diagnosis."
-        ],
-        visualMain: "Superheat protects the compressor; subcooling confirms condenser performance.",
-        visualHint: "Image idea: Coil with zones labeled 'two-phase' and 'superheated' / 'subcooled'."
-      },
-      {
-        section: "Section 5 · Refrigeration",
-        title: "24. Metering Devices",
-        icon: "🎚️",
-        bullets: [
-          "Fixed orifices are simple holes that restrict refrigerant flow.",
-          "TXVs modulate flow to maintain a target superheat.",
-          "EEVs are electronic valves controlled by the system's brain."
-        ],
-        visualMain: "Metering devices control how much refrigerant feeds the evaporator.",
-        visualHint: "Image idea: Side-by-side picture of a piston, TXV, and EEV."
-      },
-      {
-        section: "Section 5 · Refrigeration",
-        title: "25. Compressor Types",
-        icon: "🏭",
-        bullets: [
-          "Reciprocating, scroll, and rotary compressors have different internal designs.",
-          "Inverter-driven compressors vary speed based on load.",
-          "Oil management and cooling are critical for compressor life."
-        ],
-        visualMain: "The compressor is the 'heart' of the system.",
-        visualHint: "Image idea: Cutaway drawings of scroll vs reciprocating compressor."
-      },
-      {
-        section: "Section 5 · Refrigeration",
-        title: "26. Refrigerants & Regulations",
-        icon: "🧊",
-        bullets: [
-          "Refrigerants absorb and release heat as they change state.",
-          "Older refrigerants are being phased out due to environmental impact.",
-          "Law requires recovery, no venting, and proper certification."
-        ],
-        visualMain: "Techs must follow legal and safe refrigerant handling practices.",
-        visualHint: "Image idea: Refrigerant cylinders with 'no venting' symbol."
-      },
-
-      // SECTION 6 — HEATING SYSTEMS
-      {
-        section: "Section 6 · Heating",
-        title: "27. Gas Furnaces",
-        icon: "🔥",
-        bullets: [
-          "Burners ignite gas to heat a metal heat exchanger.",
-          "Blower pushes air over the exchanger and into ducts.",
-          "High-efficiency units use sealed combustion and plastic venting."
-        ],
-        visualMain: "Gas furnaces turn chemical energy (gas) into warm air.",
-        visualHint: "Image idea: Furnace cutaway showing burners, exchanger, and blower path."
-      },
-      {
-        section: "Section 6 · Heating",
-        title: "28. Gas Furnace Sequence of Operation",
-        icon: "▶️",
-        bullets: [
-          "Thermostat calls for heat; inducer motor starts.",
-          "Pressure switch proves venting; ignition source lights burners.",
-          "Flame sensor proves flame; blower turns on; system cycles off when satisfied."
-        ],
-        visualMain: "Knowing the sequence lets you spot exactly where it fails.",
-        visualHint: "Image idea: Step-by-step flow chart from call for heat to blower off."
-      },
-      {
-        section: "Section 6 · Heating",
-        title: "29. Heat Pumps",
-        icon: "♻️",
-        bullets: [
-          "Heat pumps move heat instead of burning fuel.",
-          "In heating mode, outdoor coil becomes the evaporator for outdoor air.",
-          "Often paired with backup heat (electric or gas) in cold climates."
-        ],
-        visualMain: "Think of a reversible AC that can both cool and heat.",
-        visualHint: "Image idea: Reversing valve diagram showing winter vs summer flow."
-      },
-      {
-        section: "Section 6 · Heating",
-        title: "30. Electric Heat",
-        icon: "🔌🔥",
-        bullets: [
-          "Electric strips are like giant toasters in the airflow.",
-          "Sequencers stage strips on and off to control amp spikes.",
-          "Simple design but high operating cost compared to heat pumps."
-        ],
-        visualMain: "Electric heat is easy to install but expensive to run.",
-        visualHint: "Image idea: Duct-mounted electric heat strips glowing."
-      },
-      {
-        section: "Section 6 · Heating",
-        title: "31. Hydronic Heating",
-        icon: "🚿",
-        bullets: [
-          "Boilers heat water, which is pumped through piping to radiators or baseboards.",
-          "Expansion tanks handle water volume changes with temperature.",
-          "Can be extremely comfortable and efficient when designed well."
-        ],
-        visualMain: "Hydronic systems heat with hot water instead of hot air.",
-        visualHint: "Image idea: Boiler, pump, and baseboard loop diagram."
-      },
-      {
-        section: "Section 6 · Heating",
-        title: "32. Combustion Analysis",
-        icon: "🧯",
-        bullets: [
-          "Checks how completely fuel is burning and if it’s burning safely.",
-          "Key readings: CO, O₂, CO₂, and flue gas temperature.",
-          "High CO or poor draft can be life-threatening issues."
-        ],
-        visualMain: "Combustion testing protects both efficiency and human life.",
-        visualHint: "Image idea: Combustion analyzer probe in a furnace flue pipe."
-      },
-      {
-        section: "Section 6 · Heating",
-        title: "33. Venting Systems",
-        icon: "🏠⬆️",
-        bullets: [
-          "Category I uses metal venting with natural draft.",
-          "High-efficiency Category IV uses sealed combustion and PVC vent.",
-          "Venting design must match equipment type and follow code."
-        ],
-        visualMain: "Right venting prevents flue gases from entering living spaces.",
-        visualHint: "Image idea: Two furnaces, one with metal flue, one with PVC venting through side wall."
-      },
-
-      // SECTION 7 — COOLING SYSTEMS
-      {
-        section: "Section 7 · Cooling",
-        title: "34. Split Systems",
-        icon: "❄️🏠",
-        bullets: [
-          "Most common residential setup: indoor coil and outdoor condenser.",
-          "Refrigerant line set connects the two halves.",
-          "Performance depends on correct charge and airflow."
-        ],
-        visualMain: "Split systems share the work between inside and outside units.",
-        visualHint: "Image idea: House graphic with indoor air handler and outdoor condenser linked."
-      },
-      {
-        section: "Section 7 · Cooling",
-        title: "35. Package Units",
-        icon: "📦",
-        bullets: [
-          "All components are contained in one rooftop or ground unit.",
-          "Often used in small commercial buildings.",
-          "Easier to install, but exposure to weather can shorten life."
-        ],
-        visualMain: "Think of a whole split system fused into one big box.",
-        visualHint: "Image idea: Rooftop package unit with ducts entering roof curb."
-      },
-      {
-        section: "Section 7 · Cooling",
-        title: "36. Mini-Splits & VRF/VRV",
-        icon: "🧩",
-        bullets: [
-          "Ductless and low-duct systems offer zoning and high efficiency.",
-          "Inverter-driven compressors vary output continuously.",
-          "VRF/VRV can connect many indoor units to one outdoor unit."
-        ],
-        visualMain: "Mini-splits put cooling and heating exactly where it’s needed.",
-        visualHint: "Image idea: Wall-mounted mini-split indoors, multi-port outdoor unit."
-      },
-      {
-        section: "Section 7 · Cooling",
-        title: "37. Evaporative Cooling",
-        icon: "💦",
-        bullets: [
-          "Uses water evaporation to cool air instead of refrigerant.",
-          "Works best in hot, dry climates with low humidity.",
-          "Very low energy use compared to traditional AC."
-        ],
-        visualMain: "Also known as swamp coolers, they trade water for electrical savings.",
-        visualHint: "Image idea: Roof-mounted evaporative cooler with moist pads."
-      },
-
-      // SECTION 8 — AIR DISTRIBUTION
-      {
-        section: "Section 8 · Air Distribution",
-        title: "38. System Types",
-        icon: "🗺️",
-        bullets: [
-          "Central systems supply and return air from a single air handler.",
-          "Zoned systems use dampers to control different areas separately.",
-          "Return design affects room pressures and door operation."
-        ],
-        visualMain: "System layout affects comfort room by room.",
-        visualHint: "Image idea: Floor plan showing zones and dampers."
-      },
-      {
-        section: "Section 8 · Air Distribution",
-        title: "39. Duct Materials",
-        icon: "📦🛠️",
-        bullets: [
-          "Sheet metal is durable and smooth inside.",
-          "Flex duct is fast to install but needs careful support and stretching.",
-          "Ductboard is insulated but more fragile and harder to modify."
-        ],
-        visualMain: "Material choice affects airflow, noise, and durability.",
-        visualHint: "Image idea: Samples of metal, flex, and ductboard labeled side by side."
-      },
-      {
-        section: "Section 8 · Air Distribution",
-        title: "40. Balancing Airflow",
-        icon: "⚖️",
-        bullets: [
-          "Balancing uses dampers and register adjustments to distribute air properly.",
-          "Rooms closest to the equipment often need throttling back.",
-          "Proper balance prevents hot/cold rooms and pressure problems."
-        ],
-        visualMain: "Balancing tunes the system like audio levels on a mixer.",
-        visualHint: "Image idea: Tech with hood at a register adjusting a balancing damper."
-      },
-      {
-        section: "Section 8 · Air Distribution",
-        title: "41. Static Pressure Diagnostics",
-        icon: "📏",
-        bullets: [
-          "Static pressure is measured in inches of water column.",
-          "Most residential systems like 0.3–0.5\" WC total external static.",
-          "High static often means restrictive ducts, filters, or coils."
-        ],
-        visualMain: "Static pressure tells you if the duct system is choking the equipment.",
-        visualHint: "Image idea: Manometer probes upstream and downstream of blower."
-      },
-
-      // SECTION 9 — CONTROLS & THERMOSTATS
-      {
-        section: "Section 9 · Controls",
-        title: "42. Low Voltage Controls",
-        icon: "🎛️",
-        bullets: [
-          "24V AC controls most residential and light commercial systems.",
-          "R = power, C = common, Y = cooling, W = heat, G = fan, O/B = heat pump changeover.",
-          "Understanding these terminals is key to installing and troubleshooting thermostats."
-        ],
-        visualMain: "Low-voltage wiring is the nervous system of HVAC equipment.",
-        visualHint: "Image idea: Thermostat backplate with labeled terminals and wires."
-      },
-      {
-        section: "Section 9 · Controls",
-        title: "43. Communicating Systems",
-        icon: "🌐",
-        bullets: [
-          "Use data communication instead of simple on/off signals.",
-          "Allow advanced diagnostics, staging, and comfort control.",
-          "Require brand-specific knowledge and tools."
-        ],
-        visualMain: "Communicating systems are like networked computers in HVAC world.",
-        visualHint: "Image idea: Control board with digital communication cable and status LEDs."
-      },
-      {
-        section: "Section 9 · Controls",
-        title: "44. Sensors & Safety Switches",
-        icon: "🚨",
-        bullets: [
-          "Pressure switches prove vent and combustion airflow.",
-          "Flame sensors prove burner operation.",
-          "Float switches shut systems down when drains back up."
-        ],
-        visualMain: "Safety devices are built-in watchdogs that stop dangerous operation.",
-        visualHint: "Image idea: Pressure switch tube, flame rod, and float switch on a drain pan."
-      },
-      {
-        section: "Section 9 · Controls",
-        title: "45. Smart/WiFi Thermostats",
-        icon: "📱",
-        bullets: [
-          "Connect to WiFi for remote access and scheduling.",
-          "Often require a dedicated common wire (C) to power them.",
-          "Improper wiring or compatibility issues can cause nuisance problems."
-        ],
-        visualMain: "Smart stats bring HVAC control to the customer’s phone.",
-        visualHint: "Image idea: Smart thermostat showing indoor temp and app on a phone."
-      },
-
-      // SECTION 10 — CODE, SAFETY & REGULATIONS (no 47)
-      {
-        section: "Section 10 · Code & Safety",
-        title: "46. EPA 608 Basics",
-        icon: "📜",
-        bullets: [
-          "Required certification to buy and handle refrigerants.",
-          "Covers recovery, recycling, and leak requirements.",
-          "Violations can lead to heavy fines and legal trouble."
-        ],
-        visualMain: "EPA 608 is the license to work legally with refrigerant.",
-        visualHint: "Image idea: EPA card graphic with refrigerant cylinders in the background."
-      },
-      {
-        section: "Section 10 · Code & Safety",
-        title: "48. Electrical Code for HVAC",
-        icon: "🧯⚡",
-        bullets: [
-          "Wire size must match the amp draw of the equipment.",
-          "Proper breaker sizing and disconnects are mandatory.",
-          "Grounding and bonding prevent shock and fire hazards."
-        ],
-        visualMain: "Following electrical code keeps people and property safe.",
-        visualHint: "Image idea: Outdoor disconnect next to a condenser, labeled wire sizes."
-      },
-      {
-        section: "Section 10 · Code & Safety",
-        title: "49. Refrigerant Recordkeeping & A2L",
-        icon: "📂🧊",
-        bullets: [
-          "Larger systems often require leak logs and repair documentation.",
-          "A2L refrigerants are mildly flammable and have special rules.",
-          "Storage, transport, and charging practices must follow new standards."
-        ],
-        visualMain: "Paperwork is part of being professional with refrigerants.",
-        visualHint: "Image idea: Log sheet clipped to a clipboard with refrigerant cylinder nearby."
-      },
-
-      // SECTION 11 — SERVICE & DIAGNOSTICS
-      {
-        section: "Section 11 · Service",
-        title: "50. Systematic Troubleshooting",
-        icon: "🧠",
-        bullets: [
-          "Use a logical step-by-step method every time.",
-          "Confirm the problem, gather clues, then test components.",
-          "Verify that your repair actually fixed the complaint."
-        ],
-        visualMain: "Great troubleshooters focus on process, not luck.",
-        visualHint: "Image idea: Flowchart from 'No Cooling' to root cause with decision branches."
-      },
-      {
-        section: "Section 11 · Service",
-        title: "51. Airflow First Approach",
-        icon: "🍃",
-        bullets: [
-          "Most comfort and system problems trace back to airflow issues.",
-          "Check filters, coils, blower speed, and static pressure first.",
-          "Don’t touch the refrigerant charge until airflow is confirmed."
-        ],
-        visualMain: "If the air can’t move, nothing else can work correctly.",
-        visualHint: "Image idea: Dirty filter vs clean filter side by side with airflow arrows."
-      },
-      {
-        section: "Section 11 · Service",
-        title: "52. Charging Procedures",
-        icon: "🧯📏",
-        bullets: [
-          "Weigh in refrigerant on new or fully evacuated systems.",
-          "Use superheat for fixed orifice metering devices.",
-          "Use subcooling for TXV/EEV systems following manufacturer charts."
-        ],
-        visualMain: "Proper charging uses math and measurements, not 'beer can cold'.",
-        visualHint: "Image idea: Scale under refrigerant cylinder feeding a system."
-      },
-      {
-        section: "Section 11 · Service",
-        title: "53. Leak Detection",
-        icon: "🔍",
-        bullets: [
-          "Use electronic detectors, bubbles, or UV dye to find leaks.",
-          "Nitrogen pressure tests confirm system tightness.",
-          "Simply adding refrigerant without finding the leak is bad practice."
-        ],
-        visualMain: "Finding and fixing leaks protects the customer and the environment.",
-        visualHint: "Image idea: Tech using a leak detector wand along brazed joints."
-      },
-      {
-        section: "Section 11 · Service",
-        title: "54. Micron-Level Evacuation",
-        icon: "🧪",
-        bullets: [
-          "Evacuation removes air and moisture from the system.",
-          "Micron gauges tell you actual vacuum level, not just 'zero' on a manifold.",
-          "Good evacuation prevents acid, sludge, and future compressor failures."
-        ],
-        visualMain: "Moisture left inside today becomes acid and problems tomorrow.",
-        visualHint: "Image idea: Vacuum pump and micron gauge hooked to system."
-      },
-      {
-        section: "Section 11 · Service",
-        title: "55. Component Replacement",
-        icon: "🔧",
-        bullets: [
-          "Match replacement parts by specs, not just appearance.",
-          "Follow correct brazing practices with nitrogen flowing.",
-          "Always commission the system after component changes."
-        ],
-        visualMain: "Component swaps must be followed by verification, not just power-on.",
-        visualHint: "Image idea: Tech replacing a contactor or capacitor in a condenser."
-      },
-
-      // SECTION 12 — INSTALLATION
-      {
-        section: "Section 12 · Installation",
-        title: "56. Load Calculation (Manual J)",
-        icon: "🏠📊",
-        bullets: [
-          "Manual J calculates how much heating and cooling a building really needs.",
-          "Oversized systems short cycle and control humidity poorly.",
-          "Every home is different; square-foot rules are rough guesses only."
-        ],
-        visualMain: "Right-sized equipment starts with accurate load calculations.",
-        visualHint: "Image idea: Floor plan with arrows showing heat gain and loss areas."
-      },
-      {
-        section: "Section 12 · Installation",
-        title: "57. Duct Design (Manual D)",
-        icon: "🧮",
-        bullets: [
-          "Manual D turns CFM needs into actual duct sizes and layouts.",
-          "Friction rate, fittings, and length all impact actual airflow.",
-          "Balanced supply and return design are both critical."
-        ],
-        visualMain: "Duct design translates airflow math into metal and flex.",
-        visualHint: "Image idea: Duct sizing chart next to a sketch of a duct trunk and branches."
-      },
-      {
-        section: "Section 12 · Installation",
-        title: "58. Equipment Sizing (Manual S)",
-        icon: "📏🏗️",
-        bullets: [
-          "Manual S selects equipment that matches the Manual J load.",
-          "Coils, blowers, and outdoor units must be matched for performance.",
-          "Avoid oversizing just because 'bigger feels safer'."
-        ],
-        visualMain: "Manual S bridges design calculations and real equipment selection.",
-        visualHint: "Image idea: Three pieces of matched equipment with check marks."
-      },
-      {
-        section: "Section 12 · Installation",
-        title: "59. Line Set Rules",
-        icon: "📎",
-        bullets: [
-          "Line set length and vertical rise have manufacturer limits.",
-          "Avoid kinks and ensure proper oil return with correct routing.",
-          "Always insulate the suction line and protect lines from damage."
-        ],
-        visualMain: "Line set details matter to reliability and efficiency.",
-        visualHint: "Image idea: Line set routing from condenser to attic air handler with key points highlighted."
-      },
-      {
-        section: "Section 12 · Installation",
-        title: "60. Startup Commissioning",
-        icon: "🚀",
-        bullets: [
-          "Verify airflow, static pressure, charge, and electrical readings.",
-          "Test heating, cooling, and fan only modes.",
-          "Record baseline numbers for future service reference."
-        ],
-        visualMain: "Commissioning turns an install into a proven, documented system.",
-        visualHint: "Image idea: Commissioning checklist with numbers and checkmarks on a clipboard."
-      },
-
-      // SECTION 13 — ADVANCED & EMERGING TECH
-      {
-        section: "Section 13 · Advanced Tech",
-        title: "61. Inverter Systems",
-        icon: "🎚️⚡",
-        bullets: [
-          "Inverter compressors vary speed to match load exactly.",
-          "They offer higher efficiency and better comfort control.",
-          "Diagnostics focus heavily on communication and electronics."
-        ],
-        visualMain: "Inverter systems are the 'cruise control' of HVAC.",
-        visualHint: "Image idea: Speed gauge metaphor showing low to high compressor speed."
-      },
-      {
-        section: "Section 13 · Advanced Tech",
-        title: "62. Cold Climate Heat Pumps",
-        icon: "❄️🔥🏔️",
-        bullets: [
-          "Engineered to deliver usable heat in sub-freezing temps.",
-          "Smart controls manage backup heat and defrost cycles.",
-          "Key to electrification and replacing fossil fuel heating in many regions."
-        ],
-        visualMain: "Cold climate heat pumps are rewriting the rules on where heat pumps work.",
-        visualHint: "Image idea: Outdoor unit covered in snow but still running, with indoor comfort shown."
-      },
-      {
-        section: "Section 13 · Advanced Tech",
-        title: "63. VRF / VRV Multi-Zone Systems",
-        icon: "🌐🧩",
-        bullets: [
-          "Variable Refrigerant Flow systems support many indoor units on one outdoor unit.",
-          "Branch boxes and electronic valves distribute refrigerant.",
-          "Install quality and pipe design are absolutely critical."
-        ],
-        visualMain: "VRF/VRV is high-end, flexible HVAC for complex buildings.",
-        visualHint: "Image idea: Building diagram with multiple indoor units on different floors connected to one outdoor system."
-      },
-      {
-        section: "Section 13 · Advanced Tech",
-        title: "64. A2L Refrigerants",
-        icon: "⚠️🧊",
-        bullets: [
-          "A2L refrigerants are mildly flammable with low global warming potential.",
-          "Charge size and leak location rules are stricter.",
-          "New tools, detectors, and training are needed to work with them safely."
-        ],
-        visualMain: "A2L is the new normal — techs must learn updated safety practices.",
-        visualHint: "Image idea: Cylinder labeled with A2L classification symbol and safety icons."
-      },
-      {
-        section: "Section 13 · Advanced Tech",
-        title: "65. Connected Diagnostics",
-        icon: "📡",
-        bullets: [
-          "Equipment can report data and errors through apps or cloud platforms.",
-          "Enables predictive maintenance and faster troubleshooting.",
-          "Data logs show what happened even when the tech wasn’t there."
-        ],
-        visualMain: "Connected systems turn HVAC into a data-driven service.",
-        visualHint: "Image idea: Tablet showing live system data from an outdoor unit."
-      },
-
-      // SECTION 14 — BUSINESS & CAREER
-      {
-        section: "Section 14 · Career & Business",
-        title: "66. Professional Conduct",
-        icon: "🤝",
-        bullets: [
-          "Show up on time, communicate clearly, and respect the customer’s space.",
-          "Clean workmanship and neat wiring build trust.",
-          "Professionalism often matters as much as technical skill."
-        ],
-        visualMain: "Your attitude and appearance are part of the service you deliver.",
-        visualHint: "Image idea: Tech in clean uniform, boot covers, and organized tools."
-      },
-      {
-        section: "Section 14 · Career & Business",
-        title: "67. Service Writing & Quoting",
-        icon: "📝💲",
-        bullets: [
-          "Offer good/better/best options instead of one take-it-or-leave-it choice.",
-          "Explain issues in plain language, not jargon.",
-          "Document clearly so customers understand what they’re paying for."
-        ],
-        visualMain: "Clear quotes turn technical findings into customer decisions.",
-        visualHint: "Image idea: Service form showing three tiered options."
-      },
-      {
-        section: "Section 14 · Career & Business",
-        title: "68. Maintenance Agreements",
-        icon: "📆",
-        bullets: [
-          "Regular tune-ups reduce breakdowns and surprise costs for customers.",
-          "Evap coil and drain maintenance prevent leaks and water damage.",
-          "Agreements create stable revenue and deeper customer relationships."
-        ],
-        visualMain: "Maintenance plans win for both the customer and the contractor.",
-        visualHint: "Image idea: Calendar with scheduled maintenance visits marked."
-      },
-      {
-        section: "Section 14 · Career & Business",
-        title: "69. Documentation & Reporting",
-        icon: "📚",
-        bullets: [
-          "Record model/serial numbers, readings, and what you did.",
-          "Before/after photos show value and protect against disputes.",
-          "Good records help with future troubleshooting and system upgrades."
-        ],
-        visualMain: "Documentation turns one visit into long-term value.",
-        visualHint: "Image idea: Tablet with job notes and pictures attached."
-      },
-      {
-        section: "Section 14 · Career & Business",
-        title: "70. Career Growth",
-        icon: "🚀",
-        bullets: [
-          "Typical path: helper → installer → service tech → lead tech → trainer or manager.",
-          "Specialize in areas like controls, design, or specific brands.",
-          "Continuous training keeps your skills sharp and income growing."
-        ],
-        visualMain: "HVAC offers many paths upward for motivated techs.",
-        visualHint: "Image idea: Career ladder graphic with each role on a higher step."
       }
     ];
 
     let currentIndex = 0;
+
+    // Persistent images stored per slide index in localStorage
+    let slideImages = {};
+    const STORAGE_KEY = "hvacSlideImages_1_10";
+
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        slideImages = JSON.parse(stored);
+      }
+    } catch (e) {
+      slideImages = {};
+    }
 
     const slideEl = document.getElementById("slide");
     const counterEl = document.getElementById("counter");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
 
+    function saveImages() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(slideImages));
+      } catch (e) {
+        // ignore storage errors
+      }
+    }
+
     function renderSlide(index) {
       const slide = slides[index];
       if (!slide) return;
+
+      const hasImage = slideImages[index];
 
       slideEl.innerHTML = `
         <div class="slide-header">
@@ -1259,31 +600,92 @@
 
         <div class="slide-body">
           <ul class="bullets">
-            ${slide.bullets
-              .map(
-                (b) => `<li>${b}</li>`
-              )
-              .join("")}
+            ${slide.bullets.map((b) => `<li>${b}</li>`).join("")}
           </ul>
 
           <div class="visual-card">
             <div class="visual-title">Visual Idea</div>
             <div class="visual-main">${slide.visualMain || ""}</div>
             <div class="visual-hint">${slide.visualHint || ""}</div>
-            <div class="visual-image-placeholder">
-              <span class="box">IMG</span>
-              <div>
-                Drop a photo, diagram, or icon here in your own version to match this idea.
-              </div>
+            <div class="visual-image-placeholder" data-slide-index="${index}">
+              ${
+                hasImage
+                  ? `<img src="${slideImages[index]}" alt="Slide image" class="visual-img" />`
+                  : `
+                <span class="box">IMG</span>
+                <div class="visual-image-text">
+                  <div><strong>Drop an image file here</strong> to attach it to this slide.</div>
+                  <div>Tip: Drag a photo/diagram from your computer and drop it on this box.</div>
+                </div>
+              `
+              }
             </div>
           </div>
         </div>
       `;
 
       counterEl.textContent = `Slide ${index + 1} of ${slides.length}`;
-
       prevBtn.disabled = index === 0;
       nextBtn.disabled = index === slides.length - 1;
+
+      attachDropHandlers();
+    }
+
+    function attachDropHandlers() {
+      const dropZone = slideEl.querySelector(".visual-image-placeholder");
+      if (!dropZone) return;
+
+      function handleDragEnter(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZone.classList.add("drag-over");
+      }
+
+      function handleDragOver(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZone.classList.add("drag-over");
+      }
+
+      function handleDragLeave(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZone.classList.remove("drag-over");
+      }
+
+      function handleDrop(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZone.classList.remove("drag-over");
+
+        const dt = e.dataTransfer;
+        if (!dt || !dt.files || dt.files.length === 0) {
+          return;
+        }
+
+        const file = dt.files[0];
+        if (!file.type.startsWith("image/")) {
+          alert("Please drop an image file (jpg, png, etc.).");
+          return;
+        }
+
+        const reader = new FileReader();
+        const slideIndex = parseInt(dropZone.getAttribute("data-slide-index"), 10);
+
+        reader.onload = function (event) {
+          const dataUrl = event.target.result;
+          slideImages[slideIndex] = dataUrl;
+          saveImages();
+          renderSlide(slideIndex);
+        };
+
+        reader.readAsDataURL(file);
+      }
+
+      dropZone.addEventListener("dragenter", handleDragEnter);
+      dropZone.addEventListener("dragover", handleDragOver);
+      dropZone.addEventListener("dragleave", handleDragLeave);
+      dropZone.addEventListener("drop", handleDrop);
     }
 
     function goToSlide(newIndex) {
