@@ -5,19 +5,16 @@
   <title>HVAC Master Class Slides</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Google Font for flashy look -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Roboto:wght@300;500;700&display=swap" rel="stylesheet">
-
   <style>
     :root {
-      --bg1: #050816;
-      --bg2: #0b1220;
-      --accent1: #00e5ff;
-      --accent2: #ff00ff;
-      --accent3: #ffce00;
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
-      --card-bg: rgba(8, 16, 40, 0.9);
+      --bg1: #050014;
+      --bg2: #220044;
+      --bg3: #001133;
+      --accent-cyan: #16f2ff;
+      --accent-pink: #ff4dd8;
+      --accent-yellow: #ffe45e;
+      --text-main: #f8fbff;
+      --text-muted: #9fb3ff;
     }
 
     * {
@@ -27,447 +24,391 @@
     }
 
     body {
-      font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
       color: var(--text-main);
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle at top, #1f2937 0, #020617 40%, #000 100%);
-      position: relative;
+      height: 100vh;
+      background: radial-gradient(circle at 0% 0%, #351b6d, #050014 40%) fixed;
+      background-size: 200% 200%;
+      animation: bgShift 18s ease-in-out infinite;
     }
 
-    /* Animated neon background */
-    body::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(0, 229, 255, 0.3), transparent 60%),
-        radial-gradient(circle at 100% 0%, rgba(255, 0, 255, 0.3), transparent 60%),
-        radial-gradient(circle at 50% 100%, rgba(255, 206, 0, 0.25), transparent 55%);
-      filter: blur(10px);
-      opacity: 0.95;
-      animation: floatGlow 18s ease-in-out infinite alternate;
-      z-index: -2;
-    }
-
-    @keyframes floatGlow {
+    @keyframes bgShift {
       0% {
-        transform: translate3d(-10px, 10px, 0) scale(1);
+        background-position: 0% 0%;
       }
       50% {
-        transform: translate3d(10px, -10px, 0) scale(1.05);
+        background-position: 100% 100%;
       }
       100% {
-        transform: translate3d(-15px, -5px, 0) scale(1.02);
+        background-position: 0% 0%;
       }
     }
 
-    /* Scanline overlay for “alive” feel */
-    body::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: linear-gradient(
-        rgba(255, 255, 255, 0.02) 1px,
-        transparent 1px
-      );
-      background-size: 100% 3px;
-      mix-blend-mode: soft-light;
-      opacity: 0.4;
+    /* Floating neon orbs in the background */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(25px);
+      opacity: 0.6;
       pointer-events: none;
-      z-index: -1;
+      mix-blend-mode: screen;
+      animation: orbFloat 22s linear infinite alternate;
     }
 
-    /* Slide container */
-    .shell {
-      width: 100%;
-      max-width: 1100px;
-      padding: 16px;
+    .orb.orb-1 {
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(22, 242, 255, 0.9), transparent);
+      top: 5%;
+      left: 10%;
+      animation-delay: -5s;
     }
 
-    .slide-card {
-      position: relative;
-      border-radius: 24px;
-      background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(2,6,23,0.96));
-      box-shadow:
-        0 0 0 1px rgba(148, 163, 184, 0.25),
-        0 18px 60px rgba(15,23,42,0.9);
-      padding: 22px 22px 18px 22px;
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.3fr);
-      gap: 18px;
-      overflow: hidden;
+    .orb.orb-2 {
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(255, 77, 216, 0.9), transparent);
+      bottom: 0%;
+      right: 0%;
+      animation-delay: -11s;
     }
 
-    @media (max-width: 900px) {
-      .slide-card {
-        grid-template-columns: minmax(0, 1fr);
-        padding: 18px 16px 16px 16px;
+    .orb.orb-3 {
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(255, 228, 94, 0.9), transparent);
+      bottom: 10%;
+      left: 50%;
+      animation-delay: -2s;
+    }
+
+    @keyframes orbFloat {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      50% {
+        transform: translate3d(-40px, 40px, 0) scale(1.1);
+      }
+      100% {
+        transform: translate3d(40px, -30px, 0) scale(1.05);
       }
     }
 
-    .slide-header-row {
+    #app {
+      position: relative;
+      height: 100vh;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 10px;
+      align-items: stretch;
+      justify-content: center;
+      padding: 16px;
+      z-index: 1;
     }
 
-    .section-pill {
-      font-family: "Orbitron", system-ui;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--accent1);
-      background: radial-gradient(circle at top left, rgba(0,229,255,0.12), transparent 60%);
-      border-radius: 999px;
-      padding: 6px 14px;
-      border: 1px solid rgba(56, 189, 248, 0.45);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .section-pill-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: var(--accent2);
-      box-shadow: 0 0 12px rgba(236, 72, 153, 0.9);
-    }
-
-    .progress-text {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      text-align: right;
-    }
-
-    .progress-bar {
+    .slide-shell {
+      margin: auto;
+      max-width: 1100px;
       width: 100%;
-      height: 4px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      overflow: hidden;
-      margin-top: 4px;
-    }
-
-    .progress-fill {
       height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
-      box-shadow: 0 0 12px rgba(56,189,248,0.9);
-      transition: width 0.4s ease-out;
-    }
-
-    .title-block {
-      margin-bottom: 8px;
-    }
-
-    .slide-number {
-      font-family: "Orbitron", system-ui;
-      font-size: 0.85rem;
-      color: var(--accent3);
-      margin-bottom: 4px;
-      text-shadow: 0 0 8px rgba(250, 204, 21, 0.75);
-    }
-
-    .slide-title {
-      font-family: "Orbitron", system-ui;
-      font-size: clamp(1.6rem, 2.4vw, 2.3rem);
-      line-height: 1.1;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-shadow:
-        0 0 18px rgba(0, 229, 255, 0.9),
-        0 0 32px rgba(236, 72, 153, 0.75);
-      margin-bottom: 4px;
-    }
-
-    .slide-subtitle {
-      font-size: 0.92rem;
-      color: var(--text-muted);
-      max-width: 480px;
-    }
-
-    .content-bullets {
-      margin-top: 10px;
-      padding-left: 18px;
-      font-size: 0.98rem;
-      line-height: 1.55;
-      list-style: none;
-    }
-
-    .content-bullets li {
-      position: relative;
-      margin-bottom: 6px;
-      padding-left: 16px;
-      color: #e5e7eb;
-    }
-
-    .content-bullets li::before {
-      content: "▹";
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: var(--accent1);
-      text-shadow: 0 0 10px rgba(56, 189, 248, 0.9);
-    }
-
-    .highlight {
-      color: var(--accent1);
-      font-weight: 600;
-    }
-
-    .flash {
-      color: var(--accent2);
-      font-weight: 600;
-    }
-
-    /* Visual "image" panel */
-    .visual-panel {
-      position: relative;
-      border-radius: 20px;
-      background: radial-gradient(circle at top left, rgba(56,189,248,0.25), transparent 60%),
-                  radial-gradient(circle at bottom right, rgba(236,72,153,0.2), transparent 55%),
-                  rgba(15,23,42,0.98);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      padding: 14px 14px 16px 14px;
-      overflow: hidden;
+      max-height: 720px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      position: relative;
     }
 
-    .visual-tag {
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--text-muted);
-      margin-bottom: 2px;
-    }
-
-    .visual-icon {
-      font-size: clamp(2.8rem, 4vw, 3.8rem);
-      line-height: 1;
-      margin-bottom: 8px;
-      filter: drop-shadow(0 0 22px rgba(56, 189, 248, 0.9));
-    }
-
-    .visual-caption {
-      font-size: 0.85rem;
-      color: #e5e7eb;
-      margin-bottom: 10px;
-    }
-
-    .visual-chip-row {
+    .slide {
+      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.85));
+      border-radius: 26px;
+      padding: 28px 32px 22px;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        0 18px 50px rgba(0, 0, 0, 0.9),
+        0 0 40px rgba(22, 242, 255, 0.4);
+      backdrop-filter: blur(16px);
       display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .chip {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      padding: 4px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.55);
-      color: var(--text-muted);
-      background: rgba(15,23,42,0.85);
-      backdrop-filter: blur(4px);
-    }
-
-    .chip.hot {
-      border-color: rgba(248, 113, 113, 0.85);
-      color: #fecaca;
-    }
-
-    .chip.cool {
-      border-color: rgba(56, 189, 248, 0.9);
-      color: #e0f2fe;
-    }
-
-    .chip.elec {
-      border-color: rgba(250, 204, 21, 0.9);
-      color: #fef9c3;
-    }
-
-    .chip.pro {
-      border-color: rgba(147, 197, 253, 0.9);
-      color: #dbeafe;
-    }
-
-    /* Navigation */
-    .nav-row {
-      margin-top: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
-
-    .nav-buttons {
-      display: flex;
-      gap: 8px;
-    }
-
-    .btn {
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.65);
-      padding: 6px 14px;
-      font-size: 0.82rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      background: radial-gradient(circle at top left, rgba(0, 229, 255, 0.15), transparent 55%);
-      color: #e5e7eb;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, border-color 0.12s ease-out, background 0.12s ease-out;
-    }
-
-    .btn-primary {
-      border-color: rgba(56, 189, 248, 0.9);
-      background: linear-gradient(135deg, rgba(56,189,248,0.4), rgba(236,72,153,0.4));
-      box-shadow: 0 0 16px rgba(56, 189, 248, 0.75);
-    }
-
-    .btn:hover {
-      transform: translateY(-1px) scale(1.02);
-      box-shadow: 0 0 20px rgba(59,130,246,0.9);
-    }
-
-    .btn:active {
-      transform: translateY(1px) scale(0.99);
-      box-shadow: 0 0 8px rgba(15,23,42,0.9);
-    }
-
-    .hint-keys {
-      opacity: 0.8;
-    }
-
-    .hint-keys span {
-      display: inline-block;
-      border-radius: 6px;
-      border: 1px solid rgba(148,163,184,0.5);
-      padding: 2px 6px;
-      margin-inline: 1px;
-      font-size: 0.7rem;
-    }
-
-    /* Animations for slide content */
-    .slide-animate {
-      opacity: 0;
-      transform: translateY(12px) scale(0.99);
-      animation: slideIn 0.45s ease-out forwards;
+      flex-direction: column;
+      gap: 16px;
+      animation: slideIn 0.45s ease-out;
     }
 
     @keyframes slideIn {
-      0% {
+      from {
         opacity: 0;
-        transform: translateY(12px) scale(0.99);
+        transform: translateY(16px) scale(0.98);
       }
-      60% {
-        opacity: 1;
-        transform: translateY(-2px) scale(1.01);
-      }
-      100% {
+      to {
         opacity: 1;
         transform: translateY(0) scale(1);
       }
     }
 
-    .pulse-dot {
-      animation: pulse 1.4s infinite;
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
     }
 
-    @keyframes pulse {
+    .section-label {
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      opacity: 0.9;
+    }
+
+    .slide-title {
+      font-size: clamp(1.7rem, 2.2vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+    }
+
+    .slide-icon {
+      font-size: 3.2rem;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+      animation: iconPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes iconPulse {
       0% {
         transform: scale(1);
-        opacity: 1;
       }
-      70% {
-        transform: scale(1.5);
-        opacity: 0;
+      50% {
+        transform: scale(1.08) translateY(-2px);
       }
       100% {
         transform: scale(1);
+      }
+    }
+
+    .slide-body {
+      display: grid;
+      grid-template-columns: minmax(0, 2.7fr) minmax(0, 2fr);
+      gap: 18px;
+      margin-top: 4px;
+      align-items: start;
+    }
+
+    @media (max-width: 800px) {
+      .slide-body {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .slide-shell {
+        max-height: none;
+      }
+      .slide {
+        height: auto;
+      }
+    }
+
+    .bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 1rem;
+    }
+
+    .bullets li {
+      position: relative;
+      padding-left: 22px;
+      line-height: 1.4;
+      color: var(--text-main);
+    }
+
+    .bullets li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent-pink);
+      text-shadow: 0 0 8px rgba(255, 77, 216, 0.8);
+    }
+
+    .bullets li span.keyword {
+      color: var(--accent-yellow);
+      font-weight: 600;
+    }
+
+    .visual-card {
+      border-radius: 18px;
+      padding: 14px 16px;
+      background: linear-gradient(135deg, rgba(22, 242, 255, 0.1), rgba(255, 77, 216, 0.1));
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow:
+        0 0 20px rgba(22, 242, 255, 0.25),
+        0 0 30px rgba(255, 77, 216, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .visual-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.14), transparent 55%);
+      opacity: 0;
+      animation: sweep 5.5s ease-in-out infinite;
+    }
+
+    @keyframes sweep {
+      0% {
+        transform: translateX(-40%);
         opacity: 0;
       }
+      30% {
+        transform: translateX(60%);
+        opacity: 0.8;
+      }
+      60% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+    }
+
+    .visual-title {
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 4px;
+    }
+
+    .visual-main {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .visual-hint {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .visual-image-placeholder {
+      margin-top: 10px;
+      border-radius: 12px;
+      border: 1px dashed rgba(255, 255, 255, 0.3);
+      padding: 10px 12px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .visual-image-placeholder span.box {
+      width: 32px;
+      height: 24px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.65);
+      padding: 6px 10px;
+      border-radius: 999px;
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.8);
+    }
+
+    .btn {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-main);
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      box-shadow:
+        0 0 18px rgba(22, 242, 255, 0.7),
+        0 0 26px rgba(255, 77, 216, 0.65);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+      white-space: nowrap;
+    }
+
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: none;
+      opacity: 0.8;
+    }
+
+    .btn:disabled {
+      opacity: 0.35;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .btn:not(:disabled):hover {
+      transform: translateY(-1px) scale(1.03);
+      box-shadow:
+        0 0 22px rgba(22, 242, 255, 0.85),
+        0 0 32px rgba(255, 77, 216, 0.8);
+    }
+
+    .btn.secondary:not(:disabled):hover {
+      box-shadow: 0 0 18px rgba(22, 242, 255, 0.6);
+    }
+
+    .slide-counter {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .hint {
+      opacity: 0.7;
+    }
+
+    .hint span {
+      color: var(--accent-yellow);
+      font-weight: 600;
     }
   </style>
 </head>
+
 <body>
-  <div class="shell">
-    <div class="slide-card">
-      <div class="slide-left">
-        <div class="slide-header-row">
-          <div class="section-pill">
-            <span class="section-pill-dot pulse-dot"></span>
-            <span id="sectionLabel">Section</span>
-          </div>
-          <div style="flex:1; max-width: 280px;">
-            <div class="progress-text">
-              <span id="progressText">Slide 1 of N</span>
-              <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-              </div>
-            </div>
-          </div>
-        </div>
+  <!-- Flashy background orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
 
-        <div id="slideContent" class="slide-animate">
-          <div class="title-block">
-            <div class="slide-number" id="slideNumber">Slide 1</div>
-            <div class="slide-title" id="slideTitle">HVAC Master Class</div>
-            <div class="slide-subtitle" id="slideSubtitle">
-              Welcome to the full journey from beginner to advanced HVAC tech.
-            </div>
-          </div>
+  <div id="app">
+    <div class="slide-shell">
+      <div id="slide" class="slide" aria-live="polite"></div>
 
-          <ul class="content-bullets" id="bulletList">
-            <!-- Bullets injected here -->
-          </ul>
+      <div class="slide-footer">
+        <div class="controls">
+          <button id="prevBtn" class="btn secondary" type="button">◀ Prev</button>
+          <button id="nextBtn" class="btn" type="button">Next ▶</button>
         </div>
-
-        <div class="nav-row">
-          <div class="hint-keys">
-            Use
-            <span>←</span>
-            <span>→</span>
-            <span>Enter</span>
-            <span>Space</span>
-            to move through slides
-          </div>
-          <div class="nav-buttons">
-            <button class="btn" id="prevBtn">
-              ◀ Back
-            </button>
-            <button class="btn btn-primary" id="nextBtn">
-              Next ▶
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="visual-panel slide-animate" id="visualPanel">
-        <div>
-          <div class="visual-tag" id="visualTag">Concept Visual</div>
-          <div class="visual-icon" id="visualIcon">🌡️</div>
-          <div class="visual-caption" id="visualCaption">
-            HVAC keeps people comfortable by controlling temperature, humidity and air quality.
-          </div>
-        </div>
-        <div class="visual-chip-row" id="chipRow">
-          <!-- Chips injected -->
-        </div>
+        <div class="slide-counter" id="counter"></div>
+        <div class="hint">Use <span>←</span> / <span>→</span> keys to navigate</div>
       </div>
     </div>
   </div>
@@ -476,1083 +417,893 @@
     const slides = [
       // SECTION 1 — FOUNDATION
       {
-        id: 1,
-        section: "Foundation",
-        title: "What HVAC Means",
-        subtitle: "Heating, Ventilation and Air Conditioning",
-        icon: "🌡️",
-        tag: "Big Picture",
-        caption: "HVAC is all about comfort, health and safety inside buildings.",
-        chips: ["Comfort", "Air Quality", "Safety"],
+        section: "Section 1 · Foundation",
+        title: "1. What HVAC Means",
+        icon: "🔥❄️",
         bullets: [
-          "HVAC stands for <span class=\"highlight\">Heating, Ventilation and Air Conditioning</span>.",
-          "Systems add heat in winter and remove heat in summer.",
-          "Ventilation and filtration keep indoor air cleaner and healthier."
-        ]
+          "HVAC = Heating, Ventilation, Air Conditioning.",
+          "Purpose: comfort, air quality, and safety in buildings.",
+          "Used in residential, commercial, and industrial spaces."
+        ],
+        visualMain: "Think of HVAC as the building's 'life support system'.",
+        visualHint: "Image idea: A house split into 4 seasons showing HVAC keeping comfort steady inside."
       },
       {
-        id: 2,
-        section: "Foundation",
-        title: "Heat Transfer Basics",
-        subtitle: "Heat always moves from hot to cold",
-        icon: "🔥",
-        tag: "Core Physics",
-        caption: "Every HVAC system is simply controlling how and where heat moves.",
-        chips: ["Conduction", "Convection", "Radiation"],
+        section: "Section 1 · Foundation",
+        title: "2. Heat Transfer Basics",
+        icon: "♨️",
         bullets: [
-          "Heat moves from <span class=\"highlight\">hot areas toward cold areas</span> until temperatures match.",
-          "Conduction: heat moves through solid materials by direct contact.",
-          "Convection: air or water carries heat from place to place.",
-          "Radiation: heat travels as waves, like the sun warming your skin."
-        ]
+          "Heat always moves from hotter to colder areas.",
+          "Three methods: conduction, convection, and radiation.",
+          "All HVAC equipment manipulates heat movement, not 'cold'."
+        ],
+        visualMain: "HVAC is basically controlled heat transfer.",
+        visualHint: "Image idea: Arrows showing heat moving from warm room to cold outside through walls, air, and radiation."
       },
       {
-        id: 3,
-        section: "Foundation",
-        title: "Pressure & Temperature",
-        subtitle: "Squeezing a gas changes its temperature",
+        section: "Section 1 · Foundation",
+        title: "3. Pressure & Temperature Relationship",
         icon: "📈",
-        tag: "Refrigeration Key",
-        caption: "Compressing refrigerant makes it hot; letting it expand makes it cold.",
-        chips: ["Gas Law", "Compression", "Expansion"],
         bullets: [
-          "When gas pressure goes <span class=\"highlight\">up</span>, its temperature also tends to go up.",
-          "Compressors <span class=\"flash\">squeeze refrigerant</span> and make it hot.",
-          "Metering devices drop pressure so refrigerant can cool down and boil at low temperatures."
-        ]
+          "When you increase pressure on a gas, its temperature goes up.",
+          "When pressure drops, temperature falls.",
+          "This relationship is the core of how compressors and metering devices work."
+        ],
+        visualMain: "Compress → hot. Expand → cold.",
+        visualHint: "Image idea: Piston compressing gas with thermometer rising; expansion valve with thermometer dropping."
       },
       {
-        id: 4,
-        section: "Foundation",
-        title: "States of Matter",
-        subtitle: "Solid, liquid, vapor in HVAC systems",
-        icon: "💧",
-        tag: "Phase Change",
-        caption: "Refrigerant constantly changes between liquid and vapor to move heat.",
-        chips: ["Solid", "Liquid", "Vapor"],
+        section: "Section 1 · Foundation",
+        title: "4. States of Matter",
+        icon: "💧💨",
         bullets: [
-          "Matter exists as <span class=\"highlight\">solid, liquid or vapor</span> depending on temperature and pressure.",
-          "Boiling (liquid → vapor) absorbs heat; condensing (vapor → liquid) releases heat.",
-          "In coils, refrigerant changes state without being exposed to open flame."
-        ]
+          "Solid, liquid, and vapor — refrigerant moves between liquid and vapor only.",
+          "Boiling absorbs heat (cooling effect); condensing releases heat.",
+          "Phase change happens in coils without open flames."
+        ],
+        visualMain: "Refrigerant is a heat sponge when it boils and a heat dumper when it condenses.",
+        visualHint: "Image idea: Evaporator coil labeled 'boiling' and condenser coil labeled 'condensing'."
       },
       {
-        id: 5,
-        section: "Foundation",
-        title: "Energy & Work",
-        subtitle: "BTUs, tons and watts",
-        icon: "⚙️",
-        tag: "Sizing Language",
-        caption: "Technicians speak in BTUs, tons and watts to describe system size.",
-        chips: ["BTU", "Ton", "Watts"],
+        section: "Section 1 · Foundation",
+        title: "5. Energy & Work",
+        icon: "⚡",
         bullets: [
-          "A <span class=\"highlight\">BTU</span> is the heat needed to raise 1 pound of water by 1°F.",
-          "1 ton of cooling equals <span class=\"highlight\">12,000 BTU per hour</span>.",
-          "Electrical power in watts can be converted to BTU/h using about 3.41 BTU per watt."
-        ]
+          "BTU is a unit of heat; 1 ton of cooling = 12,000 BTU/hr.",
+          "Watts measure electrical power; more watts = more work done.",
+          "Equipment sizing is based on how many BTUs it can move per hour."
+        ],
+        visualMain: "BTUs = heat moved. Watts = electrical energy used to move it.",
+        visualHint: "Image idea: Scale balancing BTUs on one side and watts/money on the other."
       },
 
       // SECTION 2 — AIR & COMFORT BASICS
       {
-        id: 6,
-        section: "Air & Comfort",
-        title: "Indoor Air Quality (IAQ)",
-        subtitle: "Clean, healthy air matters",
-        icon: "🌬️",
-        tag: "Health & Comfort",
-        caption: "HVAC is not just temperature; it is also about clean and safe air.",
-        chips: ["Filtration", "Ventilation", "Humidity"],
+        section: "Section 2 · Air & Comfort",
+        title: "6. Indoor Air Quality (IAQ)",
+        icon: "😮‍💨",
         bullets: [
-          "Good IAQ means low dust, low odors and low harmful contaminants.",
-          "Filters capture particles; higher quality filters catch smaller stuff.",
-          "Proper humidity (about 40–60%) helps comfort and reduces mold risk."
-        ]
+          "Good IAQ means low dust, low pollutants, and proper fresh air.",
+          "Filters, ventilation, and humidity control all work together.",
+          "Ideal indoor humidity is typically around 40–60%."
+        ],
+        visualMain: "Comfort is not just temperature; it’s clean, properly humidified air.",
+        visualHint: "Image idea: Filter catching dust, fresh air arrow, and humidity gauge in green zone."
       },
       {
-        id: 7,
-        section: "Air & Comfort",
-        title: "Psychrometrics",
-        subtitle: "How air and moisture work together",
-        icon: "💦",
-        tag: "Moist Air Science",
-        caption: "Temperature plus moisture determines how air truly feels to people.",
-        chips: ["Dry Bulb", "Wet Bulb", "RH"],
+        section: "Section 2 · Air & Comfort",
+        title: "7. Psychrometrics",
+        icon: "📊",
         bullets: [
-          "Dry bulb temperature is what a normal thermometer reads.",
-          "Wet bulb temperature includes the cooling effect of evaporation.",
-          "<span class=\"highlight\">Relative humidity</span> shows how full the air is with moisture.",
-          "High humidity makes air feel hotter than the thermometer reading."
-        ]
+          "Dry bulb = regular temperature; wet bulb = temperature plus moisture effect.",
+          "Relative Humidity (RH) tells how full the air is with moisture.",
+          "High humidity makes rooms feel hotter; low humidity feels dry."
+        ],
+        visualMain: "Psychrometrics = how air + water vapor behave together.",
+        visualHint: "Image idea: Simple psychrometric chart with comfort zone highlighted."
       },
       {
-        id: 8,
-        section: "Air & Comfort",
-        title: "Ductwork Basics",
-        subtitle: "Air highways through the building",
-        icon: "📦",
-        tag: "Distribution",
-        caption: "Ducts are like roads that carry conditioned air to each room.",
-        chips: ["Supply", "Return", "Leaks"],
-        bullets: [
-          "Supply ducts deliver conditioned air into rooms.",
-          "Return ducts pull room air back to the equipment.",
-          "Poorly sealed ducts leak air and waste energy.",
-          "Right-sized and sealed ducts are critical for comfort."
-        ]
-      },
-      {
-        id: 9,
-        section: "Air & Comfort",
-        title: "Fan Laws & Static Pressure",
-        subtitle: "Pushing air against resistance",
+        section: "Section 2 · Air & Comfort",
+        title: "8. Ductwork Basics",
         icon: "🌀",
-        tag: "Airflow Physics",
-        caption: "Fans move air, but static pressure fights against that movement.",
-        chips: ["Static", "Fan Curve", "Resistance"],
         bullets: [
-          "Static pressure is like <span class=\"highlight\">blood pressure for ducts</span>.",
-          "High static pressure means the blower is struggling to move air.",
-          "Dirty filters, undersized ducts and closed vents raise static pressure.",
-          "Fan laws describe how changes in speed affect airflow and power use."
-        ]
+          "Supply ducts push conditioned air to rooms.",
+          "Return ducts pull air back to the equipment.",
+          "Leaky or undersized ducts waste energy and kill comfort."
+        ],
+        visualMain: "Ducts are the 'arteries and veins' of the HVAC system.",
+        visualHint: "Image idea: House cutaway showing blue supply and gray return duct paths."
       },
       {
-        id: 10,
-        section: "Air & Comfort",
-        title: "CFM Calculations",
-        subtitle: "How much air a system moves",
-        icon: "📏",
-        tag: "Airflow Math",
-        caption: "CFM tells you the volume of air moving through the system.",
-        chips: ["CFM", "Per Ton", "Target Airflow"],
+        section: "Section 2 · Air & Comfort",
+        title: "9. Fan Laws & Static Pressure",
+        icon: "🌬️",
         bullets: [
-          "CFM stands for <span class=\"highlight\">Cubic Feet per Minute</span> of airflow.",
-          "A common target is about <span class=\"highlight\">400 CFM per ton</span> of cooling.",
-          "3 tons × 400 CFM per ton ≈ 1200 CFM total airflow.",
-          "Measuring CFM tells you if the system can actually do its job."
-        ]
+          "Blowers must overcome static pressure in ducts and components.",
+          "High static pressure = low airflow and noisy systems.",
+          "Dirty filters and restrictive grills are common causes of high static."
+        ],
+        visualMain: "Static pressure is like 'air friction' the fan has to fight.",
+        visualHint: "Image idea: Fan pushing against a narrow duct vs wide duct, with resistance arrows."
+      },
+      {
+        section: "Section 2 · Air & Comfort",
+        title: "10. CFM Calculations",
+        icon: "📐",
+        bullets: [
+          "CFM = Cubic Feet per Minute, the volume of air moving through the system.",
+          "Typical rule of thumb: ~400 CFM per ton of cooling.",
+          "You verify airflow with tools, not guesses."
+        ],
+        visualMain: "Right CFM = proper temperature, humidity, and equipment performance.",
+        visualHint: "Image idea: Calculator overlay on duct with '1200 CFM' for a 3-ton unit."
       },
 
-      // SECTION 3 — TOOLS & METERS (11–13 removed as requested)
+      // SECTION 3 — TOOLS & SAFETY (minus 11, 12, 13)
       {
-        id: 14,
-        section: "Tools & Meters",
-        title: "Meters & Gauges",
-        subtitle: "Seeing what the system is doing",
+        section: "Section 3 · Tools & Measurement",
+        title: "14. Meters & Gauges",
         icon: "📟",
-        tag: "Diagnostic Tools",
-        caption: "Meters and gauges are your eyes and ears on an HVAC system.",
-        chips: ["Multimeter", "Clamp Meter", "Manometer"],
         bullets: [
-          "A <span class=\"highlight\">multimeter</span> measures volts, ohms and sometimes temperature.",
-          "A clamp meter measures current (amps) without disconnecting wires.",
-          "A manometer measures static pressure in ducts.",
-          "Micron gauges show how deep a vacuum you pulled during evacuation."
-        ]
+          "Multimeter checks volts, ohms, and continuity on electrical parts.",
+          "Clamp meter measures current (amps) on live wires.",
+          "Manometers and micron gauges measure pressure and vacuum precisely."
+        ],
+        visualMain: "Meters are your 'eyes' into what the system is really doing.",
+        visualHint: "Image idea: Tech holding a multimeter and clamp meter at a condenser."
       },
       {
-        id: 15,
-        section: "Tools & Meters",
-        title: "Manifolds & Smart Probes",
-        subtitle: "Reading refrigerant pressures and temps",
+        section: "Section 3 · Tools & Measurement",
+        title: "15. Manifolds & Smart Tools",
         icon: "🧪",
-        tag: "Refrigerant Tools",
-        caption: "Modern smart probes make charging, testing and logging much easier.",
-        chips: ["Manifold", "Smart Probes", "Recovery"],
         bullets: [
-          "Analog manifolds use needles; digital manifolds give more precise readings.",
-          "Smart probes connect to phones or tablets for live system data.",
-          "Recovery machines pull refrigerant out of systems into recovery tanks.",
-          "Releasing refrigerant to the atmosphere is illegal and harmful."
-        ]
+          "Analog and digital manifolds read refrigerant pressures and temps.",
+          "Wireless probes can keep you out of the line of fire and save time.",
+          "Recovery machines and tanks are required to handle refrigerant legally."
+        ],
+        visualMain: "Smart tools speed up diagnosis and make readings more accurate.",
+        visualHint: "Image idea: Digital manifold set connected to an outdoor unit."
       },
 
       // SECTION 4 — ELECTRICITY
       {
-        id: 16,
-        section: "Electricity",
-        title: "Ohm's Law",
-        subtitle: "Relationship between volts, amps and resistance",
-        icon: "⚡",
-        tag: "Electrical Core",
-        caption: "Ohm's law is the foundation of all electrical troubleshooting.",
-        chips: ["Volts", "Amps", "Ohms"],
-        bullets: [
-          "Ohm's law is written as <span class=\"highlight\">V = I × R</span>.",
-          "V is voltage (the push), I is current (the flow) and R is resistance (the restriction).",
-          "If two values are known, you can calculate the third.",
-          "Understanding this prevents a lot of misdiagnosed electrical problems."
-        ]
-      },
-      {
-        id: 17,
-        section: "Electricity",
-        title: "Series vs Parallel Circuits",
-        subtitle: "How components are connected",
-        icon: "🔗",
-        tag: "Circuit Logic",
-        caption: "How parts are wired decides how failures show up in the field.",
-        chips: ["Series", "Parallel", "Controls"],
-        bullets: [
-          "In <span class=\"highlight\">series</span>, components share one path; if one opens, everything after it shuts off.",
-          "In <span class=\"highlight\">parallel</span>, components each have their own path to power.",
-          "Most thermostat-controlled loads are in parallel.",
-          "Recognizing the circuit type helps track down why things are not turning on."
-        ]
-      },
-      {
-        id: 18,
-        section: "Electricity",
-        title: "Single-Phase & Three-Phase",
-        subtitle: "Power types in residential vs commercial",
+        section: "Section 4 · Electricity",
+        title: "16. Ohm’s Law",
         icon: "🔌",
-        tag: "Power Supply",
-        caption: "The power entering the building sets limits on what equipment can be used.",
-        chips: ["Single Phase", "Three Phase", "Motors"],
         bullets: [
-          "Homes usually have <span class=\"highlight\">single-phase</span> power.",
-          "Commercial and industrial sites often have <span class=\"highlight\">three-phase</span> power.",
+          "Ohm’s Law: V = I × R (volts = amps × resistance).",
+          "If two values are known, the third can be calculated.",
+          "Great for checking if a component is drawing the right current."
+        ],
+        visualMain: "Ohm’s Law is the basic language of every HVAC circuit.",
+        visualHint: "Image idea: Simple circuit diagram labeled V, I, and R with arrows."
+      },
+      {
+        section: "Section 4 · Electricity",
+        title: "17. Series vs Parallel Circuits",
+        icon: "🔁",
+        bullets: [
+          "Series: components are daisy-chained; one opens, everything stops.",
+          "Parallel: each component has its own path to power.",
+          "HVAC control circuits often combine both to achieve safety and control."
+        ],
+        visualMain: "How components are wired affects how failures show up.",
+        visualHint: "Image idea: Side-by-side sketch of series vs parallel lamps."
+      },
+      {
+        section: "Section 4 · Electricity",
+        title: "18. Single-Phase vs Three-Phase Power",
+        icon: "⚙️",
+        bullets: [
+          "Single-phase is common in homes; three-phase is common in commercial.",
           "Three-phase motors start easier and run smoother.",
-          "Correctly identifying power type prevents wrong equipment selection."
-        ]
+          "Knowing what power is available determines equipment choice."
+        ],
+        visualMain: "Power type matters for motor selection and wiring.",
+        visualHint: "Image idea: Panel with single-phase meter vs three-phase meter icons."
       },
       {
-        id: 19,
-        section: "Electricity",
-        title: "Motors",
-        subtitle: "PSC, ECM and three-phase",
+        section: "Section 4 · Electricity",
+        title: "19. Motors",
         icon: "🛞",
-        tag: "Moving Air & Refrigerant",
-        caption: "Motors drive blowers, condenser fans and compressors.",
-        chips: ["PSC", "ECM", "3-Phase"],
         bullets: [
-          "PSC motors are simple, fixed-speed motors used in many older systems.",
-          "ECM motors are electronically controlled and can vary speed for efficiency.",
-          "Three-phase motors are common in larger commercial equipment.",
-          "Motor problems show up as noise, high amps, tripping breakers or poor airflow."
-        ]
+          "PSC motors: simple, one or two fixed speeds.",
+          "ECM motors: variable speed, efficient, controlled by electronics.",
+          "Three-phase motors: rugged, common in larger commercial units."
+        ],
+        visualMain: "Motor type affects comfort, efficiency, and troubleshooting steps.",
+        visualHint: "Image idea: Three different fan motor types shown side by side."
       },
       {
-        id: 20,
-        section: "Electricity",
-        title: "Capacitors & Relays",
-        subtitle: "Starting and controlling motors",
-        icon: "🔋",
-        tag: "Motor Support",
-        caption: "Capacitors and relays tell motors when and how to run.",
-        chips: ["Capacitor", "Contactor", "Sequencer"],
+        section: "Section 4 · Electricity",
+        title: "20. Capacitors & Relays",
+        icon: "🧲",
         bullets: [
-          "Run capacitors help motors start and run efficiently.",
-          "Weak or failed capacitors cause motors to struggle or not start.",
-          "Contactors and relays switch high voltage on and off under control of low voltage.",
-          "Always match replacement capacitors by capacitance (MFD) and voltage rating."
-        ]
+          "Capacitors store electrical energy to help motors start and run smoothly.",
+          "Relays/contactors act like switches controlled by low voltage.",
+          "Wrong capacitor rating can cause overheating and early motor failure."
+        ],
+        visualMain: "Capacitors and relays are the 'assistants' that help motors work.",
+        visualHint: "Image idea: Close-up of dual run capacitor and contactor in a condenser panel."
       },
       {
-        id: 21,
-        section: "Electricity",
-        title: "Electrical Troubleshooting",
-        subtitle: "Follow the power",
-        icon: "🧠",
-        tag: "Diagnostic Method",
-        caption: "Good troubleshooting is about method, not magic.",
-        chips: ["Power In", "Power Out", "Safety"],
+        section: "Section 4 · Electricity",
+        title: "21. Electrical Troubleshooting",
+        icon: "🕵️‍♂️",
         bullets: [
-          "Use a consistent method: check for <span class=\"highlight\">power in and power out</span> at each step.",
-          "Verify correct voltage, not just the presence of some voltage.",
-          "Check that circuits are complete with continuity tests when power is off.",
-          "Compare actual amp draw to normal ranges for motors and components."
-        ]
+          "Always start by verifying power in and power out.",
+          "Check voltage, amp draw, and continuity against nameplate data.",
+          "Use a step-by-step method instead of guessing and swapping parts."
+        ],
+        visualMain: "Good troubleshooting is a repeatable process, not a guessing game.",
+        visualHint: "Image idea: Tech with meter following a simple decision tree diagram."
       },
 
       // SECTION 5 — REFRIGERATION THEORY
       {
-        id: 22,
-        section: "Refrigeration",
-        title: "The Refrigeration Cycle",
-        subtitle: "Four main parts moving heat",
-        icon: "♻️",
-        tag: "System Heartbeat",
-        caption: "The refrigeration cycle is a loop constantly moving heat from one place to another.",
-        chips: ["Evap", "Compressor", "Condenser", "Metering"],
+        section: "Section 5 · Refrigeration",
+        title: "22. The Refrigeration Cycle",
+        icon: "🔄",
         bullets: [
-          "Evaporator absorbs heat from indoor air and boils refrigerant.",
-          "Compressor raises refrigerant pressure and temperature.",
-          "Condenser rejects heat outdoors and condenses refrigerant back to liquid.",
-          "Metering device drops the pressure so the cycle can repeat."
-        ]
+          "Evaporator absorbs heat indoors as refrigerant boils.",
+          "Compressor raises pressure and temperature of the vapor.",
+          "Condenser rejects heat outside as refrigerant condenses back to liquid.",
+          "Metering device drops pressure so the cycle can repeat."
+        ],
+        visualMain: "It’s a heat conveyor belt moving heat from inside to outside.",
+        visualHint: "Image idea: Loop diagram with each component and arrows showing flow."
       },
       {
-        id: 23,
-        section: "Refrigeration",
-        title: "Superheat & Subcooling",
-        subtitle: "Key numbers for charging and diagnostics",
-        icon: "📊",
-        tag: "Charging Tools",
-        caption: "These readings tell you if the system is fed and cooled correctly.",
-        chips: ["Superheat", "Subcooling", "Charge"],
+        section: "Section 5 · Refrigeration",
+        title: "23. Superheat & Subcooling",
+        icon: "🌡️",
         bullets: [
-          "<span class=\"highlight\">Superheat</span> is temperature above boiling point in the evaporator vapor.",
-          "<span class=\"highlight\">Subcooling</span> is temperature below condensing point in liquid.",
-          "Proper superheat protects the compressor from liquid refrigerant.",
-          "Proper subcooling confirms the condenser is filling the liquid line correctly."
-        ]
+          "Superheat: temperature of vapor above its boiling point at that pressure.",
+          "Subcooling: temperature of liquid below its condensing point at that pressure.",
+          "Both are key readings for proper charging and diagnosis."
+        ],
+        visualMain: "Superheat protects the compressor; subcooling confirms condenser performance.",
+        visualHint: "Image idea: Coil with zones labeled 'two-phase' and 'superheated' / 'subcooled'."
       },
       {
-        id: 24,
-        section: "Refrigeration",
-        title: "Metering Devices",
-        subtitle: "Controlling refrigerant flow",
-        icon: "🚰",
-        tag: "Flow Control",
-        caption: "Metering devices control how much refrigerant enters the evaporator.",
-        chips: ["Fixed Orifice", "TXV", "EEV"],
+        section: "Section 5 · Refrigeration",
+        title: "24. Metering Devices",
+        icon: "🎚️",
         bullets: [
-          "Fixed orifices are simple and control flow based on pressure and temperature.",
-          "TXVs actively control superheat at the evaporator outlet.",
-          "Electronic expansion valves (EEVs) are controlled by boards and sensors.",
-          "Misdiagnosing metering devices can lead to incorrect charge adjustments."
-        ]
+          "Fixed orifices are simple holes that restrict refrigerant flow.",
+          "TXVs modulate flow to maintain a target superheat.",
+          "EEVs are electronic valves controlled by the system's brain."
+        ],
+        visualMain: "Metering devices control how much refrigerant feeds the evaporator.",
+        visualHint: "Image idea: Side-by-side picture of a piston, TXV, and EEV."
       },
       {
-        id: 25,
-        section: "Refrigeration",
-        title: "Compressor Types",
-        subtitle: "Scroll, rotary, reciprocating and inverter",
-        icon: "🧩",
-        tag: "System Engine",
-        caption: "Compressors are like the heart of the refrigeration system.",
-        chips: ["Scroll", "Rotary", "Inverter"],
+        section: "Section 5 · Refrigeration",
+        title: "25. Compressor Types",
+        icon: "🏭",
         bullets: [
-          "Scroll and rotary compressors are common in residential and light commercial systems.",
-          "Reciprocating compressors use pistons and are found in some older systems.",
-          "Inverter-driven compressors vary speed for comfort and efficiency.",
-          "Most compressor failures are caused by system issues like poor airflow or contamination."
-        ]
+          "Reciprocating, scroll, and rotary compressors have different internal designs.",
+          "Inverter-driven compressors vary speed based on load.",
+          "Oil management and cooling are critical for compressor life."
+        ],
+        visualMain: "The compressor is the 'heart' of the system.",
+        visualHint: "Image idea: Cutaway drawings of scroll vs reciprocating compressor."
       },
       {
-        id: 26,
-        section: "Refrigeration",
-        title: "Refrigerants & Regulations",
-        subtitle: "From R410A to new A2L blends",
+        section: "Section 5 · Refrigeration",
+        title: "26. Refrigerants & Regulations",
         icon: "🧊",
-        tag: "Environmental Rules",
-        caption: "Refrigerant choices are changing for environmental and safety reasons.",
-        chips: ["EPA 608", "A2L", "Recovery"],
         bullets: [
-          "Refrigerants move heat; they do not get used up in a healthy system.",
-          "EPA 608 certification is required to handle most refrigerants.",
-          "Many older refrigerants are being phased down or phased out.",
-          "Technicians must recover, recycle or reclaim refrigerant instead of venting it."
-        ]
+          "Refrigerants absorb and release heat as they change state.",
+          "Older refrigerants are being phased out due to environmental impact.",
+          "Law requires recovery, no venting, and proper certification."
+        ],
+        visualMain: "Techs must follow legal and safe refrigerant handling practices.",
+        visualHint: "Image idea: Refrigerant cylinders with 'no venting' symbol."
       },
 
       // SECTION 6 — HEATING SYSTEMS
       {
-        id: 27,
-        section: "Heating Systems",
-        title: "Gas Furnaces",
-        subtitle: "Burning fuel safely to heat air",
+        section: "Section 6 · Heating",
+        title: "27. Gas Furnaces",
         icon: "🔥",
-        tag: "Fuel Heat",
-        caption: "Gas furnaces burn fuel and transfer that heat into moving air.",
-        chips: ["Natural Gas", "Propane", "Efficiency"],
         bullets: [
-          "Natural gas and propane are the most common furnace fuels.",
-          "Heat exchangers keep flames and flue gases separate from indoor air.",
-          "High-efficiency furnaces use sealed combustion and plastic venting.",
-          "Cracked heat exchangers can leak flue gas and must be taken seriously."
-        ]
+          "Burners ignite gas to heat a metal heat exchanger.",
+          "Blower pushes air over the exchanger and into ducts.",
+          "High-efficiency units use sealed combustion and plastic venting."
+        ],
+        visualMain: "Gas furnaces turn chemical energy (gas) into warm air.",
+        visualHint: "Image idea: Furnace cutaway showing burners, exchanger, and blower path."
       },
       {
-        id: 28,
-        section: "Heating Systems",
-        title: "Gas Furnace Sequence",
-        subtitle: "Step-by-step how a furnace starts",
-        icon: "📜",
-        tag: "Control Logic",
-        caption: "Knowing the sequence makes it easy to see where things go wrong.",
-        chips: ["Call for Heat", "Ignition", "Flame Sense"],
+        section: "Section 6 · Heating",
+        title: "28. Gas Furnace Sequence of Operation",
+        icon: "▶️",
         bullets: [
-          "Thermostat calls for heat and sends a signal to the control board.",
-          "Inducer motor starts to pull air through the heat exchanger.",
-          "Pressure switch proves proper draft before gas is allowed.",
-          "Ignitor lights, gas valve opens, flame is proved, then blower starts."
-        ]
+          "Thermostat calls for heat; inducer motor starts.",
+          "Pressure switch proves venting; ignition source lights burners.",
+          "Flame sensor proves flame; blower turns on; system cycles off when satisfied."
+        ],
+        visualMain: "Knowing the sequence lets you spot exactly where it fails.",
+        visualHint: "Image idea: Step-by-step flow chart from call for heat to blower off."
       },
       {
-        id: 29,
-        section: "Heating Systems",
-        title: "Heat Pumps",
-        subtitle: "Refrigeration used for heating",
+        section: "Section 6 · Heating",
+        title: "29. Heat Pumps",
         icon: "♻️",
-        tag: "Reversible Systems",
-        caption: "Heat pumps move heat in or out of the building depending on mode.",
-        chips: ["Reversing Valve", "Defrost", "Backup Heat"],
         bullets: [
-          "Heat pumps use a <span class=\"highlight\">reversing valve</span> to change refrigerant direction.",
-          "In heating mode, the outdoor coil becomes the evaporator.",
-          "Defrost cycles clear ice from the outdoor coil in cold weather.",
-          "Backup heat (electric or gas) may help when outdoor temps are very low."
-        ]
+          "Heat pumps move heat instead of burning fuel.",
+          "In heating mode, outdoor coil becomes the evaporator for outdoor air.",
+          "Often paired with backup heat (electric or gas) in cold climates."
+        ],
+        visualMain: "Think of a reversible AC that can both cool and heat.",
+        visualHint: "Image idea: Reversing valve diagram showing winter vs summer flow."
       },
       {
-        id: 30,
-        section: "Heating Systems",
-        title: "Electric Heat",
-        subtitle: "Simple, but power hungry",
-        icon: "💡",
-        tag: "Resistance Heat",
-        caption: "Electric heat strips act like giant toasters inside the air stream.",
-        chips: ["Heat Strips", "Sequencers", "High Amps"],
+        section: "Section 6 · Heating",
+        title: "30. Electric Heat",
+        icon: "🔌🔥",
         bullets: [
-          "Electric heat strips convert electrical energy directly into heat.",
-          "Sequencers stage strips on and off to avoid huge inrush currents.",
-          "These systems draw a lot of amps, so wiring and breakers must be sized correctly.",
-          "Electric heat is simple but usually expensive to operate."
-        ]
+          "Electric strips are like giant toasters in the airflow.",
+          "Sequencers stage strips on and off to control amp spikes.",
+          "Simple design but high operating cost compared to heat pumps."
+        ],
+        visualMain: "Electric heat is easy to install but expensive to run.",
+        visualHint: "Image idea: Duct-mounted electric heat strips glowing."
       },
       {
-        id: 31,
-        section: "Heating Systems",
-        title: "Hydronic Heating",
-        subtitle: "Boilers and hot water heat",
+        section: "Section 6 · Heating",
+        title: "31. Hydronic Heating",
         icon: "🚿",
-        tag: "Water-Based Heat",
-        caption: "Hydronic systems use heated water instead of hot air.",
-        chips: ["Boiler", "Circulator", "Radiators"],
         bullets: [
-          "Boilers heat water that flows through pipes to radiators or baseboards.",
-          "Circulator pumps move water through the system.",
-          "Expansion tanks protect the system from pressure changes as water heats and cools.",
-          "Condensing boilers can be very efficient when installed correctly."
-        ]
+          "Boilers heat water, which is pumped through piping to radiators or baseboards.",
+          "Expansion tanks handle water volume changes with temperature.",
+          "Can be extremely comfortable and efficient when designed well."
+        ],
+        visualMain: "Hydronic systems heat with hot water instead of hot air.",
+        visualHint: "Image idea: Boiler, pump, and baseboard loop diagram."
       },
       {
-        id: 32,
-        section: "Heating Systems",
-        title: "Combustion Analysis",
-        subtitle: "Tuning flame for safety and efficiency",
-        icon: "📈",
-        tag: "Burn Quality",
-        caption: "Combustion analyzers measure how cleanly fuel is burning.",
-        chips: ["Oxygen", "CO", "Draft"],
+        section: "Section 6 · Heating",
+        title: "32. Combustion Analysis",
+        icon: "🧯",
         bullets: [
-          "Combustion tests measure oxygen, carbon dioxide and flue temperature.",
-          "High carbon monoxide levels are dangerous and must be corrected immediately.",
-          "Proper draft ensures flue gases leave the building safely.",
-          "Good combustion improves both safety and fuel efficiency."
-        ]
+          "Checks how completely fuel is burning and if it’s burning safely.",
+          "Key readings: CO, O₂, CO₂, and flue gas temperature.",
+          "High CO or poor draft can be life-threatening issues."
+        ],
+        visualMain: "Combustion testing protects both efficiency and human life.",
+        visualHint: "Image idea: Combustion analyzer probe in a furnace flue pipe."
       },
       {
-        id: 33,
-        section: "Heating Systems",
-        title: "Venting Systems",
-        subtitle: "Getting flue gases outside",
-        icon: "🏠",
-        tag: "Exhaust Path",
-        caption: "Proper venting keeps combustion byproducts out of living spaces.",
-        chips: ["Metal Vent", "PVC", "Clearances"],
+        section: "Section 6 · Heating",
+        title: "33. Venting Systems",
+        icon: "🏠⬆️",
         bullets: [
-          "Older Category I appliances often use metal venting and room air for combustion.",
-          "High-efficiency furnaces usually use PVC vent and dedicated combustion air.",
-          "Horizontal vent runs and elbows affect draft and must follow guidelines.",
-          "Clearances to windows, doors and other openings are critical for safety."
-        ]
+          "Category I uses metal venting with natural draft.",
+          "High-efficiency Category IV uses sealed combustion and PVC vent.",
+          "Venting design must match equipment type and follow code."
+        ],
+        visualMain: "Right venting prevents flue gases from entering living spaces.",
+        visualHint: "Image idea: Two furnaces, one with metal flue, one with PVC venting through side wall."
       },
 
       // SECTION 7 — COOLING SYSTEMS
       {
-        id: 34,
-        section: "Cooling Systems",
-        title: "Split Systems",
-        subtitle: "Most common residential A/C",
-        icon: "❄️",
-        tag: "Standard Setup",
-        caption: "Split systems have indoor and outdoor sections joined by refrigerant piping.",
-        chips: ["Indoor Coil", "Condenser", "Line Set"],
+        section: "Section 7 · Cooling",
+        title: "34. Split Systems",
+        icon: "❄️🏠",
         bullets: [
-          "The indoor coil cools and dehumidifies the air.",
-          "The outdoor condensing unit rejects heat to the outside air.",
-          "Line sets connect the two units and carry refrigerant.",
-          "Correct airflow and charge are both required for good performance."
-        ]
+          "Most common residential setup: indoor coil and outdoor condenser.",
+          "Refrigerant line set connects the two halves.",
+          "Performance depends on correct charge and airflow."
+        ],
+        visualMain: "Split systems share the work between inside and outside units.",
+        visualHint: "Image idea: House graphic with indoor air handler and outdoor condenser linked."
       },
       {
-        id: 35,
-        section: "Cooling Systems",
-        title: "Package Units",
-        subtitle: "All-in-one rooftop or ground units",
+        section: "Section 7 · Cooling",
+        title: "35. Package Units",
         icon: "📦",
-        tag: "Combined System",
-        caption: "Package units contain all components in a single cabinet.",
-        chips: ["Rooftop", "Ground Mount", "Duct Connect"],
         bullets: [
-          "Common on small commercial buildings and some homes.",
-          "Supply and return ducts connect directly to the package unit.",
-          "Installation is simple but service can be harder due to exposure.",
-          "Proper sealing and weather protection are important on rooftops."
-        ]
+          "All components are contained in one rooftop or ground unit.",
+          "Often used in small commercial buildings.",
+          "Easier to install, but exposure to weather can shorten life."
+        ],
+        visualMain: "Think of a whole split system fused into one big box.",
+        visualHint: "Image idea: Rooftop package unit with ducts entering roof curb."
       },
       {
-        id: 36,
-        section: "Cooling Systems",
-        title: "Mini-Splits & VRF/VRV",
-        subtitle: "Flexible zoning and high efficiency",
-        icon: "🎛️",
-        tag: "Advanced Systems",
-        caption: "Mini-splits and VRF systems allow multiple indoor units on one outdoor unit.",
-        chips: ["Ductless", "Zoning", "Inverter"],
+        section: "Section 7 · Cooling",
+        title: "36. Mini-Splits & VRF/VRV",
+        icon: "🧩",
         bullets: [
-          "Mini-splits can be ductless or use short duct runs.",
-          "VRF/VRV systems can handle many zones with varying loads.",
-          "Inverter technology allows precise capacity control.",
-          "Controls and communication wiring are crucial in these systems."
-        ]
+          "Ductless and low-duct systems offer zoning and high efficiency.",
+          "Inverter-driven compressors vary output continuously.",
+          "VRF/VRV can connect many indoor units to one outdoor unit."
+        ],
+        visualMain: "Mini-splits put cooling and heating exactly where it’s needed.",
+        visualHint: "Image idea: Wall-mounted mini-split indoors, multi-port outdoor unit."
       },
       {
-        id: 37,
-        section: "Cooling Systems",
-        title: "Evaporative Cooling",
-        subtitle: "Cooling with water and air flow",
-        icon: "💧",
-        tag: "Swamp Coolers",
-        caption: "Evaporative coolers are very efficient in dry climates.",
-        chips: ["Dry Climate", "Pads", "Low Energy"],
+        section: "Section 7 · Cooling",
+        title: "37. Evaporative Cooling",
+        icon: "💦",
         bullets: [
-          "Water evaporates from pads, cooling the air passing through.",
-          "Best suited for hot, dry regions where added humidity is acceptable.",
-          "Energy use is low compared to traditional refrigeration systems.",
-          "Regular maintenance prevents mineral buildup and smells."
-        ]
+          "Uses water evaporation to cool air instead of refrigerant.",
+          "Works best in hot, dry climates with low humidity.",
+          "Very low energy use compared to traditional AC."
+        ],
+        visualMain: "Also known as swamp coolers, they trade water for electrical savings.",
+        visualHint: "Image idea: Roof-mounted evaporative cooler with moist pads."
       },
 
       // SECTION 8 — AIR DISTRIBUTION
       {
-        id: 38,
-        section: "Air Distribution",
-        title: "System Types",
-        subtitle: "How air is routed through a building",
+        section: "Section 8 · Air Distribution",
+        title: "38. System Types",
         icon: "🗺️",
-        tag: "Duct Layouts",
-        caption: "Different duct layouts change how air moves and balances.",
-        chips: ["Supply", "Return", "Zoning"],
         bullets: [
-          "Central systems push air from one main blower to many rooms.",
-          "Some houses use one big return; others have multiple returns.",
-          "Zoned systems use dampers to control airflow to different areas.",
-          "Room pressure imbalances can cause drafts and comfort issues."
-        ]
+          "Central systems supply and return air from a single air handler.",
+          "Zoned systems use dampers to control different areas separately.",
+          "Return design affects room pressures and door operation."
+        ],
+        visualMain: "System layout affects comfort room by room.",
+        visualHint: "Image idea: Floor plan showing zones and dampers."
       },
       {
-        id: 39,
-        section: "Air Distribution",
-        title: "Duct Materials",
-        subtitle: "Metal, flex and ductboard",
-        icon: "🧱",
-        tag: "Duct Construction",
-        caption: "The material and build quality of ducts affects airflow.",
-        chips: ["Sheet Metal", "Flex", "Ductboard"],
+        section: "Section 8 · Air Distribution",
+        title: "39. Duct Materials",
+        icon: "📦🛠️",
         bullets: [
-          "Sheet metal ducts are durable and can be very efficient when sealed.",
-          "Flex duct is easy to install but can restrict airflow if bent or compressed.",
-          "Fiberglass ductboard includes built-in insulation but can be fragile.",
-          "All duct types need proper sealing and insulation where needed."
-        ]
+          "Sheet metal is durable and smooth inside.",
+          "Flex duct is fast to install but needs careful support and stretching.",
+          "Ductboard is insulated but more fragile and harder to modify."
+        ],
+        visualMain: "Material choice affects airflow, noise, and durability.",
+        visualHint: "Image idea: Samples of metal, flex, and ductboard labeled side by side."
       },
       {
-        id: 40,
-        section: "Air Distribution",
-        title: "Balancing Airflow",
-        subtitle: "Delivering the right CFM to each room",
+        section: "Section 8 · Air Distribution",
+        title: "40. Balancing Airflow",
         icon: "⚖️",
-        tag: "Fine-Tuning",
-        caption: "Balancing ensures each room gets its fair share of comfort.",
-        chips: ["Dampers", "Registers", "Comfort"],
         bullets: [
-          "Balancing dampers adjust flow in branch ducts.",
-          "Register type and placement affect throw and mixing.",
-          "Rooms far from the blower may need larger ducts or special attention.",
-          "Balanced airflow reduces hot and cold spots in the building."
-        ]
+          "Balancing uses dampers and register adjustments to distribute air properly.",
+          "Rooms closest to the equipment often need throttling back.",
+          "Proper balance prevents hot/cold rooms and pressure problems."
+        ],
+        visualMain: "Balancing tunes the system like audio levels on a mixer.",
+        visualHint: "Image idea: Tech with hood at a register adjusting a balancing damper."
       },
       {
-        id: 41,
-        section: "Air Distribution",
-        title: "Static Pressure Diagnostics",
-        subtitle: "Measuring duct system health",
-        icon: "📉",
-        tag: "System Checkup",
-        caption: "Static pressure tells you how hard the blower is working.",
-        chips: ["ESP", "Filters", "Restrictions"],
+        section: "Section 8 · Air Distribution",
+        title: "41. Static Pressure Diagnostics",
+        icon: "📏",
         bullets: [
-          "Total external static pressure (ESP) compares to the blower rating.",
-          "High ESP often means restrictive filters, coils or undersized ducts.",
-          "High static pressure can cause noisy operation and component strain.",
-          "Fix the airflow path instead of just upsizing equipment."
-        ]
+          "Static pressure is measured in inches of water column.",
+          "Most residential systems like 0.3–0.5\" WC total external static.",
+          "High static often means restrictive ducts, filters, or coils."
+        ],
+        visualMain: "Static pressure tells you if the duct system is choking the equipment.",
+        visualHint: "Image idea: Manometer probes upstream and downstream of blower."
       },
 
       // SECTION 9 — CONTROLS & THERMOSTATS
       {
-        id: 42,
-        section: "Controls",
-        title: "Low Voltage Controls",
-        subtitle: "24V wiring and thermostat basics",
+        section: "Section 9 · Controls",
+        title: "42. Low Voltage Controls",
         icon: "🎛️",
-        tag: "Signal Wiring",
-        caption: "Low voltage wiring carries signals that control high power devices.",
-        chips: ["R, C, Y, W, G", "24V", "Heat Pump"],
         bullets: [
-          "R is the 24V power, C is the common return.",
-          "Y typically calls for cooling and compressor operation.",
-          "W calls for heating; G calls for fan operation.",
-          "O/B controls the heat pump reversing valve depending on brand."
-        ]
+          "24V AC controls most residential and light commercial systems.",
+          "R = power, C = common, Y = cooling, W = heat, G = fan, O/B = heat pump changeover.",
+          "Understanding these terminals is key to installing and troubleshooting thermostats."
+        ],
+        visualMain: "Low-voltage wiring is the nervous system of HVAC equipment.",
+        visualHint: "Image idea: Thermostat backplate with labeled terminals and wires."
       },
       {
-        id: 43,
-        section: "Controls",
-        title: "Communicating Systems",
-        subtitle: "Smart conversation between components",
-        icon: "🧬",
-        tag: "Advanced Controls",
-        caption: "Communicating systems share data rather than simple on/off signals.",
-        chips: ["Data Bus", "Boards", "Sensors"],
+        section: "Section 9 · Controls",
+        title: "43. Communicating Systems",
+        icon: "🌐",
         bullets: [
-          "Units use special communication terminals instead of many 24V wires.",
-          "Control boards coordinate operation based on sensors and algorithms.",
-          "Diagnostics often rely on error codes and manufacturer tools.",
-          "Correct wiring and addressing are critical for system stability."
-        ]
+          "Use data communication instead of simple on/off signals.",
+          "Allow advanced diagnostics, staging, and comfort control.",
+          "Require brand-specific knowledge and tools."
+        ],
+        visualMain: "Communicating systems are like networked computers in HVAC world.",
+        visualHint: "Image idea: Control board with digital communication cable and status LEDs."
       },
       {
-        id: 44,
-        section: "Controls",
-        title: "Sensors & Safety Switches",
-        subtitle: "Protecting equipment and people",
+        section: "Section 9 · Controls",
+        title: "44. Sensors & Safety Switches",
         icon: "🚨",
-        tag: "Protection",
-        caption: "Safety devices shut systems down when unsafe conditions are detected.",
-        chips: ["Limits", "Pressure Switch", "Float Switch"],
         bullets: [
-          "Limit switches open if temperatures exceed safe levels.",
-          "Pressure switches verify draft or refrigerant pressure conditions.",
-          "Float switches shut systems off when condensate backs up.",
-          "When a safety is open, find out why instead of bypassing it."
-        ]
+          "Pressure switches prove vent and combustion airflow.",
+          "Flame sensors prove burner operation.",
+          "Float switches shut systems down when drains back up."
+        ],
+        visualMain: "Safety devices are built-in watchdogs that stop dangerous operation.",
+        visualHint: "Image idea: Pressure switch tube, flame rod, and float switch on a drain pan."
       },
       {
-        id: 45,
-        section: "Controls",
-        title: "Smart & WiFi Thermostats",
-        subtitle: "Connected comfort control",
+        section: "Section 9 · Controls",
+        title: "45. Smart/WiFi Thermostats",
         icon: "📱",
-        tag: "User Interface",
-        caption: "Smart thermostats add conveniences but can add complexity too.",
-        chips: ["WiFi", "Apps", "C-Wire"],
         bullets: [
-          "Smart thermostats allow remote control and scheduling from phones.",
-          "Many require a <span class=\"highlight\">common (C) wire</span> for power.",
-          "Improper wiring can cause short cycling, lockouts or board damage.",
-          "Teach customers how to use features without overwhelming them."
-        ]
+          "Connect to WiFi for remote access and scheduling.",
+          "Often require a dedicated common wire (C) to power them.",
+          "Improper wiring or compatibility issues can cause nuisance problems."
+        ],
+        visualMain: "Smart stats bring HVAC control to the customer’s phone.",
+        visualHint: "Image idea: Smart thermostat showing indoor temp and app on a phone."
       },
 
-      // SECTION 10 — CODE, SAFETY & REGULATIONS (with 47 removed)
+      // SECTION 10 — CODE, SAFETY & REGULATIONS (no 47)
       {
-        id: 46,
-        section: "Codes & Safety",
-        title: "EPA 608 Basics",
-        subtitle: "Legal rules for refrigerant handling",
+        section: "Section 10 · Code & Safety",
+        title: "46. EPA 608 Basics",
         icon: "📜",
-        tag: "Regulation",
-        caption: "Federal law controls how refrigerants are handled and documented.",
-        chips: ["Certification", "Recovery", "Compliance"],
         bullets: [
-          "EPA 608 certification is required to purchase and work with many refrigerants.",
-          "Technicians must use certified recovery equipment to capture refrigerant.",
-          "Records may be required for servicing larger systems and repairing leaks.",
-          "Violations can lead to heavy fines and loss of certification."
-        ]
+          "Required certification to buy and handle refrigerants.",
+          "Covers recovery, recycling, and leak requirements.",
+          "Violations can lead to heavy fines and legal trouble."
+        ],
+        visualMain: "EPA 608 is the license to work legally with refrigerant.",
+        visualHint: "Image idea: EPA card graphic with refrigerant cylinders in the background."
       },
       {
-        id: 48,
-        section: "Codes & Safety",
-        title: "Electrical Code for HVAC",
-        subtitle: "Power, protection and disconnects",
-        icon: "🧯",
-        tag: " NEC Basics",
-        caption: "Electrical rules keep systems and people safe from shock and fire.",
-        chips: ["Wire Size", "Breaker", "Disconnect"],
+        section: "Section 10 · Code & Safety",
+        title: "48. Electrical Code for HVAC",
+        icon: "🧯⚡",
         bullets: [
-          "Wire size must match the expected amp draw and length of run.",
-          "Breakers protect wiring and equipment from overloads and shorts.",
-          "A dedicated disconnect is required near the equipment for service.",
-          "Proper grounding and bonding reduce shock risk and equipment damage."
-        ]
+          "Wire size must match the amp draw of the equipment.",
+          "Proper breaker sizing and disconnects are mandatory.",
+          "Grounding and bonding prevent shock and fire hazards."
+        ],
+        visualMain: "Following electrical code keeps people and property safe.",
+        visualHint: "Image idea: Outdoor disconnect next to a condenser, labeled wire sizes."
       },
       {
-        id: 49,
-        section: "Codes & Safety",
-        title: "Refrigerant Recordkeeping & A2L",
-        subtitle: "Tracking leaks and new refrigerant types",
-        icon: "🧾",
-        tag: "Documentation",
-        caption: "New refrigerant classes require careful documentation and handling.",
-        chips: ["A2L", "Logs", "Leak Tracking"],
+        section: "Section 10 · Code & Safety",
+        title: "49. Refrigerant Recordkeeping & A2L",
+        icon: "📂🧊",
         bullets: [
-          "A2L refrigerants are mildly flammable and need special attention.",
-          "Many systems require documentation of leak checks and repairs.",
-          "Technicians should log refrigerant added or removed from systems.",
-          "Following manufacturer and code guidance reduces liability and risk."
-        ]
+          "Larger systems often require leak logs and repair documentation.",
+          "A2L refrigerants are mildly flammable and have special rules.",
+          "Storage, transport, and charging practices must follow new standards."
+        ],
+        visualMain: "Paperwork is part of being professional with refrigerants.",
+        visualHint: "Image idea: Log sheet clipped to a clipboard with refrigerant cylinder nearby."
       },
 
       // SECTION 11 — SERVICE & DIAGNOSTICS
       {
-        id: 50,
-        section: "Service & Diagnostics",
-        title: "Systematic Troubleshooting",
-        subtitle: "Have a process, not just guesses",
-        icon: "🕵️",
-        tag: "Problem Solving",
-        caption: "A repeatable method beats random part swapping every time.",
-        chips: ["Process", "Verify", "Root Cause"],
+        section: "Section 11 · Service",
+        title: "50. Systematic Troubleshooting",
+        icon: "🧠",
         bullets: [
-          "Start with the complaint, then observe the system behavior.",
-          "Check basics first: power, airflow, filters, obvious damage.",
-          "Use measurements to confirm or reject each possible cause.",
-          "Verify the system works correctly before leaving the job."
-        ]
+          "Use a logical step-by-step method every time.",
+          "Confirm the problem, gather clues, then test components.",
+          "Verify that your repair actually fixed the complaint."
+        ],
+        visualMain: "Great troubleshooters focus on process, not luck.",
+        visualHint: "Image idea: Flowchart from 'No Cooling' to root cause with decision branches."
       },
       {
-        id: 51,
-        section: "Service & Diagnostics",
-        title: "Airflow First Approach",
-        subtitle: "Air problems look like refrigerant problems",
-        icon: "🌪️",
-        tag: "Priority Check",
-        caption: "Many 'refrigerant issues' are really bad airflow issues.",
-        chips: ["Filters", "Coils", "Static"],
+        section: "Section 11 · Service",
+        title: "51. Airflow First Approach",
+        icon: "🍃",
         bullets: [
-          "Check filter condition and coil cleanliness before touching the charge.",
-          "Measure static pressure to see if the duct system is within limits.",
-          "Confirm blower speed and tap settings are correct.",
-          "Fix airflow problems first, then recheck system performance."
-        ]
+          "Most comfort and system problems trace back to airflow issues.",
+          "Check filters, coils, blower speed, and static pressure first.",
+          "Don’t touch the refrigerant charge until airflow is confirmed."
+        ],
+        visualMain: "If the air can’t move, nothing else can work correctly.",
+        visualHint: "Image idea: Dirty filter vs clean filter side by side with airflow arrows."
       },
       {
-        id: 52,
-        section: "Service & Diagnostics",
-        title: "Charging Procedures",
-        subtitle: "Getting the right amount of refrigerant",
-        icon: "🧯",
-        tag: "Charge Control",
-        caption: "Correct charge protects equipment and ensures comfort.",
-        chips: ["Weigh In", "Superheat", "Subcooling"],
+        section: "Section 11 · Service",
+        title: "52. Charging Procedures",
+        icon: "🧯📏",
         bullets: [
-          "Weigh in the factory charge on new installs or when the system was empty.",
-          "Use <span class=\"highlight\">superheat</span> for systems with fixed metering devices.",
-          "Use <span class=\"highlight\">subcooling</span> for systems with TXVs or EEVs.",
-          "Confirm temperature split and system operation after charging."
-        ]
+          "Weigh in refrigerant on new or fully evacuated systems.",
+          "Use superheat for fixed orifice metering devices.",
+          "Use subcooling for TXV/EEV systems following manufacturer charts."
+        ],
+        visualMain: "Proper charging uses math and measurements, not 'beer can cold'.",
+        visualHint: "Image idea: Scale under refrigerant cylinder feeding a system."
       },
       {
-        id: 53,
-        section: "Service & Diagnostics",
-        title: "Leak Detection",
-        subtitle: "Finding where refrigerant escapes",
+        section: "Section 11 · Service",
+        title: "53. Leak Detection",
         icon: "🔍",
-        tag: "System Integrity",
-        caption: "A system that keeps losing charge has a leak that must be found.",
-        chips: ["Electronic", "Soap Bubbles", "Nitrogen"],
         bullets: [
-          "Electronic detectors help sniff out small leaks.",
-          "Soap bubble solutions help visually confirm leak locations.",
-          "Nitrogen pressure tests are the gold standard for proving a tight system.",
-          "Simply adding refrigerant without finding leaks is not a real fix."
-        ]
+          "Use electronic detectors, bubbles, or UV dye to find leaks.",
+          "Nitrogen pressure tests confirm system tightness.",
+          "Simply adding refrigerant without finding the leak is bad practice."
+        ],
+        visualMain: "Finding and fixing leaks protects the customer and the environment.",
+        visualHint: "Image idea: Tech using a leak detector wand along brazed joints."
       },
       {
-        id: 54,
-        section: "Service & Diagnostics",
-        title: "Micron-Level Evacuation",
-        subtitle: "Drying out the system",
-        icon: "🌫️",
-        tag: "Moisture Removal",
-        caption: "Pulling a proper vacuum removes moisture and non-condensables.",
-        chips: ["Micron Gauge", "Deep Vacuum", "Clean System"],
+        section: "Section 11 · Service",
+        title: "54. Micron-Level Evacuation",
+        icon: "🧪",
         bullets: [
-          "A micron gauge measures how deep the vacuum really is.",
-          "Pulling below about 500 microns and passing a decay test is a good target.",
-          "Moisture and non-condensables cause acid, corrosion and poor performance.",
-          "Use large hoses and core removal tools for faster, deeper evacuations."
-        ]
+          "Evacuation removes air and moisture from the system.",
+          "Micron gauges tell you actual vacuum level, not just 'zero' on a manifold.",
+          "Good evacuation prevents acid, sludge, and future compressor failures."
+        ],
+        visualMain: "Moisture left inside today becomes acid and problems tomorrow.",
+        visualHint: "Image idea: Vacuum pump and micron gauge hooked to system."
       },
       {
-        id: 55,
-        section: "Service & Diagnostics",
-        title: "Component Replacement",
-        subtitle: "Swapping parts the right way",
-        icon: "🧰",
-        tag: "Repair Quality",
-        caption: "Replacing parts is more than simply unbolt and bolt.",
-        chips: ["Compressors", "Motors", "Boards"],
+        section: "Section 11 · Service",
+        title: "55. Component Replacement",
+        icon: "🔧",
         bullets: [
-          "Match replacement parts for voltage, capacity and control type.",
-          "Use proper brazing techniques with nitrogen flowing through lines.",
-          "Replace driers when major parts or the refrigerant circuit are opened.",
-          "After replacement, test the entire system, not just the new part."
-        ]
+          "Match replacement parts by specs, not just appearance.",
+          "Follow correct brazing practices with nitrogen flowing.",
+          "Always commission the system after component changes."
+        ],
+        visualMain: "Component swaps must be followed by verification, not just power-on.",
+        visualHint: "Image idea: Tech replacing a contactor or capacitor in a condenser."
       },
 
-      // SECTION 12 — INSTALLATION BEST PRACTICES
+      // SECTION 12 — INSTALLATION
       {
-        id: 56,
-        section: "Installation",
-        title: "Load Calculation (Manual J)",
-        subtitle: "Sizing by math, not by guess",
-        icon: "📐",
-        tag: "Design Step",
-        caption: "The building decides what size system it needs, not the sales pitch.",
-        chips: ["Heat Loss", "Heat Gain", "Manual J"],
+        section: "Section 12 · Installation",
+        title: "56. Load Calculation (Manual J)",
+        icon: "🏠📊",
         bullets: [
-          "Manual J calculates how much heating and cooling a structure needs.",
-          "Oversized systems short-cycle and fail to control humidity.",
-          "Undersized systems can run nonstop and still not keep up.",
-          "Real load calculations consider windows, insulation, leakage and more."
-        ]
+          "Manual J calculates how much heating and cooling a building really needs.",
+          "Oversized systems short cycle and control humidity poorly.",
+          "Every home is different; square-foot rules are rough guesses only."
+        ],
+        visualMain: "Right-sized equipment starts with accurate load calculations.",
+        visualHint: "Image idea: Floor plan with arrows showing heat gain and loss areas."
       },
       {
-        id: 57,
-        section: "Installation",
-        title: "Duct Design (Manual D)",
-        subtitle: "Sizing the air highway",
-        icon: "🛣️",
-        tag: "Airflow Design",
-        caption: "Good duct design supports quiet and efficient operation.",
-        chips: ["Friction Rate", "Sizing", "Returns"],
+        section: "Section 12 · Installation",
+        title: "57. Duct Design (Manual D)",
+        icon: "🧮",
         bullets: [
-          "Manual D uses target friction rate to size ducts correctly.",
-          "Each room's duct size is based on the CFM it needs.",
-          "Return ducts must be large enough to bring air back to the blower.",
-          "Well-designed ducts reduce noise, loss and comfort complaints."
-        ]
+          "Manual D turns CFM needs into actual duct sizes and layouts.",
+          "Friction rate, fittings, and length all impact actual airflow.",
+          "Balanced supply and return design are both critical."
+        ],
+        visualMain: "Duct design translates airflow math into metal and flex.",
+        visualHint: "Image idea: Duct sizing chart next to a sketch of a duct trunk and branches."
       },
       {
-        id: 58,
-        section: "Installation",
-        title: "Equipment Sizing (Manual S)",
-        subtitle: "Matching units to the building load",
-        icon: "📊",
-        tag: "Right Size",
-        caption: "Equipment must match calculated load, not just rule-of-thumb tonnage.",
-        chips: ["Capacity", "Matching", "Manual S"],
+        section: "Section 12 · Installation",
+        title: "58. Equipment Sizing (Manual S)",
+        icon: "📏🏗️",
         bullets: [
-          "Manual S selects equipment that fits the Manual J load calculation.",
-          "Equipment tables show sensible and latent capacity at design conditions.",
-          "Blower, coil and outdoor unit must be matched for proper performance.",
-          "Right-sized equipment improves comfort and reduces energy use."
-        ]
+          "Manual S selects equipment that matches the Manual J load.",
+          "Coils, blowers, and outdoor units must be matched for performance.",
+          "Avoid oversizing just because 'bigger feels safer'."
+        ],
+        visualMain: "Manual S bridges design calculations and real equipment selection.",
+        visualHint: "Image idea: Three pieces of matched equipment with check marks."
       },
       {
-        id: 59,
-        section: "Installation",
-        title: "Line Set Rules",
-        subtitle: "Piping refrigerant correctly",
-        icon: "🧵",
-        tag: "Piping",
-        caption: "Good copper work keeps refrigerant flowing and oil returning.",
-        chips: ["Length Limits", "Lift", "Brazing"],
+        section: "Section 12 · Installation",
+        title: "59. Line Set Rules",
+        icon: "📎",
         bullets: [
-          "Follow manufacturer limits for line set length and vertical lift.",
-          "Avoid sharp bends and kinks that restrict refrigerant flow.",
-          "Use nitrogen purge during brazing to prevent internal oxidation.",
-          "Insulate suction lines fully, especially outdoors and in unconditioned spaces."
-        ]
+          "Line set length and vertical rise have manufacturer limits.",
+          "Avoid kinks and ensure proper oil return with correct routing.",
+          "Always insulate the suction line and protect lines from damage."
+        ],
+        visualMain: "Line set details matter to reliability and efficiency.",
+        visualHint: "Image idea: Line set routing from condenser to attic air handler with key points highlighted."
       },
       {
-        id: 60,
-        section: "Installation",
-        title: "Startup Commissioning",
-        subtitle: "Proving the system is right",
+        section: "Section 12 · Installation",
+        title: "60. Startup Commissioning",
         icon: "🚀",
-        tag: "Final Check",
-        caption: "Commissioning is where you prove that design, install and charge all match.",
-        chips: ["Airflow", "Charge", "Amps"],
         bullets: [
-          "Verify airflow, static pressure and correct blower settings.",
-          "Confirm refrigerant charge using superheat or subcooling as appropriate.",
-          "Check voltage and amp draw against nameplate values.",
-          "Record baseline readings so future techs know what normal looks like."
-        ]
+          "Verify airflow, static pressure, charge, and electrical readings.",
+          "Test heating, cooling, and fan only modes.",
+          "Record baseline numbers for future service reference."
+        ],
+        visualMain: "Commissioning turns an install into a proven, documented system.",
+        visualHint: "Image idea: Commissioning checklist with numbers and checkmarks on a clipboard."
       },
 
       // SECTION 13 — ADVANCED & EMERGING TECH
       {
-        id: 61,
-        section: "Advanced Tech",
-        title: "Inverter Systems",
-        subtitle: "Variable speed everything",
-        icon: "🎚️",
-        tag: "High Efficiency",
-        caption: "Inverter systems ramp capacity up and down to match the load.",
-        chips: ["Variable Speed", "Comfort", "Quiet"],
+        section: "Section 13 · Advanced Tech",
+        title: "61. Inverter Systems",
+        icon: "🎚️⚡",
         bullets: [
-          "Inverter-driven compressors run at different speeds instead of simply on/off.",
-          "They maintain tighter temperature and humidity control.",
-          "Indoor and outdoor fan speeds are also modulated for efficiency.",
-          "Diagnostics rely heavily on communication boards and error codes."
-        ]
+          "Inverter compressors vary speed to match load exactly.",
+          "They offer higher efficiency and better comfort control.",
+          "Diagnostics focus heavily on communication and electronics."
+        ],
+        visualMain: "Inverter systems are the 'cruise control' of HVAC.",
+        visualHint: "Image idea: Speed gauge metaphor showing low to high compressor speed."
       },
       {
-        id: 62,
-        section: "Advanced Tech",
-        title: "Cold Climate Heat Pumps",
-        subtitle: "Heat pumps that work in real winters",
-        icon: "🥶",
-        tag: "New Generation",
-        caption: "Modern heat pumps can heat effectively even in low outdoor temperatures.",
-        chips: ["Low Ambient", "High HSPF", "Backup Options"],
+        section: "Section 13 · Advanced Tech",
+        title: "62. Cold Climate Heat Pumps",
+        icon: "❄️🔥🏔️",
         bullets: [
-          "Improved compressors and refrigerants allow heat pumps to run in colder weather.",
-          "Cold climate units maintain capacity much better at low outdoor temps.",
-          "Backup heat may still be needed at extreme lows but less often.",
-          "These systems can replace or reduce gas usage in many climates."
-        ]
+          "Engineered to deliver usable heat in sub-freezing temps.",
+          "Smart controls manage backup heat and defrost cycles.",
+          "Key to electrification and replacing fossil fuel heating in many regions."
+        ],
+        visualMain: "Cold climate heat pumps are rewriting the rules on where heat pumps work.",
+        visualHint: "Image idea: Outdoor unit covered in snow but still running, with indoor comfort shown."
       },
       {
-        id: 63,
-        section: "Advanced Tech",
-        title: "VRF / VRV Multi-Zone Systems",
-        subtitle: "Lots of zones, one outdoor unit",
-        icon: "🌐",
-        tag: "Complex Systems",
-        caption: "VRF systems precisely move refrigerant to many indoor units at once.",
-        chips: ["Branch Boxes", "Zones", "Oil Return"],
+        section: "Section 13 · Advanced Tech",
+        title: "63. VRF / VRV Multi-Zone Systems",
+        icon: "🌐🧩",
         bullets: [
-          "Branch boxes distribute refrigerant to many indoor units.",
-          "Each indoor unit can heat or cool depending on the system type.",
-          "Oil management and piping practices are critical to long system life.",
-          "Installation and commissioning must follow the manufacturer's steps exactly."
-        ]
+          "Variable Refrigerant Flow systems support many indoor units on one outdoor unit.",
+          "Branch boxes and electronic valves distribute refrigerant.",
+          "Install quality and pipe design are absolutely critical."
+        ],
+        visualMain: "VRF/VRV is high-end, flexible HVAC for complex buildings.",
+        visualHint: "Image idea: Building diagram with multiple indoor units on different floors connected to one outdoor system."
       },
       {
-        id: 64,
-        section: "Advanced Tech",
-        title: "A2L Refrigerants",
-        subtitle: "Mildly flammable new refrigerant class",
-        icon: "⚠️",
-        tag: "Safety Shift",
-        caption: "A2L refrigerants lower environmental impact but need careful handling.",
-        chips: ["R32", "R454B", "Safety"],
+        section: "Section 13 · Advanced Tech",
+        title: "64. A2L Refrigerants",
+        icon: "⚠️🧊",
         bullets: [
-          "A2L refrigerants are less flammable than traditional flammable gases but still require precautions.",
-          "Equipment and tools must be rated for use with A2L refrigerants.",
-          "Charging, ventilation and leak response steps may be different from older refrigerants.",
-          "Technician training is essential as codes and standards evolve."
-        ]
+          "A2L refrigerants are mildly flammable with low global warming potential.",
+          "Charge size and leak location rules are stricter.",
+          "New tools, detectors, and training are needed to work with them safely."
+        ],
+        visualMain: "A2L is the new normal — techs must learn updated safety practices.",
+        visualHint: "Image idea: Cylinder labeled with A2L classification symbol and safety icons."
       },
       {
-        id: 65,
-        section: "Advanced Tech",
-        title: "Connected Diagnostics",
-        subtitle: "Cloud-connected HVAC systems",
-        icon: "☁️",
-        tag: "Smart Service",
-        caption: "Many systems now report their own problems over the internet.",
-        chips: ["Apps", "Remote Data", "Alerts"],
+        section: "Section 13 · Advanced Tech",
+        title: "65. Connected Diagnostics",
+        icon: "📡",
         bullets: [
-          "Equipment can upload performance data to apps and web portals.",
-          "Technicians can see fault codes and history before driving to the site.",
-          "Predictive maintenance uses trends to fix issues before failures.",
-          "Good data can reduce callbacks and improve customer satisfaction."
-        ]
+          "Equipment can report data and errors through apps or cloud platforms.",
+          "Enables predictive maintenance and faster troubleshooting.",
+          "Data logs show what happened even when the tech wasn’t there."
+        ],
+        visualMain: "Connected systems turn HVAC into a data-driven service.",
+        visualHint: "Image idea: Tablet showing live system data from an outdoor unit."
       },
 
-      // SECTION 14 — BUSINESS & CAREER SKILLS
+      // SECTION 14 — BUSINESS & CAREER
       {
-        id: 66,
-        section: "Career & Business",
-        title: "Professional Conduct",
-        subtitle: "How pros show up",
+        section: "Section 14 · Career & Business",
+        title: "66. Professional Conduct",
         icon: "🤝",
-        tag: "Soft Skills",
-        caption: "Technical skills bring you in the door; professional conduct keeps you there.",
-        chips: ["Appearance", "Respect", "Trust"],
         bullets: [
-          "Arrive on time and communicate clearly if schedules change.",
-          "Keep work areas clean and protect the customer's property.",
-          "Explain findings in plain language, not just jargon.",
-          "Honesty and consistency build long-term customer relationships."
-        ]
+          "Show up on time, communicate clearly, and respect the customer’s space.",
+          "Clean workmanship and neat wiring build trust.",
+          "Professionalism often matters as much as technical skill."
+        ],
+        visualMain: "Your attitude and appearance are part of the service you deliver.",
+        visualHint: "Image idea: Tech in clean uniform, boot covers, and organized tools."
       },
       {
-        id: 67,
-        section: "Career & Business",
-        title: "Service Writing & Quoting",
-        subtitle: "Presenting options, not pressure",
-        icon: "📝",
-        tag: "Customer Options",
-        caption: "Clear quotes help customers make confident decisions.",
-        chips: ["Good/Better/Best", "Photos", "Clarity"],
+        section: "Section 14 · Career & Business",
+        title: "67. Service Writing & Quoting",
+        icon: "📝💲",
         bullets: [
-          "Offer good, better and best options when possible.",
-          "Explain what each option solves and what it does not.",
-          "Use photos and readings to show the current problem.",
-          "Avoid scare tactics; focus on value and long-term benefits."
-        ]
+          "Offer good/better/best options instead of one take-it-or-leave-it choice.",
+          "Explain issues in plain language, not jargon.",
+          "Document clearly so customers understand what they’re paying for."
+        ],
+        visualMain: "Clear quotes turn technical findings into customer decisions.",
+        visualHint: "Image idea: Service form showing three tiered options."
       },
       {
-        id: 68,
-        section: "Career & Business",
-        title: "Maintenance Agreements",
-        subtitle: "Win-win for customers and companies",
-        icon: "🔁",
-        tag: "Recurring Service",
-        caption: "Planned maintenance reduces surprises and keeps systems healthy.",
-        chips: ["Tune-Ups", "Priority", "Revenue"],
+        section: "Section 14 · Career & Business",
+        title: "68. Maintenance Agreements",
+        icon: "📆",
         bullets: [
-          "Regular tune-ups catch problems before they cause breakdowns.",
-          "Customers often receive priority scheduling and discounts.",
-          "Clean coils, drains and filters reduce emergency calls.",
-          "Agreements provide steady work and revenue for the company."
-        ]
+          "Regular tune-ups reduce breakdowns and surprise costs for customers.",
+          "Evap coil and drain maintenance prevent leaks and water damage.",
+          "Agreements create stable revenue and deeper customer relationships."
+        ],
+        visualMain: "Maintenance plans win for both the customer and the contractor.",
+        visualHint: "Image idea: Calendar with scheduled maintenance visits marked."
       },
       {
-        id: 69,
-        section: "Career & Business",
-        title: "Documentation & Reporting",
-        subtitle: "If you did not write it down, it did not happen",
+        section: "Section 14 · Career & Business",
+        title: "69. Documentation & Reporting",
         icon: "📚",
-        tag: "Paper Trail",
-        caption: "Good records protect you, your team and your customer.",
-        chips: ["Model/Serial", "Readings", "Photos"],
         bullets: [
-          "Record model and serial numbers for all major equipment.",
-          "Log readings like pressures, temps, amps and static pressure.",
-          "Take before-and-after photos of major repairs and cleanings.",
-          "Clear notes help future technicians troubleshoot faster."
-        ]
+          "Record model/serial numbers, readings, and what you did.",
+          "Before/after photos show value and protect against disputes.",
+          "Good records help with future troubleshooting and system upgrades."
+        ],
+        visualMain: "Documentation turns one visit into long-term value.",
+        visualHint: "Image idea: Tablet with job notes and pictures attached."
       },
       {
-        id: 70,
-        section: "Career & Business",
-        title: "Career Growth",
-        subtitle: "Where HVAC can take you",
+        section: "Section 14 · Career & Business",
+        title: "70. Career Growth",
         icon: "🚀",
-        tag: "Future Path",
-        caption: "HVAC offers many paths, from tools to teaching and beyond.",
-        chips: ["Helper", "Lead Tech", "Trainer"],
         bullets: [
-          "Entry roles include helper, apprentice and installer.",
-          "With experience, techs can move into lead tech or senior service roles.",
-          "Some technicians transition into training, design or sales positions.",
-          "Continual learning and certifications open more opportunities."
-        ]
+          "Typical path: helper → installer → service tech → lead tech → trainer or manager.",
+          "Specialize in areas like controls, design, or specific brands.",
+          "Continuous training keeps your skills sharp and income growing."
+        ],
+        visualMain: "HVAC offers many paths upward for motivated techs.",
+        visualHint: "Image idea: Career ladder graphic with each role on a higher step."
       }
     ];
 
-    const totalSlides = slides.length;
     let currentIndex = 0;
+
+    const slideEl = document.getElementById("slide");
+    const counterEl = document.getElementById("counter");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    function renderSlide(index) {
+      const slide = slides[index];
+      if (!slide) return;
+
+      slideEl.innerHTML = `
+        <div class="slide-header">
+          <div>
+            <div class="section-label">${slide.section}</div>
+            <div class="slide-title">${slide.title}</div>
+          </div>
+          <div class="slide-icon" aria-hidden="true">${slide.icon || ""}</div>
+        </div>
+
+        <div class="slide-body">
+          <ul class="bullets">
+            ${slide.bullets
+              .map(
+                (b) => `<li>${b}</li>`
+              )
+              .join("")}
+          </ul>
+
+          <div class="visual-card">
+            <div class="visual-title">Visual Idea</div>
+            <div class="visual-main">${slide.visualMain || ""}</div>
+            <div class="visual-hint">${slide.visualHint || ""}</div>
+            <div class="visual-image-placeholder">
+              <span class="box">IMG</span>
+              <div>
+                Drop a photo, diagram, or icon here in your own version to match this idea.
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      counterEl.textContent = `Slide ${index + 1} of ${slides.length}`;
+
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === slides.length - 1;
+    }
+
+    function goToSlide(newIndex) {
+      if (newIndex < 0 || newIndex >= slides.length) return;
+      currentIndex = newIndex;
+      renderSlide(currentIndex);
+    }
+
+    prevBtn.addEventListener("click", () => goToSlide(currentIndex - 1));
+    nextBtn.addEventListener("click", () => goToSlide(currentIndex + 1));
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") {
+        goToSlide(currentIndex + 1);
+      } else if (e.key === "ArrowLeft") {
+        goToSlide(currentIndex - 1);
+      }
+    });
+
+    renderSlide(currentIndex);
+  </script>
+</body>
+</html>
