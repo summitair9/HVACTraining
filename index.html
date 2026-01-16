@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!--
-    Expected filenames (put in repo root):
+    Expected filenames (put in repo root, same folder as index.html):
 
     imagessection1-1.png
     imagessection1-2.png
@@ -19,7 +19,7 @@
     imagessection1-9.png
     imagessection1-10.png
 
-    Optional videos:
+    Optional videos (also in repo root):
     videossection1-1.mp4
     ...
     videossection1-10.mp4
@@ -37,7 +37,11 @@
       --text-muted: #9fb3ff;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       font-family: system-ui, -apple-system, Segoe UI, sans-serif;
@@ -48,78 +52,312 @@
       background-size: 200% 200%;
       animation: bgShift 18s ease-in-out infinite;
     }
+
     @keyframes bgShift {
-      0%,100% { background-position:0% 0%; }
-      50% { background-position:100% 100%; }
+      0%, 100% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
     }
 
-    /* orbs */
-    .orb { position:fixed; border-radius:50%; filter:blur(25px); opacity:.6;
-      pointer-events:none; mix-blend-mode:screen; animation:orbFloat 22s linear infinite alternate;}
-    .orb-1 {width:220px;height:220px;background:radial-gradient(circle,#16f2ff,transparent);top:5%;left:10%;}
-    .orb-2 {width:280px;height:280px;background:radial-gradient(circle,#ff4dd8,transparent);bottom:2%;right:5%;}
-    .orb-3 {width:180px;height:180px;background:radial-gradient(circle,#ffe45e,transparent);bottom:12%;left:50%;}
-    @keyframes orbFloat {0%{transform:translate(0,0);}50%{transform:translate(-40px,40px);}100%{transform:translate(40px,-30px);} }
+    /* floating neon orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(25px);
+      opacity: 0.6;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      animation: orbFloat 22s linear infinite alternate;
+    }
 
-    #app { height:100vh; display:flex; justify-content:center; align-items:center; padding:16px; }
-    .slide-shell { max-width:1100px; width:100%; height:100%; max-height:720px;
-      display:flex; flex-direction:column; justify-content:space-between; }
+    .orb-1 {
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, #16f2ff, transparent);
+      top: 5%;
+      left: 10%;
+    }
+
+    .orb-2 {
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, #ff4dd8, transparent);
+      bottom: 2%;
+      right: 5%;
+    }
+
+    .orb-3 {
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, #ffe45e, transparent);
+      bottom: 12%;
+      left: 50%;
+    }
+
+    @keyframes orbFloat {
+      0% { transform: translate(0, 0); }
+      50% { transform: translate(-40px, 40px); }
+      100% { transform: translate(40px, -30px); }
+    }
+
+    #app {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-shell {
+      max-width: 1100px;
+      width: 100%;
+      height: 100%;
+      max-height: 720px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
 
     .slide {
-      background:rgba(0,0,0,.55);
-      backdrop-filter:blur(14px);
-      border-radius:24px;
-      padding:26px 32px;
-      box-shadow:0 0 40px rgba(22,242,255,.4);
-      animation:slideIn .4s ease;
-      display:flex; flex-direction:column; gap:16px;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(16px);
+      border-radius: 24px;
+      padding: 26px 32px;
+      box-shadow: 0 0 40px rgba(22, 242, 255, 0.4);
+      animation: slideIn 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      touch-action: pan-y; /* allow vertical pan but we handle horizontal swipe */
     }
-    @keyframes slideIn {from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
 
-    .slide-header {display:flex;justify-content:space-between;align-items:flex-start;}
-    .section-label {font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent-cyan);}
-    .slide-title {font-size:2rem;font-weight:800;}
-    .slide-icon {font-size:3rem;filter:drop-shadow(0 0 6px #fff);animation:iconPulse 2s infinite;}
-    @keyframes iconPulse {50%{transform:scale(1.08);} }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-    .slide-body {display:grid;grid-template-columns:60% 40%;gap:18px;}
-    @media(max-width:800px){.slide-body{grid-template-columns:1fr;overflow-y:auto;}}
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+    }
 
-    .bullets{list-style:none;display:flex;flex-direction:column;gap:6px;}
-    .bullets li{padding-left:20px;position:relative;}
-    .bullets li:before{content:"▹";position:absolute;left:0;color:var(--accent-pink);}
+    .section-label {
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+    }
 
-    .visual-card{border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:12px;background:rgba(255,255,255,.05);}
-    .visual-main{margin:4px 0;color:#fff;font-size:1rem;}
-    .visual-hint{font-size:.85rem;color:var(--text-muted);margin-bottom:8px;}
+    .slide-title {
+      font-size: 2rem;
+      font-weight: 800;
+    }
 
-    .visual-media{display:flex;flex-direction:column;gap:8px;}
+    .slide-icon {
+      font-size: 3rem;
+      filter: drop-shadow(0 0 6px #fff);
+      animation: iconPulse 2s infinite;
+    }
 
-    .visual-image-placeholder{border:1px dashed rgba(255,255,255,.4);border-radius:10px;padding:10px;
-      display:flex;gap:8px;align-items:center;background:rgba(0,0,0,.3);}
-    .visual-image-placeholder.drag-over{border-color:var(--accent-cyan);box-shadow:0 0 12px var(--accent-cyan);}
-    .visual-img{max-width:100%;max-height:180px;border-radius:10px;background:#000;}
+    @keyframes iconPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
 
-    .video-wrapper{background:#0002;border:1px solid #fff3;border-radius:10px;padding:8px;}
-    video{width:100%;max-height:230px;background:#000;border-radius:6px;}
-    .video-controls{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
-    .video-btn{padding:4px 10px;border:none;border-radius:999px;font-size:.75rem;
-      background:linear-gradient(135deg,var(--accent-cyan),var(--accent-pink));cursor:pointer;color:#fff;}
-    .secondary{background:transparent;border:1px solid #fff8;}
-    .video-volume{display:flex;align-items:center;gap:4px;margin-left:auto;}
-    .video-volume input{width:90px;}
+    .slide-body {
+      display: grid;
+      grid-template-columns: 60% 40%;
+      gap: 18px;
+    }
 
-    .slide-footer{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;}
-    .controls{display:flex;gap:8px;}
-    .btn{padding:6px 14px;border-radius:999px;border:none;font-size:.8rem;cursor:pointer;
-      background:linear-gradient(135deg,var(--accent-cyan),var(--accent-pink));color:#fff;}
-    .btn.secondary{background:transparent;border:1px solid #fff7;}
-    .btn:disabled{opacity:.3;}
+    @media (max-width: 800px) {
+      .slide-body {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+        max-height: calc(100vh - 160px);
+      }
+    }
+
+    .bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 1rem;
+    }
+
+    .bullets li {
+      padding-left: 20px;
+      position: relative;
+      line-height: 1.4;
+    }
+
+    .bullets li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      color: var(--accent-pink);
+    }
+
+    .visual-card {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .visual-main {
+      margin: 4px 0;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .visual-hint {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .visual-media {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .visual-image-placeholder {
+      border: 1px dashed rgba(255, 255, 255, 0.4);
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .visual-image-placeholder.drag-over {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 12px var(--accent-cyan);
+    }
+
+    .visual-img {
+      max-width: 100%;
+      max-height: 180px;
+      border-radius: 10px;
+      background: #000;
+      display: block;
+    }
+
+    .visual-image-placeholder span.box {
+      width: 32px;
+      height: 24px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+
+    .video-wrapper {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      padding: 8px;
+    }
+
+    video {
+      width: 100%;
+      max-height: 230px;
+      background: #000;
+      border-radius: 6px;
+    }
+
+    .video-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+      font-size: 0.75rem;
+    }
+
+    .video-btn {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: none;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      color: #fff;
+    }
+
+    .video-btn.secondary {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .video-volume {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: auto;
+    }
+
+    .video-volume input[type="range"] {
+      width: 90px;
+    }
+
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      margin-top: 8px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: none;
+      font-size: 0.8rem;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      color: #fff;
+    }
+
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .btn:disabled {
+      opacity: 0.35;
+    }
+
+    .hint {
+      color: var(--text-muted);
+    }
+
+    .hint span {
+      color: var(--accent-yellow);
+      font-weight: 600;
+    }
   </style>
 </head>
 
 <body>
-  <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
 
   <div id="app">
     <div class="slide-shell">
@@ -130,95 +368,216 @@
           <button id="nextBtn" class="btn">Next ▶</button>
         </div>
         <div id="counter"></div>
-        <div class="hint">← / → keys · Drop images on box</div>
+        <div class="hint">
+          ← / → keys · <span>Swipe</span> left/right on mobile · Drop images on box
+        </div>
       </div>
     </div>
   </div>
 
 <script>
 const slides = [
-{section:"Section 1 · Foundation",title:"1. What HVAC Means",icon:"🔥❄️",
- bullets:["HVAC = Heating, Ventilation, Air Conditioning.","Purpose: comfort, air quality, safety.","Used in homes, commercial & industrial."],
- visualMain:"HVAC = building life support.",visualHint:"House kept comfy in all seasons.",
- imageUrl:"imagessection1-1.png",videoUrl:""},
-{section:"Section 1 · Foundation",title:"2. Heat Transfer Basics",icon:"♨️",
- bullets:["Heat always flows hot → cold.","Conduction, convection, radiation.","HVAC moves heat, not cold."],
- visualMain:"Control heat transfer.",visualHint:"Arrows moving heat out of a house.",
- imageUrl:"imagessection1-2.png",videoUrl:""},
-{section:"Section 1 · Foundation",title:"3. Pressure & Temperature",icon:"📈",
- bullets:["Pressure ↑ = Temperature ↑.","Pressure ↓ = Temperature ↓.","Core of compressor/expansion."],
- visualMain:"Compress hot → expand cold.",visualHint:"Compressor heats, TXV cools.",
- imageUrl:"imagessection1-3.png",videoUrl:""},
-{section:"Section 1 · Foundation",title:"4. States of Matter",icon:"💧💨",
- bullets:["Solid, liquid, vapor.","Boiling absorbs heat.","Condensing releases heat."],
- visualMain:"Refrigerant changes state.",visualHint:"Evaporator = boil, Condenser = condense.",
- imageUrl:"imagessection1-4.png",videoUrl:""},
-{section:"Section 1 · Foundation",title:"5. Energy & Work",icon:"⚡",
- bullets:["BTU = heat unit.","1 ton = 12,000 BTU/hr.","Watts measure electrical power."],
- visualMain:"BTUs vs watts.",visualHint:"Sizing based on work required.",
- imageUrl:"imagessection1-5.png",videoUrl:""},
-{section:"Section 2 · Air & Comfort",title:"6. Indoor Air Quality",icon:"😮‍💨",
- bullets:["Filters + ventilation + humidity.","Cleaner air = healthier people.","Ideal humidity 40–60%."],
- visualMain:"Comfort includes air quality.",visualHint:"Dust + fresh air + moisture balance.",
- imageUrl:"imagessection1-6.png",videoUrl:""},
-{section:"Section 2 · Air & Comfort",title:"7. Psychrometrics",icon:"📊",
- bullets:["Dry bulb vs wet bulb.","Relative humidity matters.","Humidity impacts comfort."],
- visualMain:"Air + water vapor together.",visualHint:"Simple psych chart comfort zone.",
- imageUrl:"imagessection1-7.png",videoUrl:""},
-{section:"Section 2 · Air & Comfort",title:"8. Ductwork Basics",icon:"🌀",
- bullets:["Supply sends air.","Return pulls air.","Leaks = wasted energy."],
- visualMain:"Air highways of the home.",visualHint:"Blue supply, gray return.",
- imageUrl:"imagessection1-8.png",videoUrl:""},
-{section:"Section 2 · Air & Comfort",title:"9. Static Pressure",icon:"🌬️",
- bullets:["Fan must overcome friction.","High static = low airflow.","Dirty filters cause issues."],
- visualMain:"Airflow fights restriction.",visualHint:"Fan vs narrow duct.",
- imageUrl:"imagessection1-9.png",videoUrl:""},
-{section:"Section 2 · Air & Comfort",title:"10. CFM Calculations",icon:"📐",
- bullets:["CFM = airflow amount.","~400 CFM per ton.","Measure airflow, don't guess."],
- visualMain:"Air volume = system performance.",visualHint:"1200 CFM on 3-ton unit.",
- imageUrl:"imagessection1-10.png",videoUrl:""}
+  {
+    section:"Section 1 · Foundation",
+    title:"1. What HVAC Means",
+    icon:"🔥❄️",
+    bullets:[
+      "HVAC = Heating, Ventilation, Air Conditioning.",
+      "Purpose: comfort, air quality, safety.",
+      "Used in homes, commercial & industrial."
+    ],
+    visualMain:"HVAC = building life support.",
+    visualHint:"House kept comfy in all seasons.",
+    imageUrl:"imagessection1-1.png",
+    videoUrl:"" // e.g. "videossection1-1.mp4"
+  },
+  {
+    section:"Section 1 · Foundation",
+    title:"2. Heat Transfer Basics",
+    icon:"♨️",
+    bullets:[
+      "Heat always flows hot → cold.",
+      "Conduction, convection, radiation.",
+      "HVAC moves heat, not cold."
+    ],
+    visualMain:"Control heat transfer.",
+    visualHint:"Arrows moving heat out of a house.",
+    imageUrl:"imagessection1-2.png",
+    videoUrl:""
+  },
+  {
+    section:"Section 1 · Foundation",
+    title:"3. Pressure & Temperature",
+    icon:"📈",
+    bullets:[
+      "Pressure ↑ = Temperature ↑.",
+      "Pressure ↓ = Temperature ↓.",
+      "Core of compressor & metering."
+    ],
+    visualMain:"Compress = hot, expand = cold.",
+    visualHint:"Compressor heats, expansion cools.",
+    imageUrl:"imagessection1-3.png",
+    videoUrl:""
+  },
+  {
+    section:"Section 1 · Foundation",
+    title:"4. States of Matter",
+    icon:"💧💨",
+    bullets:[
+      "Solid, liquid, vapor.",
+      "Boiling absorbs heat.",
+      "Condensing releases heat."
+    ],
+    visualMain:"Refrigerant changes state to move heat.",
+    visualHint:"Evaporator = boil, condenser = condense.",
+    imageUrl:"imagessection1-4.png",
+    videoUrl:""
+  },
+  {
+    section:"Section 1 · Foundation",
+    title:"5. Energy & Work",
+    icon:"⚡",
+    bullets:[
+      "BTU = heat unit.",
+      "1 ton = 12,000 BTU/hr.",
+      "Watts measure electrical power."
+    ],
+    visualMain:"BTUs vs watts = load vs power.",
+    visualHint:"Sizing based on real BTUs needed.",
+    imageUrl:"imagessection1-5.png",
+    videoUrl:""
+  },
+  {
+    section:"Section 2 · Air & Comfort",
+    title:"6. Indoor Air Quality",
+    icon:"😮‍💨",
+    bullets:[
+      "Filters + ventilation + humidity.",
+      "Cleaner air = healthier people.",
+      "Ideal humidity ~40–60%."
+    ],
+    visualMain:"Comfort includes air quality, not just temp.",
+    visualHint:"Dust + fresh air + moisture balance.",
+    imageUrl:"imagessection1-6.png",
+    videoUrl:""
+  },
+  {
+    section:"Section 2 · Air & Comfort",
+    title:"7. Psychrometrics",
+    icon:"📊",
+    bullets:[
+      "Dry bulb vs wet bulb.",
+      "Relative humidity changes comfort.",
+      "Humidity impacts sensible vs latent load."
+    ],
+    visualMain:"Air + water vapor = psychrometrics.",
+    visualHint:"Simple psych chart with comfort range.",
+    imageUrl:"imagessection1-7.png",
+    videoUrl:""
+  },
+  {
+    section:"Section 2 · Air & Comfort",
+    title:"8. Ductwork Basics",
+    icon:"🌀",
+    bullets:[
+      "Supply sends air to rooms.",
+      "Return pulls air back.",
+      "Leaks & bad sizing kill comfort."
+    ],
+    visualMain:"Ducts are the air highways.",
+    visualHint:"Blue supply, gray return in a house.",
+    imageUrl:"imagessection1-8.png",
+    videoUrl:""
+  },
+  {
+    section:"Section 2 · Air & Comfort",
+    title:"9. Static Pressure",
+    icon:"🌬️",
+    bullets:[
+      "Fan must fight friction in ducts/filters.",
+      "High static = low airflow & noise.",
+      "Dirty filter = high static classic."
+    ],
+    visualMain:"Static = air resistance the fan fights.",
+    visualHint:"Fan vs narrow duct vs wide duct.",
+    imageUrl:"imagessection1-9.png",
+    videoUrl:""
+  },
+  {
+    section:"Section 2 · Air & Comfort",
+    title:"10. CFM Calculations",
+    icon:"📐",
+    bullets:[
+      "CFM = airflow volume.",
+      "~400 CFM per ton of cooling.",
+      "Measure airflow, don’t guess."
+    ],
+    visualMain:"Right CFM = proper temps & humidity.",
+    visualHint:"1200 CFM on a 3-ton system.",
+    imageUrl:"imagessection1-10.png",
+    videoUrl:""
+  }
 ];
 
-let currentIndex=0;
-let slideImages={};
-const STORAGE="hvacSlideImgs_1_10V2";
+let currentIndex = 0;
+let slideImages = {};
+const STORAGE_KEY = "hvacSlideImgs_1_10_swipe";
 
-try{slideImages=JSON.parse(localStorage.getItem(STORAGE))||{};}catch(e){}
+try {
+  slideImages = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+} catch (e) {
+  slideImages = {};
+}
 
-const slideEl=document.getElementById("slide"),counterEl=document.getElementById("counter");
-const prevBtn=document.getElementById("prevBtn"),nextBtn=document.getElementById("nextBtn");
+const slideEl = document.getElementById("slide");
+const counterEl = document.getElementById("counter");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const appEl   = document.getElementById("app");
 
-function saveImgs(){localStorage.setItem(STORAGE,JSON.stringify(slideImages));}
+function saveImages() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(slideImages));
+}
 
-function renderSlide(i){
- const s=slides[i];
- const override=slideImages[i];
- const imgSrc=override||s.imageUrl;
- slideEl.innerHTML=`
- <div class="slide-header">
-   <div><div class="section-label">${s.section}</div><div class="slide-title">${s.title}</div></div>
-   <div class="slide-icon">${s.icon}</div>
- </div>
- <div class="slide-body">
-   <ul class="bullets">${s.bullets.map(b=>`<li>${b}</li>`).join("")}</ul>
+function renderSlide(index) {
+  const s = slides[index];
+  const overrideImg = slideImages[index];
+  const imgSrc = overrideImg || s.imageUrl || "";
+  const hasVideo = !!s.videoUrl;
 
-   <div class="visual-card">
-     <div class="visual-main">${s.visualMain}</div>
-     <div class="visual-hint">${s.visualHint}</div>
+  slideEl.innerHTML = `
+    <div class="slide" id="slideInner">
+      <div class="slide-header">
+        <div>
+          <div class="section-label">${s.section}</div>
+          <div class="slide-title">${s.title}</div>
+        </div>
+        <div class="slide-icon">${s.icon}</div>
+      </div>
 
-     <div class="visual-media">
+      <div class="slide-body">
+        <ul class="bullets">
+          ${s.bullets.map(b => `<li>${b}</li>`).join("")}
+        </ul>
 
-       <div class="visual-image-placeholder" data-index="${i}">
-         ${
-          imgSrc
-           ? `<img src="${imgSrc}" class="visual-img"/>`
-           : `<span class="box">IMG</span><div>Drop an image here</div>`
-         }
-       </div>
+        <div class="visual-card">
+          <div class="visual-main">${s.visualMain}</div>
+          <div class="visual-hint">${s.visualHint}</div>
 
-       ${
-         s.videoUrl
-         ? `<div class="video-wrapper">
+          <div class="visual-media">
+
+            <div class="visual-image-placeholder" data-index="${index}">
+              ${
+                imgSrc
+                  ? `<img src="${imgSrc}" class="visual-img" alt="Slide image"/>`
+                  : `<span class="box">IMG</span><div>Drop an image here (or use default filenames).</div>`
+              }
+            </div>
+
+            ${
+              hasVideo
+                ? `
+            <div class="video-wrapper">
               <video id="vid" src="${s.videoUrl}"></video>
               <div class="video-controls">
                 <button class="video-btn" data-a="play">Play</button>
@@ -230,62 +589,166 @@ function renderSlide(i){
                   <input type="range" min="0" max="1" step="0.05" value="1" data-role="vol">
                 </div>
               </div>
-            </div>`
-         :""
-       }
+            </div>
+            `
+                : ""
+            }
 
-     </div>
-   </div>
- </div>`;
- counterEl.textContent=`Slide ${i+1} of ${slides.length}`;
- prevBtn.disabled=i===0;
- nextBtn.disabled=i===slides.length-1;
- setupDrop();
- setupVideo();
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  counterEl.textContent = `Slide ${index + 1} of ${slides.length}`;
+  prevBtn.disabled = index === 0;
+  nextBtn.disabled = index === slides.length - 1;
+
+  setupDrop();
+  setupVideo();
 }
 
-function setupDrop(){
- const dz=slideEl.querySelector(".visual-image-placeholder");
- if(!dz)return;
- dz.addEventListener("dragover",e=>{e.preventDefault();dz.classList.add("drag-over");});
- dz.addEventListener("dragleave",()=>dz.classList.remove("drag-over"));
- dz.addEventListener("drop",e=>{
-   e.preventDefault();
-   dz.classList.remove("drag-over");
-   const f=e.dataTransfer.files[0];
-   if(!f||!f.type.startsWith("image/"))return;
-   const r=new FileReader();
-   const idx=dz.getAttribute("data-index");
-   r.onload=ev=>{
-     slideImages[idx]=ev.target.result;
-     saveImgs();
-     renderSlide(idx);
-   };
-   r.readAsDataURL(f);
- });
+function setupDrop() {
+  const dz = slideEl.querySelector(".visual-image-placeholder");
+  if (!dz) return;
+
+  dz.addEventListener("dragover", e => {
+    e.preventDefault();
+    dz.classList.add("drag-over");
+  });
+
+  dz.addEventListener("dragleave", () => dz.classList.remove("drag-over"));
+
+  dz.addEventListener("drop", e => {
+    e.preventDefault();
+    dz.classList.remove("drag-over");
+    const file = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (!file || !file.type.startsWith("image/")) return;
+
+    const reader = new FileReader();
+    const idx = dz.getAttribute("data-index");
+    reader.onload = ev => {
+      slideImages[idx] = ev.target.result;
+      saveImages();
+      renderSlide(idx);
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
-function setupVideo(){
- const v=slideEl.querySelector("#vid");
- if(!v)return;
- const btns=slideEl.querySelectorAll(".video-btn");
- const vol=slideEl.querySelector("[data-role='vol']");
- btns.forEach(b=>b.onclick=()=>{
-   const a=b.dataset.a;
-   if(a==="play")v.play();
-   if(a==="pause")v.pause();
-   if(a==="stop"){v.pause();v.currentTime=0;}
-   if(a==="ff")v.currentTime=Math.min(v.currentTime+10,v.duration||v.currentTime+10);
-   if(a==="mute"){v.muted=!v.muted;b.textContent=v.muted?"Unmute":"Mute";}
- });
- vol&&vol.addEventListener("input",()=>{v.volume=vol.value;v.muted=false;});
+function setupVideo() {
+  const video = slideEl.querySelector("#vid");
+  if (!video) return;
+
+  const btns = slideEl.querySelectorAll(".video-btn");
+  const volSlider = slideEl.querySelector("[data-role='vol']");
+
+  btns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const a = btn.dataset.a;
+      if (a === "play") video.play();
+      if (a === "pause") video.pause();
+      if (a === "stop") { video.pause(); video.currentTime = 0; }
+      if (a === "ff")   { video.currentTime = Math.min(video.currentTime + 10, video.duration || video.currentTime + 10); }
+      if (a === "mute") {
+        video.muted = !video.muted;
+        btn.textContent = video.muted ? "Unmute" : "Mute";
+      }
+    });
+  });
+
+  if (volSlider) {
+    volSlider.addEventListener("input", () => {
+      video.volume = parseFloat(volSlider.value);
+      if (video.muted && video.volume > 0) {
+        video.muted = false;
+        const muteBtn = slideEl.querySelector(".video-btn[data-a='mute']");
+        if (muteBtn) muteBtn.textContent = "Mute";
+      }
+    });
+  }
 }
 
-function go(i){if(i<0||i>=slides.length)return;currentIndex=i;renderSlide(i);}
-prevBtn.onclick=()=>go(currentIndex-1);
-nextBtn.onclick=()=>go(currentIndex+1);
-document.onkeydown=e=>{if(e.key==="ArrowRight")go(currentIndex+1);if(e.key==="ArrowLeft")go(currentIndex-1);};
+function goToSlide(i) {
+  if (i < 0 || i >= slides.length) return;
+  currentIndex = i;
+  renderSlide(i);
+}
 
+/* buttons + keyboard */
+prevBtn.addEventListener("click", () => goToSlide(currentIndex - 1));
+nextBtn.addEventListener("click", () => goToSlide(currentIndex + 1));
+
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowRight") goToSlide(currentIndex + 1);
+  if (e.key === "ArrowLeft")  goToSlide(currentIndex - 1);
+});
+
+/* TOUCH SWIPE on mobile */
+let touchStartX = null;
+let touchStartY = null;
+let touchMoved = false;
+
+function handleTouchStart(e) {
+  if (e.touches.length !== 1) return;
+  const t = e.touches[0];
+  touchStartX = t.clientX;
+  touchStartY = t.clientY;
+  touchMoved = false;
+}
+
+function handleTouchMove(e) {
+  if (!touchStartX || !touchStartY) return;
+  const t = e.touches[0];
+  const dx = t.clientX - touchStartX;
+  const dy = t.clientY - touchStartY;
+
+  // if mostly vertical, let scrolling happen
+  if (Math.abs(dy) > Math.abs(dx)) return;
+
+  // mark that we moved so tap isn't misread
+  if (Math.abs(dx) > 10) touchMoved = true;
+
+  // prevent horizontal scroll / back gesture inside app
+  e.preventDefault();
+}
+
+function handleTouchEnd(e) {
+  if (!touchStartX || !touchStartY) {
+    touchStartX = touchStartY = null;
+    return;
+  }
+
+  const threshold = 60; // min pixels to count as swipe
+  const changed = e.changedTouches && e.changedTouches[0];
+  if (!changed) {
+    touchStartX = touchStartY = null;
+    return;
+  }
+
+  const dx = changed.clientX - touchStartX;
+  const dy = changed.clientY - touchStartY;
+
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > threshold) {
+    if (dx < 0) {
+      // swipe left → next slide
+      goToSlide(currentIndex + 1);
+    } else {
+      // swipe right → previous slide
+      goToSlide(currentIndex - 1);
+    }
+  }
+
+  touchStartX = touchStartY = null;
+  touchMoved = false;
+}
+
+// attach to the whole app area so you can swipe anywhere
+appEl.addEventListener("touchstart", handleTouchStart, { passive: true });
+appEl.addEventListener("touchmove", handleTouchMove, { passive: false });
+appEl.addEventListener("touchend", handleTouchEnd, { passive: false });
+
+/* initial render */
 renderSlide(currentIndex);
 </script>
 </body>
