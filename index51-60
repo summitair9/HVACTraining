@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>HVAC Master Class · Slides 51–60</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<style>
+  :root{
+    --cyan:#16f2ff;
+    --pink:#ff4dd8;
+    --txt:#f8fbff;
+    --muted:#9fb3ff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:system-ui,-apple-system,Segoe UI,sans-serif;
+    color:var(--txt);
+    height:100vh;
+    overflow:hidden;
+    background:radial-gradient(circle at top left,#351b6d,#050014 45%);
+    background-size:200% 200%;
+    animation:bgMove 18s ease infinite;
+  }
+  @keyframes bgMove{0%,100%{background-position:0% 0%}50%{background-position:100% 100%}}
+
+  #app{height:100vh;display:flex;justify-content:center;align-items:stretch;padding:14px}
+  .deck{max-width:1100px;width:100%;height:100%;display:flex;flex-direction:column;gap:12px}
+
+  .slideWrap{flex:1;min-height:0}
+
+  .slide{
+    height:100%;
+    background:rgba(0,0,0,.55);
+    backdrop-filter:blur(16px);
+    border-radius:24px;
+    padding:22px;
+    box-shadow:0 0 40px rgba(22,242,255,.35);
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    animation:fade .35s ease;
+    touch-action:pan-y;
+  }
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  .header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .section{font-size:.8rem;letter-spacing:.15em;color:var(--cyan);text-transform:uppercase}
+  .title{font-size:2rem;font-weight:900;line-height:1.1}
+  .icon{font-size:3rem;filter:drop-shadow(0 0 8px rgba(255,255,255,.65))}
+
+  .content{
+    display:grid;
+    grid-template-columns:58% 42%;
+    gap:16px;
+    flex:1;
+    min-height:0;
+  }
+  @media(max-width:800px){
+    .title{font-size:1.6rem}
+    .content{grid-template-columns:1fr;overflow:auto}
+  }
+
+  .bullets{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .bullets li{padding-left:18px;position:relative;line-height:1.35;font-size:1rem}
+  .bullets li::before{content:"▹";position:absolute;left:0;color:var(--pink)}
+
+  .visual{
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:16px;
+    padding:12px;
+    background:rgba(255,255,255,.05);
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .visualMain{font-size:.95rem;color:var(--txt);font-weight:700}
+  .visualHint{font-size:.85rem;color:var(--muted)}
+
+  .media{display:flex;flex-direction:column;gap:10px}
+
+  .imgPrimary{
+    width:100%;
+    border-radius:12px;
+    background:#000;
+    border:1px solid rgba(255,255,255,.18);
+    overflow:hidden;
+    cursor:zoom-in;
+  }
+  .imgPrimary img{
+    width:100%;
+    height:auto;
+    max-height:340px;
+    object-fit:contain;
+    display:block;
+    background:#000;
+  }
+
+  .secondaryRow{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+
+  .imgSmall{
+    flex:1 1 180px;
+    max-width:260px;
+    border-radius:10px;
+    background:#000;
+    border:1px solid rgba(255,255,255,.18);
+    overflow:hidden;
+    cursor:zoom-in;
+  }
+  .imgSmall img{
+    width:100%;
+    height:auto;
+    max-height:140px;
+    object-fit:contain;
+    display:block;
+    background:#000;
+  }
+
+  .videoBox{
+    flex:1 1 220px;
+    min-width:220px;
+    max-width:420px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(0,0,0,.25);
+    padding:8px;
+  }
+  video{width:100%;border-radius:8px;background:#000;max-height:160px}
+
+  .vcontrols{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;align-items:center}
+  .vbtn{
+    padding:5px 10px;border-radius:999px;border:none;
+    background:linear-gradient(135deg,var(--cyan),var(--pink));
+    color:#fff;font-size:.72rem;cursor:pointer;
+  }
+  .vbtn.alt{background:transparent;border:1px solid rgba(255,255,255,.6)}
+  .vvol{margin-left:auto;display:flex;align-items:center;gap:6px}
+  .vvol input{width:95px}
+
+  .footer{
+    position:sticky;
+    bottom:0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 6px;
+  }
+  .navBtns{display:flex;gap:10px;align-items:center}
+  .btn{
+    padding:10px 16px;border-radius:999px;border:none;
+    background:linear-gradient(135deg,var(--cyan),var(--pink));
+    color:#fff;font-size:.9rem;cursor:pointer;
+  }
+  .btn.alt{background:transparent;border:1px solid rgba(255,255,255,.6)}
+  .btn:disabled{opacity:.35;cursor:default}
+  .count{color:var(--muted);font-variant-numeric:tabular-nums;font-size:.9rem}
+
+  .lightbox{
+    position:fixed;inset:0;background:rgba(0,0,0,.85);
+    display:none;align-items:center;justify-content:center;
+    z-index:9999;padding:16px;
+  }
+  .lightbox.open{display:flex}
+  .lightboxInner{
+    max-width:min(1100px,96vw);max-height:92vh;width:100%;
+    border-radius:16px;border:1px solid rgba(255,255,255,.2);
+    background:rgba(0,0,0,.35);backdrop-filter:blur(10px);
+    padding:10px;position:relative;
+  }
+  .lightboxImg{
+    width:100%;height:auto;max-height:86vh;object-fit:contain;
+    display:block;border-radius:12px;background:#000;
+  }
+  .lightboxClose{
+    position:absolute;top:10px;right:10px;border:none;border-radius:999px;
+    padding:8px 12px;cursor:pointer;
+    background:linear-gradient(135deg,var(--cyan),var(--pink));
+    color:#fff;font-size:.85rem;
+  }
+</style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="deck">
+      <div class="slideWrap" id="slide"></div>
+
+      <div class="footer">
+        <div class="navBtns">
+          <button id="prev" class="btn alt">◀ Prev</button>
+          <button id="next" class="btn">Next ▶</button>
+        </div>
+        <div id="count" class="count"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <div class="lightboxInner">
+      <button id="lightboxClose" class="lightboxClose">Close ✕</button>
+      <img id="lightboxImg" class="lightboxImg" alt="Enlarged image" />
+    </div>
+  </div>
+
+<script>
+  /* ===== CONFIG ===== */
+  const FALLBACK_PREV_DECK_URL = "https://summitair9.github.io/HVACTraining/index41-50.html";
+  const NEXT_DECK_URL = "https://summitair9.github.io/HVACTraining/index61-66.html";
+
+  /* ===== SLIDE DATA (51–60) =====
+     Primary image: imagessection6-51.png
+     Optional 2nd image: imagessection6-51b.png
+     Optional video: videossection6-51.mp4
+  */
+  const slides = [
+    { n:51, s:"Section 9 · Advanced Refrigeration Issues", t:"Moisture, Acids, and Contamination", i:"🧪",
+      b:["Moisture causes ice and restrictions","Acids damage windings and oil","Use evacuation + driers + clean practices"],
+      visualMain:"Clean systems last longer.",
+      visualHint:"Show moisture → acid → failure chain.",
+      img1:"imagessection6-51.png", img2:"imagessection6-51b.png", vid:""
+    },
+    { n:52, s:"Section 9 · Advanced Refrigeration Issues", t:"Evacuation & Microns (Done Right)", i:"🫧",
+      b:["Vacuum removes air and moisture","Micron gauge proves deep vacuum","Decay test checks for leaks/moisture"],
+      visualMain:"Microns are the truth.",
+      visualHint:"Pump + core tools + micron gauge diagram.",
+      img1:"imagessection6-52.png", img2:"imagessection6-52b.png", vid:""
+    },
+    { n:53, s:"Section 9 · Advanced Refrigeration Issues", t:"Recovery Basics", i:"♻️",
+      b:["Recover refrigerant before opening system","Use correct recovery cylinder","Weigh in/out to confirm charge"],
+      visualMain:"Recovery is required and protects equipment.",
+      visualHint:"Recovery machine flow path.",
+      img1:"imagessection6-53.png", img2:"imagessection6-53b.png", vid:""
+    },
+    { n:54, s:"Section 10 · Installation & Commissioning", t:"Startup Checklist", i:"✅",
+      b:["Verify airflow, wiring, and refrigerant type","Check blower settings and static pressure","Record SH/SC, amps, ΔT, and pressures"],
+      visualMain:"Commissioning prevents callbacks.",
+      visualHint:"Checklist look: airflow → power → refrigerant → performance.",
+      img1:"imagessection6-54.png", img2:"imagessection6-54b.png", vid:""
+    },
+    { n:55, s:"Section 10 · Installation & Commissioning", t:"Refrigerant Piping Basics", i:"🧵",
+      b:["Correct line size matters","Insulate suction line","Avoid traps unless required","Support and protect lines"],
+      visualMain:"Piping affects performance and oil return.",
+      visualHint:"Show suction vs liquid line and insulation.",
+      img1:"imagessection6-55.png", img2:"imagessection6-55b.png", vid:""
+    },
+    { n:56, s:"Section 10 · Installation & Commissioning", t:"Brazing & Nitrogen Purge", i:"🔥🫧",
+      b:["Nitrogen purge prevents oxidation (scale)","Oxidation clogs TXVs and driers","Flow low nitrogen while brazing"],
+      visualMain:"Nitrogen purge = clean internals.",
+      visualHint:"Show nitrogen cylinder + flow while brazing.",
+      img1:"imagessection6-56.png", img2:"imagessection6-56b.png", vid:""
+    },
+    { n:57, s:"Section 10 · Installation & Commissioning", t:"Leak Checking (Soap, Electronic, Pressure Test)", i:"🔍",
+      b:["Pressure test with dry nitrogen","Soap bubbles confirm exact leak point","Electronic detectors help locate small leaks"],
+      visualMain:"Find leaks before vacuum and charge.",
+      visualHint:"Show steps: pressure test → bubble → repair → retest.",
+      img1:"imagessection6-57.png", img2:"imagessection6-57b.png", vid:""
+    },
+    { n:58, s:"Section 11 · Customer & Professional Skills", t:"Service Communication", i:"🗣️",
+      b:["Explain problems in simple words","Show evidence (readings/photos)","Offer options and let them choose"],
+      visualMain:"Clarity builds trust.",
+      visualHint:"Before/after readings and pictures help a lot.",
+      img1:"imagessection6-58.png", img2:"imagessection6-58b.png", vid:""
+    },
+    { n:59, s:"Section 11 · Customer & Professional Skills", t:"Maintenance Plans & Value", i:"🧾",
+      b:["Maintenance reduces breakdowns","Plans improve customer retention","Document findings each visit"],
+      visualMain:"Maintenance = fewer emergencies.",
+      visualHint:"Show a simple plan checklist concept.",
+      img1:"imagessection6-59.png", img2:"imagessection6-59b.png", vid:""
+    },
+    { n:60, s:"Section 12 · Wrap-Up", t:"Putting It All Together (The Diagnostic Flow)", i:"🧠🔧",
+      b:["Start: complaint → visual inspection","Measure: airflow, temps, power, refrigerant","Confirm fix and educate customer"],
+      visualMain:"A repeatable process makes you fast and accurate.",
+      visualHint:"Flowchart: Verify → Measure → Diagnose → Fix → Prove.",
+      img1:"imagessection6-60.png", img2:"imagessection6-60b.png", vid:""
+    }
+  ];
+
+  let idx = 0;
+
+  const slideEl = document.getElementById("slide");
+  const countEl = document.getElementById("count");
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
+
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxClose = document.getElementById("lightboxClose");
+
+  function isEmpty(url){ return !url || url.trim() === ""; }
+
+  function render(){
+    const s = slides[idx];
+
+    slideEl.innerHTML = `
+      <div class="slide">
+        <div class="header">
+          <div>
+            <div class="section">${s.s}</div>
+            <div class="title">${s.n}. ${s.t}</div>
+          </div>
+          <div class="icon">${s.i}</div>
+        </div>
+
+        <div class="content">
+          <ul class="bullets">
+            ${s.b.map(x=>`<li>${x}</li>`).join("")}
+          </ul>
+
+          <div class="visual">
+            <div class="visualMain">${s.visualMain}</div>
+            <div class="visualHint">${s.visualHint}</div>
+
+            <div class="media">
+              <div class="imgPrimary" data-zoom="${s.img1}">
+                <img src="${s.img1}" alt="Slide image ${s.n}"
+                  onerror="this.closest('.imgPrimary').style.display='none';" />
+              </div>
+
+              <div class="secondaryRow">
+                ${isEmpty(s.img2) ? "" : `
+                  <div class="imgSmall" data-zoom="${s.img2}">
+                    <img src="${s.img2}" alt="Extra image ${s.n}"
+                      onerror="this.closest('.imgSmall').style.display='none';" />
+                  </div>
+                `}
+
+                ${isEmpty(s.vid) ? "" : `
+                  <div class="videoBox">
+                    <video id="vid" src="${s.vid}"></video>
+                    <div class="vcontrols">
+                      <button class="vbtn" data-a="play">Play</button>
+                      <button class="vbtn alt" data-a="pause">Pause</button>
+                      <button class="vbtn alt" data-a="ff">+10s</button>
+                      <button class="vbtn alt" data-a="stop">Stop</button>
+                      <div class="vvol">
+                        <button class="vbtn alt" data-a="mute">Mute</button>
+                        <input type="range" min="0" max="1" step="0.05" value="1" data-role="vol">
+                      </div>
+                    </div>
+                  </div>
+                `}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    countEl.textContent = `Slide ${s.n} · (Deck ${idx+1} of ${slides.length})`;
+
+    wireImageZoom();
+    wireVideoControls();
+  }
+
+  function goPrev(){
+    if(idx > 0){
+      idx--;
+      render();
+      return;
+    }
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = FALLBACK_PREV_DECK_URL;
+    }
+  }
+
+  function goNext(){
+    if(idx < slides.length - 1){
+      idx++;
+      render();
+    } else {
+      window.location.href = NEXT_DECK_URL;
+    }
+  }
+
+  prevBtn.addEventListener("click", goPrev);
+  nextBtn.addEventListener("click", goNext);
+
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "ArrowLeft") goPrev();
+    if(e.key === "ArrowRight") goNext();
+    if(e.key === "Escape" && lightbox.classList.contains("open")) closeLightbox();
+  });
+
+  let startX = null;
+  let startY = null;
+
+  document.addEventListener("touchstart", (e)=>{
+    if(e.touches.length !== 1) return;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, {passive:true});
+
+  document.addEventListener("touchmove", (e)=>{
+    if(startX === null || startY === null) return;
+    const dx = e.touches[0].clientX - startX;
+    const dy = e.touches[0].clientY - startY;
+    if(Math.abs(dx) > Math.abs(dy)) e.preventDefault();
+  }, {passive:false});
+
+  document.addEventListener("touchend", (e)=>{
+    if(startX === null || startY === null) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    const threshold = 60;
+
+    if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > threshold){
+      if(dx > 0) goPrev();
+      else goNext();
+    }
+    startX = null; startY = null;
+  }, {passive:false});
+
+  function openLightbox(url){
+    lightboxImg.src = url;
+    lightbox.classList.add("open");
+    lightbox.setAttribute("aria-hidden","false");
+  }
+  function closeLightbox(){
+    lightbox.classList.remove("open");
+    lightbox.setAttribute("aria-hidden","true");
+    lightboxImg.src = "";
+  }
+  lightboxClose.addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", (e)=>{ if(e.target === lightbox) closeLightbox(); });
+
+  function wireImageZoom(){
+    document.querySelectorAll("[data-zoom]").forEach(el=>{
+      el.addEventListener("click", ()=>{
+        const url = el.getAttribute("data-zoom");
+        if(url && !isEmpty(url)) openLightbox(url);
+      });
+    });
+  }
+
+  function wireVideoControls(){
+    const v = document.getElementById("vid");
+    if(!v) return;
+
+    const btns = document.querySelectorAll(".vbtn");
+    const vol = document.querySelector("[data-role='vol']");
+    let muteBtn = null;
+
+    btns.forEach(b=>{
+      b.addEventListener("click", ()=>{
+        const a = b.getAttribute("data-a");
+        if(a === "play") v.play();
+        if(a === "pause") v.pause();
+        if(a === "stop"){ v.pause(); v.currentTime = 0; }
+        if(a === "ff"){ v.currentTime = Math.min(v.currentTime + 10, v.duration || v.currentTime + 10); }
+        if(a === "mute"){
+          v.muted = !v.muted;
+          b.textContent = v.muted ? "Unmute" : "Mute";
+          muteBtn = b;
+        }
+      });
+    });
+
+    if(vol){
+      vol.addEventListener("input", ()=>{
+        v.volume = parseFloat(vol.value);
+        if(v.volume > 0 && v.muted){
+          v.muted = false;
+          const mb = muteBtn || document.querySelector(".vbtn[data-a='mute']");
+          if(mb) mb.textContent = "Mute";
+        }
+      });
+    }
+  }
+
+  render();
+</script>
+</body>
+</html>
