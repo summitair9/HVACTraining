@@ -163,6 +163,35 @@
   .btn:disabled{opacity:.35;cursor:default}
   .count{color:var(--muted);font-variant-numeric:tabular-nums;font-size:.9rem}
 
+  /* Dropdown (only shown on slide 1) */
+  .jumpWrap{
+    margin-top:10px;
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .jumpLabel{
+    font-size:.85rem;
+    color:var(--muted);
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+  .jumpSelect{
+    width:min(760px,100%);
+    padding:10px 12px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.22);
+    background:rgba(0,0,0,.35);
+    color:var(--txt);
+    outline:none;
+    box-shadow:0 0 18px rgba(255,77,216,.25);
+  }
+  .jumpSelect:focus{
+    border-color:rgba(22,242,255,.7);
+    box-shadow:0 0 22px rgba(22,242,255,.35);
+  }
+
   /* Lightbox */
   .lightbox{
     position:fixed;inset:0;background:rgba(0,0,0,.85);
@@ -215,6 +244,87 @@
 <script>
   /* ===== CONFIG ===== */
   const NEXT_DECK_URL = "https://summitair9.github.io/HVACTraining/index11-20.html";
+
+  /* Mapping for dropdown navigation */
+  const DECKS = [
+    { min: 1,  max: 10, url: "https://summitair9.github.io/HVACTraining/" },
+    { min: 11, max: 20, url: "https://summitair9.github.io/HVACTraining/index11-20.html" },
+    { min: 21, max: 30, url: "https://summitair9.github.io/HVACTraining/index21-30.html" },
+    { min: 31, max: 40, url: "https://summitair9.github.io/HVACTraining/index31-40.html" },
+    { min: 41, max: 50, url: "https://summitair9.github.io/HVACTraining/index41-50.html" },
+    { min: 51, max: 60, url: "https://summitair9.github.io/HVACTraining/index51-60.html" },
+    { min: 61, max: 66, url: "https://summitair9.github.io/HVACTraining/index61-66.html" }
+  ];
+
+  /* Full list (1–66) for dropdown */
+  const ALL_SLIDES = [
+    {n:1,t:"What HVAC Means"},
+    {n:2,t:"Heat Transfer Basics"},
+    {n:3,t:"Pressure & Temperature"},
+    {n:4,t:"States of Matter"},
+    {n:5,t:"Energy & Work"},
+    {n:6,t:"Indoor Air Quality"},
+    {n:7,t:"Psychrometrics"},
+    {n:8,t:"Ductwork Basics"},
+    {n:9,t:"Static Pressure"},
+    {n:10,t:"CFM Basics"},
+    {n:11,t:"Measuring Tools"},
+    {n:12,t:"Systematic Troubleshooting"},
+    {n:13,t:"Temperature Measurement"},
+    {n:14,t:"Meters & Gauges"},
+    {n:15,t:"Manifolds & Probes"},
+    {n:16,t:"Ohm’s Law"},
+    {n:17,t:"Series vs Parallel"},
+    {n:18,t:"Single vs Three Phase"},
+    {n:19,t:"Motors"},
+    {n:20,t:"Capacitors & Relays"},
+    {n:21,t:"Transformers (24V Control Power)"},
+    {n:22,t:"Thermostat Signals (R, Y, G, W, O/B)"},
+    {n:23,t:"Safeties & Switches"},
+    {n:24,t:"Wiring Diagrams (How to Read Them)"},
+    {n:25,t:"Contactors & Control Relays"},
+    {n:26,t:"The Refrigeration Cycle Overview"},
+    {n:27,t:"Evaporator (Where Cooling Happens)"},
+    {n:28,t:"Compressor (The Pump)"},
+    {n:29,t:"Condenser (Where Heat Leaves)"},
+    {n:30,t:"Metering Devices (TXV, Fixed Orifice, EEV)"},
+    {n:31,t:"Superheat (What It Means)"},
+    {n:32,t:"Subcooling (What It Means)"},
+    {n:33,t:"Saturation Temperature"},
+    {n:34,t:"Charging Basics (TXV vs Fixed Orifice)"},
+    {n:35,t:"Common Pressure Patterns"},
+    {n:36,t:"Evaporator Airflow Problems"},
+    {n:37,t:"Condenser Airflow Problems"},
+    {n:38,t:"Coil Cleaning & Heat Transfer"},
+    {n:39,t:"Air Filters & Restrictions"},
+    {n:40,t:"Temperature Split (ΔT) Done Right"},
+    {n:41,t:"Blower Setup (Speed Taps / ECM Profiles)"},
+    {n:42,t:"Duct Sizing Basics (Friction & Velocity)"},
+    {n:43,t:"Balancing Airflow (Supply vs Return)"},
+    {n:44,t:"Gas Heat Basics (Sequence of Operation)"},
+    {n:45,t:"Electric Heat Basics (Heat Strips)"},
+    {n:46,t:"Heat Pumps (Reversing Valve & Defrost)"},
+    {n:47,t:"Condensate Drain Basics"},
+    {n:48,t:"Float Switches & Overflow Protection"},
+    {n:49,t:"Restrictions vs Undercharge"},
+    {n:50,t:"Non-Condensables & Overcharge"},
+    {n:51,t:"Moisture, Acids, and Contamination"},
+    {n:52,t:"Evacuation & Microns (Done Right)"},
+    {n:53,t:"Recovery Basics"},
+    {n:54,t:"Startup Checklist"},
+    {n:55,t:"Refrigerant Piping Basics"},
+    {n:56,t:"Brazing & Nitrogen Purge"},
+    {n:57,t:"Leak Checking (Soap, Electronic, Pressure Test)"},
+    {n:58,t:"Service Communication"},
+    {n:59,t:"Maintenance Plans & Value"},
+    {n:60,t:"Putting It All Together (The Diagnostic Flow)"},
+    {n:61,t:"Real-World Call: No Cooling (Fast Flow)"},
+    {n:62,t:"Real-World Call: No Heat (Sequence First)"},
+    {n:63,t:"Common Mistakes (Avoid These)"},
+    {n:64,t:"Pro-Level Habits (Be the Tech Everyone Wants)"},
+    {n:65,t:"Mini Review (Core Concepts)"},
+    {n:66,t:"Final: Your Field Playbook"}
+  ];
 
   /* ===== SLIDE DATA (1–10) =====
      Primary image: imagessection1-1.png
@@ -298,8 +408,47 @@
 
   function isEmpty(url){ return !url || url.trim() === ""; }
 
+  function buildJumpDropdown(selectedN){
+    const opts = ALL_SLIDES.map(s => {
+      const label = `${String(s.n).padStart(2,"0")}. ${s.t}`;
+      const sel = (s.n === selectedN) ? "selected" : "";
+      return `<option value="${s.n}" ${sel}>${label}</option>`;
+    }).join("");
+
+    return `
+      <div class="jumpWrap">
+        <div class="jumpLabel">Jump to any slide</div>
+        <select id="jumpSelect" class="jumpSelect">
+          ${opts}
+        </select>
+      </div>
+    `;
+  }
+
+  function deckUrlFor(n){
+    for(const d of DECKS){
+      if(n >= d.min && n <= d.max) return d.url;
+    }
+    return "https://summitair9.github.io/HVACTraining/";
+  }
+
+  function goToSlideNumber(n){
+    if(n >= 1 && n <= 10){
+      idx = n - 1;
+      render();
+      return;
+    }
+    const url = deckUrlFor(n);
+    // Pass start=n (safe even if other pages don’t use it yet)
+    const joiner = url.includes("?") ? "&" : "?";
+    window.location.href = `${url}${joiner}start=${encodeURIComponent(n)}`;
+  }
+
   function render(){
     const s = slides[idx];
+
+    // Dropdown only on slide 1
+    const jumpUI = (idx === 0) ? buildJumpDropdown(s.n) : "";
 
     slideEl.innerHTML = `
       <div class="slide" id="slideInner">
@@ -307,6 +456,7 @@
           <div>
             <div class="section">${s.s}</div>
             <div class="title">${s.n}. ${s.t}</div>
+            ${jumpUI}
           </div>
           <div class="icon">${s.i}</div>
         </div>
@@ -357,11 +507,20 @@
     `;
 
     countEl.textContent = `Slide ${s.n} · (Deck ${idx+1} of ${slides.length})`;
-
     prevBtn.disabled = (idx === 0);
 
+    wireJumpDropdown();
     wireImageZoom();
     wireVideoControls();
+  }
+
+  function wireJumpDropdown(){
+    const sel = document.getElementById("jumpSelect");
+    if(!sel) return;
+    sel.addEventListener("change", ()=>{
+      const n = parseInt(sel.value, 10);
+      if(Number.isFinite(n)) goToSlideNumber(n);
+    });
   }
 
   function goPrev(){
@@ -477,6 +636,16 @@
     }
   }
 
+  // Support index.html?start=#
+  function applyStartParam(){
+    const p = new URLSearchParams(window.location.search);
+    const start = parseInt(p.get("start") || "", 10);
+    if(Number.isFinite(start) && start >= 1 && start <= 10){
+      idx = start - 1;
+    }
+  }
+
+  applyStartParam();
   render();
 </script>
 </body>
